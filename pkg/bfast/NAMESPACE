@@ -1,0 +1,4 @@
+export(plot.seasonalbreaks,seasonal.breaks)
+
+S3method(plot,seasonalbreaks)
+S3method(print,seasonalbreaks)
