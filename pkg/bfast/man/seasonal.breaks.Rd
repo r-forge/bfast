@@ -35,10 +35,10 @@ seasonal.breaks(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         \item{Nt}{ the remainder}
         \item{Vt}{ equals Yt - St for each iteration}
         \item{bp.Vt}{ output of the \code{\link[strucchange]{breakpoints}} function for the trend model (see Reference)}
-        \item{ci.Vt}{ output of the  \code{\link[strucchange]{confint}} function for the trend model (see Reference)}
+        \item{ci.Vt}{ output of the  \code{\link[strucchange]{breakpoints}} confint function for the trend model (see Reference)}
         \item{Wt}{ equals Yt - Tt for each iteration}
         \item{bp.Vt}{ output of the \code{\link[strucchange]{breakpoints}} function for the seasonal model (see Reference)}
-        \item{ci.Vt}{ output of the  \code{\link[strucchange]{confint}} function for the seasonal model (see Reference)}
+        \item{ci.Vt}{ output of the  \code{\link[strucchange]{breakpoints}} confint function for the seasonal model (see Reference)}
     
     \item{nobp}{ is a list with the following elements:}
         \item{nobp.Vt}{ logical, TRUE if there are breakpoints detected}
