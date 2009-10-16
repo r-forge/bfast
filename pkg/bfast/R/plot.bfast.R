@@ -1,5 +1,4 @@
-plot.seasonalbreaks <-
-function(x,realdata=TRUE,sim=NULL,type=c("data","final","components","acf","largest","all","extra"),title=TRUE, ...)
+plot.bfast <- function(x,realdata=TRUE,sim=NULL,type=c("data","final","components","acf","largest","all","extra"),title=TRUE, ...)
 {                                                                                                      
     type <- match.arg(type)
     
@@ -114,4 +113,3 @@ function(x,realdata=TRUE,sim=NULL,type=c("data","final","components","acf","larg
     lines(out$ci.Vt)
     }
 }
-

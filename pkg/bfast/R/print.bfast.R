@@ -1,5 +1,4 @@
-print.seasonalbreaks <-
-function(x, ...)
+print.bfast <- function(x, ...)
 {    
     cat("\n  TREND BREAKPOINTS")
     niter <- length(x$output)
@@ -14,4 +13,3 @@ function(x, ...)
         cat(":  None\n")
     cat("\n")
 }
-

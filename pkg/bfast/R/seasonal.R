@@ -1,5 +1,4 @@
-seasonal <-
-function (x,out,sim = NULL, labels = colnames(X), set.pars = list(mar = c(0,
+seasonal <- function (x,out,sim = NULL, labels = colnames(X), set.pars = list(mar = c(0,
     6, 0, 6), oma = c(6, 0, 4, 0), tck = -0.01, mfrow = c(nplot,
     1)), main = NULL, range.bars = FALSE, ..., col.range = "light gray")
 {
@@ -62,4 +61,3 @@ function (x,out,sim = NULL, labels = colnames(X), set.pars = list(mar = c(0,
     mtext("Time", side = 1, line = 3)
     invisible()
 }
-

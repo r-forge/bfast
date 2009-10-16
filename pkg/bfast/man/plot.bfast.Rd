@@ -1,22 +1,22 @@
-\name{plot.seasonalbreaks}
+\name{plot.bfast}
 \Rdversion{1.1}
-\alias{plot.seasonalbreaks}
+\alias{plot.bfast}
 
 \title{
-Methods for objects of class "seasonalbreaks".
+Methods for objects of class "bfast".
 }
 \description{
-Plot methods for objects of class "seasonalbreaks".
+Plot methods for objects of class "bfast".
 }
 \usage{
-%%## S3 method for class 'seasonalbreaks':
-\method{plot}{seasonalbreaks}(x, realdata = TRUE, sim = NULL, 
+%%## S3 method for class 'bfast':
+\method{plot}{bfast}(x, realdata = TRUE, sim = NULL, 
   type = c("data", "final", "components", "acf", "largest", "all", "extra"), 
   title = TRUE, ...)
 }
 
 \arguments{
-  \item{x}{ \code{\link[bfast]{seasonal.breaks}} object 
+  \item{x}{ \code{\link[bfast]{bfast}} object 
   }
   \item{realdata}{TRUE if it is real data (i.e. univariate time series); 
    FALSE if it is a simulated time series. It that case provide and 'stl' object to the sim variable 
@@ -40,7 +40,7 @@ Jan Verbesselt
 }
 
 \examples{
-## See \code{\link[bfast]{seasonal.breaks}} for examples.
+## See \code{\link[bfast]{bfast}} for examples.
 }
 
 \keyword{ts}

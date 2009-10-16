@@ -1,6 +1,6 @@
-\name{seasonal.breaks}
+\name{bfast}
 \Rdversion{1.1}
-\alias{seasonal.breaks}
+\alias{bfast}
 \title{
 Break detection in the seasonal and trend component of a univariate time series
 }
@@ -11,7 +11,7 @@ time series into trend, seasonal and remainder components with significant
 break detection in the decomposed components of the time series.
 }
 \usage{
-seasonal.breaks(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
+bfast(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
 }
 \arguments{
   \item{Yt}{univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one without NA's.
@@ -23,10 +23,10 @@ seasonal.breaks(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
   \item{breaks}{integer specifying the maximal number of breaks to be calculated. By default the maximal number allowed by h is used.
 }
 }
-\details{
+\details{To be completed.
 }
 \value{
-    An object of the class "seasonalbreaks" is a list with the following elements:
+    An object of the class "bfast" is a list with the following elements:
     \item{Yt}{ equals the Yt used as input.}
     \item{output}{ is a list with the following elements (for each iteration):}
     
@@ -59,7 +59,7 @@ Jan Verbesselt
 }
 
 \seealso{
-\code{\link[bfast]{plot.seasonalbreaks}} for plotting of seasonal.break() results. \cr
+\code{\link[bfast]{plot.bfast}} for plotting of seasonalbreak() results. \cr
 \code{\link[strucchange]{breakpoints}} for more examples and background information about estimation of breakpoints in time series.
 }
 \examples{
@@ -70,7 +70,7 @@ datats <- ts(rowSums(simts$time.series)) # sum of all the components (season,abr
 tsp(datats) <- tsp(simts$time.series) # assign correct time series attributes
 plot(datats)
 
-fit <- seasonal.breaks(datats,h=0.15,max.iter=1)
+fit <- bfast(datats,h=0.15,max.iter=1)
 plot(fit,realdata=FALSE,sim=simts,type="final",title=FALSE)
 
 fit # prints out whether breakpoints are detected in the seasonal and trend component
@@ -80,7 +80,7 @@ fit # prints out whether breakpoints are detected in the seasonal and trend comp
 # See Fig. 8 b in reference
 plot(harvest, ylab='NDVI') # MODIS 16-day cleaned and interpolated NDVI time series 
 
-fit <- seasonal.breaks(harvest,h=0.15,max.iter=1,breaks=2)
+fit <- bfast(harvest,h=0.15,max.iter=1,breaks=2)
 plot(fit,realdata=TRUE,type="final",title=FALSE)
 
 pdf("output.pdf") # check for pdf in getwd()

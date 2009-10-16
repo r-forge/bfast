@@ -23,3 +23,4 @@ Or see \url{http://robjhyndman.com/papers/bfast1}.
 plot(simts)
 }
 \keyword{datasets}
+
