@@ -1,5 +1,4 @@
-seasonal.breaks <-
-function(Yt,h=0.15,max.iter=NULL,breaks=NULL)
+bfast <- function(Yt,h=0.15,max.iter=NULL,breaks=NULL)
 {
     require(strucchange) # for efp, sctest and breakpoints.
     require(MASS) # for rlm()
@@ -16,10 +15,12 @@ function(Yt,h=0.15,max.iter=NULL,breaks=NULL)
     Vt.bp <- 0 ; Wt.bp <- 0 # timing of structural breaks in the trend
     CheckTimeTt <- 1; CheckTimeSt <- 1
     
-    w <- 1/23      # on cycle every 23 time points (seasonal cycle)
+    f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
+    if(f==1)
+        stop("Not a seasonal time series")
     tl <- 1:length(Yt)
-    co <- cos(2*pi*tl*w)
-    si <- sin(2*pi*tl*w)
+    co <- cos(2*pi*tl/f)
+    si <- sin(2*pi*tl/f)
     
     i <- 0
     while ( (!identical(CheckTimeTt,Vt.bp) | !identical(CheckTimeSt,Wt.bp)) & i <= max.iter)
@@ -125,6 +126,5 @@ function(Yt,h=0.15,max.iter=NULL,breaks=NULL)
       Mag <- 0
     }
     return(structure(list(Yt=Yt,output=output,nobp=list(Vt=nobp.Vt,Wt=nobp.Wt),Magnitude=Magnitude,Mags=Mag,
-            Time=Time,jump=list(x=ti[m.x],y=m.y)),class="seasonalbreaks"))  
+            Time=Time,jump=list(x=ti[m.x],y=m.y)),class="bfast"))  
 }
-
