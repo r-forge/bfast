@@ -14,7 +14,7 @@ A univariate time series object of class "ts". Frequency is set to 23 -- the app
 \source{
 Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (In Press). 
 Detecting trend and seasonal changes in satellite image time series. 
-Remote Sensing of Environment. DOI: 10.1016/j.rse.2009.08.014. 
+\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}. 
 Or see \url{http://robjhyndman.com/papers/bfast1}.
 }
 
