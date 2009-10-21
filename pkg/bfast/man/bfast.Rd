@@ -28,29 +28,30 @@ bfast(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
 \value{
     An object of the class "bfast" is a list with the following elements:
     \item{Yt}{ equals the Yt used as input.}
-    \item{output}{ is a list with the following elements (for each iteration):}
-    
-        \item{Tt}{ the fitted trend component }
-        \item{St}{ the fitted seasonal component }
-        \item{Nt}{ the remainder}
-        \item{Vt}{ equals Yt - St for each iteration}
-        \item{bp.Vt}{ output of the \code{\link[strucchange]{breakpoints}} function for the trend model (see Reference)}
-        \item{ci.Vt}{ output of the  \code{\link[strucchange]{breakpoints}} confint function for the trend model (see Reference)}
-        \item{Wt}{ equals Yt - Tt for each iteration}
-        \item{bp.Vt}{ output of the \code{\link[strucchange]{breakpoints}} function for the seasonal model (see Reference)}
-        \item{ci.Vt}{ output of the  \code{\link[strucchange]{breakpoints}} confint function for the seasonal model (see Reference)}
-    
-    \item{nobp}{ is a list with the following elements:}
-        \item{nobp.Vt}{ logical, TRUE if there are breakpoints detected}
-        \item{nobp.Wt}{ logical, TRUE if there are breakpoints detected}
-        
+    \item{output}{ is a list with the following elements (for each iteration):
+    \tabular{ll}{
+        \code{Tt} \tab the fitted trend component\cr
+        \code{St} \tab the fitted seasonal component\cr
+        \code{Nt} \tab the noise or remainder component\cr
+        \code{Vt} \tab equals the deseasonalized data \code{Yt - St} for each iteration\cr
+        \code{bp.Vt} \tab output of the \code{\link[strucchange]{breakpoints}} function for the trend model\cr
+        \code{ci.Vt} \tab output of the  \code{\link[strucchange]{breakpoints}} confint function for the trend model\cr
+        \code{Wt} \tab equals the detrended data \code{Yt - Tt} for each iteration\cr
+        \code{bp.Vt} \tab output of the \code{\link[strucchange]{breakpoints}} function for the seasonal model\cr
+        \code{ci.Vt} \tab output of the  \code{\link[strucchange]{breakpoints}} confint function for the seasonal model
+    }}
+    \item{nobp}{ is a list with the following elements:
+    \tabular{ll}{
+        \code{nobp.Vt} \tab logical, TRUE if there are breakpoints detected\cr
+        \code{nobp.Wt} \tab logical, TRUE if there are breakpoints detected
+    }}        
     \item{magnitude}{ magnitude of the biggest change detected in the trend component}
     \item{Time}{ timing of the biggest change detected in the trend component}
 }
 \references{
 Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (In Press). 
 Detecting trend and seasonal changes in satellite image time series. 
-Remote Sensing of Environment. DOI: 10.1016/j.rse.2009.08.014. 
+\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}. 
 Or see \url{http://robjhyndman.com/papers/bfast1}.
 }
 
@@ -59,7 +60,7 @@ Jan Verbesselt
 }
 
 \seealso{
-\code{\link[bfast]{plot.bfast}} for plotting of seasonalbreak() results. \cr
+\code{\link[bfast]{plot.bfast}} for plotting of bfast() results. \cr
 \code{\link[strucchange]{breakpoints}} for more examples and background information about estimation of breakpoints in time series.
 }
 \examples{
@@ -71,7 +72,7 @@ tsp(datats) <- tsp(simts$time.series) # assign correct time series attributes
 plot(datats)
 
 fit <- bfast(datats,h=0.15,max.iter=1)
-plot(fit,realdata=FALSE,sim=simts,type="final",title=FALSE)
+plot(fit,sim=simts)
 
 fit # prints out whether breakpoints are detected in the seasonal and trend component
 
@@ -81,11 +82,9 @@ fit # prints out whether breakpoints are detected in the seasonal and trend comp
 plot(harvest, ylab='NDVI') # MODIS 16-day cleaned and interpolated NDVI time series 
 
 fit <- bfast(harvest,h=0.15,max.iter=1,breaks=2)
-plot(fit,realdata=TRUE,type="final",title=FALSE)
-
-pdf("output.pdf") # check for pdf in getwd()
-plot(fit,realdata=TRUE,type="all",title=FALSE) #plots all the intermediate outputs
-dev.off()
+plot(fit)
+plot(fit,type="trend",largest=TRUE)
+plot(fit,type="all") 
 
 }
 \keyword{ts}
