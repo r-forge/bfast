@@ -1,23 +1,26 @@
-bfast <- function(Yt,h=0.15,max.iter=NULL,breaks=NULL)
+bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
 {
-    require(strucchange) # for efp, sctest and breakpoints.
-    require(MASS) # for rlm()
-    require(forecast)
     ti <- time(Yt)
+    f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
+    if(f==1)
+        stop("Not a seasonal time series")
+
+    ## return value
     output <- list()
 
     # Start the iterative procedure and for first iteration St=decompose result
-    St <- stl(Yt, "per")$time.series[,'seasonal']
+    St <- stl(Yt, "periodic")$time.series[, "seasonal"]
     Tt <- 0
 
     D <- seasonaldummy(Yt)
     D[rowSums(D)==0,] <- -1
-    Vt.bp <- 0 ; Wt.bp <- 0 # timing of structural breaks in the trend
-    CheckTimeTt <- 1; CheckTimeSt <- 1
+
+    # number/timing of structural breaks in the trend/seasonal component
+    Vt.bp <- 0
+    Wt.bp <- 0 
+    CheckTimeTt <- 1
+    CheckTimeSt <- 1
     
-    f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
-    if(f==1)
-        stop("Not a seasonal time series")
     tl <- 1:length(Yt)
     co <- cos(2*pi*tl/f)
     si <- sin(2*pi*tl/f)
