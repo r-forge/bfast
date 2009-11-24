@@ -1,4 +1,6 @@
-export(plot.bfast,bfast)
+export(
+  "bfast"
+)
 
-S3method(plot,bfast)
-S3method(print,bfast)
+S3method("plot", "bfast")
+S3method("print", "bfast")
