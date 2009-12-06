@@ -21,10 +21,6 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
     CheckTimeTt <- 1
     CheckTimeSt <- 1
     
-    tl <- 1:length(Yt)
-    co <- cos(2*pi*tl/f)
-    si <- sin(2*pi*tl/f)
-    
     i <- 0
     while ( (!identical(CheckTimeTt,Vt.bp) | !identical(CheckTimeSt,Wt.bp)) & i <= max.iter)
     {
@@ -67,8 +63,7 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         p.Wt <- sctest(efp(Wt ~ -1+D, h=h, type= "OLS-MOSUM"))      # preliminary test 
 #        if (p.Wt$p.value <=0.05) # OR statement 
 #        {
-            bp.Wt <- breakpoints(Wt ~ -1+D, h=h,breaks=breaks) # Breakpoints in the seasonal component?
-#           bp.Wt <- breakpoints(Wt ~ -1+co+si, h=h,breaks=breaks)
+            bp.Wt <- breakpoints(Wt ~ -1+D, h=h,breaks=breaks) # Breakpoints in the seasonal component
             nobp.Wt <- is.na(breakpoints (bp.Wt)[1])
 #        } 
 #        else 
@@ -79,7 +74,6 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         if (nobp.Wt)
         {
             sm0 <- rlm(Wt ~ -1+D)
-            #sm0 <- rlm(Wt ~ -1+co+si)
             St <- ts(fitted(sm0))  #  The fitted seasonal component
             tsp(St) <- tsp(Yt)
             Wt.bp <- 0             # no seasonal breaks
@@ -88,7 +82,6 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         else
         {
             sm1 <-rlm(Wt ~ -1+D %in% breakfactor(bp.Wt))
-            #sm1 <- rlm(Wt ~ -1+co+si %in% breakfactor(bp.Wt))
             St <- ts(fitted(sm1))  #  The fitted seasonal component
             tsp(St) <- tsp(Yt)
             ci.Wt <- confint(bp.Wt, het.err = FALSE)
