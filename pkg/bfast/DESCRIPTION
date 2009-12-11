@@ -1,6 +1,6 @@
 Package: bfast
 Version: 1.1
-Date: 2009-10-16
+Date: 2009-12-11
 Title: BFAST: Breaks For Additive Seasonal and Trend
 Author: Jan Verbesselt, with contributions from Rob Hyndman <Rob.Hyndman@buseco.monash.edu.au>
 Maintainer: Jan Verbesselt <Jan.Verbesselt@csiro.au>
@@ -10,7 +10,7 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     and characterizing abrupt changes within the trend and seasonal
 	     components. BFAST can be used to analyze different types of
 	     satellite image time series and can be applied to other disciplines
-	     dealing with seasonal or non-seasonal time series,such as hydrology,
+	     dealing with seasonal or non-seasonal time series, such as hydrology,
 	     climatology, and econometrics. The algorithm can be extended to
 	     label detected changes with information on the parameters of the
 	     fitted piecewise linear models.
