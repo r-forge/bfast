@@ -58,7 +58,8 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
 (red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons. See paper for more details about the data and analysis. </p>
 
-<p> The temporary windows builds can be dowloaded <a href="http://bfast.r-forge.r-project.org/bfast_1.1.zip"><strong>here</strong></a>.</p>
+//<p> The temporary windows builds can be dowloaded <a href="http://bfast.r-forge.r-project.org/bfast_1.1.zip"><strong>here</strong></a>.</p>
+<p> Contact: Jan.Verbesselt'@'wur.nl</p>
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
