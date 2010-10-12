@@ -20,8 +20,7 @@ citEntry(entry = "Article",
 )
 
 citEntry(entry = "Article",
-         title = "Phenological change detection while accounting for abrupt and gradual
-	trends in satellite image time series",
+         title = "Phenological change detection while accounting for abrupt and gradual trends in satellite image time series",
          author = personList(as.person("Jan Verbesselt"), 
 	                     as.person("Rob Hyndman"),
 	                     as.person("Achim Zeileis"),
@@ -33,7 +32,7 @@ citEntry(entry = "Article",
 	 doi          = "10.1016/j.rse.2010.08.003",
          textVersion = 
          paste("Jan Verbesselt, Rob Hyndman, Achim Zeileis, Darius Culvenor (2010).", 
-               ""Phenological change detection while accounting for abrupt and gradual trends in satellite image time series.",
+               "Phenological change detection while accounting for abrupt and gradual trends in satellite image time series.",
 	       "Remote Sensing of Environment, 114, 2970 - 2980.",
 	       "doi:10.1016/j.rse.2010.08.003"),
 )
