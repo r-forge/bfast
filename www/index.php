@@ -47,8 +47,10 @@ BFAST:
  
 <ul> 
 <li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
-<li> Verbesselt, J., Hyndman, R., Newnham, G., & Culvenor, D. (2009). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">DOI: 10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li> 
-</ul> 
+<li> Verbesselt, J., Hyndman, R., Newnham, G., & Culvenor, D. (2009). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">DOI: 10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
+<li> Verbesselt, J., Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">DOI: 10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
+</ul>
+
 <img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="400" height="300" align=MIDDLE
 alt="Fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
 northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
