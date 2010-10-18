@@ -1,5 +1,5 @@
 \name{harvest}
-\Rdversion{1.1}
+\Rdversion{1.2}
 \alias{harvest}
 \docType{data}
 \title{
@@ -20,6 +20,8 @@ Or see \url{http://robjhyndman.com/papers/bfast1}.
 
 \examples{
 plot(harvest,ylab='NDVI')
+# References
+citation("bfast")
 }
 \keyword{datasets}
 \keyword{ts}

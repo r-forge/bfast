@@ -1,5 +1,5 @@
 \name{bfast}
-\Rdversion{1.1}
+\Rdversion{1.2}
 \alias{bfast}
 \title{
 Break detection in the seasonal and trend component of a univariate time series
@@ -85,6 +85,12 @@ fit <- bfast(harvest,h=0.15,max.iter=1,breaks=2)
 plot(fit)
 plot(fit,type="trend",largest=TRUE)
 plot(fit,type="all") 
+
+# References
+citation("bfast")
+
+# For more info
+?bfast
 
 }
 \keyword{ts}
