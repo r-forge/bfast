@@ -1,6 +1,6 @@
 Package: bfast
-Version: 1.1
-Date: 2009-12-11
+Version: 1.2
+Date: 2010-10-18
 Title: BFAST: Breaks For Additive Seasonal and Trend
 Author: Jan Verbesselt, with contributions from Rob Hyndman <Rob.Hyndman@buseco.monash.edu.au>
 Maintainer: Jan Verbesselt <Jan.Verbesselt@wur.au>

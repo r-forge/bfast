@@ -1,5 +1,5 @@
 \name{simts}
-\Rdversion{1.1}
+\Rdversion{1.2}
 \alias{simts}
 \docType{data}
 \title{
@@ -21,5 +21,7 @@ Or see \url{http://robjhyndman.com/papers/bfast1}.
 
 \examples{
 plot(simts)
+# References
+citation("bfast")
 }
 \keyword{datasets}
