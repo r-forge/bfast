@@ -11,16 +11,24 @@ time series into trend, seasonal and remainder components with significant
 break detection in the decomposed components of the time series.
 }
 \usage{
-bfast(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
+bfast(Yt, ht = 0.15, hs = 0.15, smodel ='sdummy',  max.iter = NULL, breaks = NULL)
 }
 \arguments{
   \item{Yt}{univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one without NA's.
 }
-  \item{h}{minimal segment size either given as fraction relative to the sample size or as an integer giving the minimal number of observations in each segment.
+  \item{ht}{minimal segment size between potentially detected breaks in the trend model given as fraction relative to the sample size
+  (i.e. the minimal number of observations in each segment divided by the total length of the timeseries.
+}
+  \item{hs}{minimal segment size between potentially detected breaks in the seasonal model given as fraction relative to the sample size
+  (i.e. the minimal number of observations in each segment divided by the total length of the timeseries.
+}
+  \item{smodel}{the seasonal model used to fit the seasonal component and detect seasonal breaks (i.e. significant phenological change).
+  There are two options: 'sdummy' or 'sincos' where 'sdummy' is the model proposed in the first Remote Sensing of Environment paper
+  and 'sincos' is the model used in the second Remote Sensing of Environment paper (See paper for more details).
 }
   \item{max.iter}{maximum amount of iterations allowed for estimation of breakpoints in seasonal and trend component.
 }
-  \item{breaks}{integer specifying the maximal number of breaks to be calculated. By default the maximal number allowed by h is used.
+  \item{breaks}{integer specifying the maximal number of breaks to be calculated. By default the maximal number allowed by ht or hs is used.
 }
 }
 \details{To be completed.
@@ -71,7 +79,7 @@ datats <- ts(rowSums(simts$time.series)) # sum of all the components (season,abr
 tsp(datats) <- tsp(simts$time.series) # assign correct time series attributes
 plot(datats)
 
-fit <- bfast(datats,h=0.15,max.iter=1)
+fit <- bfast(datats,ht=0.15,hs=0.15,max.iter=1)  # smodel='sdummy' is the default model
 plot(fit,sim=simts)
 
 fit # prints out whether breakpoints are detected in the seasonal and trend component
@@ -81,10 +89,15 @@ fit # prints out whether breakpoints are detected in the seasonal and trend comp
 # See Fig. 8 b in reference
 plot(harvest, ylab='NDVI') # MODIS 16-day cleaned and interpolated NDVI time series 
 
-fit <- bfast(harvest,h=0.15,max.iter=1,breaks=2)
+(sdist <- 10/length(harvest)) # ratio of distance between breaks (time steps) and length of the time series 
+fit <- bfast(harvest,ht=0.15,hs=sdist, smodel='sincos', max.iter=1,breaks=2)
 plot(fit)
 plot(fit,type="trend",largest=TRUE)
 plot(fit,type="all") 
+
+# output
+niter <- length(fit$output) # nr of iterations
+out <- fit$output[[niter]]  # output of results of the final fitted seasonal and trend models and nr of breakpoints in both.
 
 # References
 citation("bfast")

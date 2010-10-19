@@ -1,4 +1,12 @@
-bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
+bfast <- function(Yt, ht = 0.15, hs = 0.15, smodel ='sdummy', max.iter = NULL, breaks = NULL)
+# changes
+# 1. max.iteration is now correct - the previous version was doing always doing one iteration extra
+# 2. choose a seasonal model 'sincos' or 'sdummy'
+# 3. differentiate h for trend and seasonal model -> hs and ht
+# To do:
+# -> add parallell processing potential 
+# -> make bfast faster...somehow by simplying it.
+# -> add examples to extract output from bfast
 {
     ti <- time(Yt)
     f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
@@ -11,10 +19,21 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
     # Start the iterative procedure and for first iteration St=decompose result
     St <- stl(Yt, "periodic")$time.series[, "seasonal"]
     Tt <- 0
-
-    D <- seasonaldummy(Yt)
-    D[rowSums(D)==0,] <- -1
-
+    
+    # seasonal model setup
+    if (smodel=='sincos') {
+        w <- 1/23      # on cycle every 23 time points (seasonal cycle)
+        tl <- 1:length(Yt)
+        co <- cos(2*pi*tl*w); si <- sin(2*pi*tl*w)
+        co2 <- cos(2*pi*tl*w*2);si2 <- sin(2*pi*tl*w*2)
+        co3 <- cos(2*pi*tl*w*3);si3 <- sin(2*pi*tl*w*3)
+        smod <- Wt ~ co+si+co2+si2+co3+si3
+    } else if (smodel=='sdummy') {
+        D <- seasonaldummy(Yt)
+        D[rowSums(D)==0,] <- -1
+        smod <- Wt ~ -1+D
+    } else stop("Not a correct seasonal model is selected ('sincos' or 'sdummy') ")
+    
     # number/timing of structural breaks in the trend/seasonal component
     Vt.bp <- 0
     Wt.bp <- 0 
@@ -22,17 +41,16 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
     CheckTimeSt <- 1
     
     i <- 0
-    while ( (!identical(CheckTimeTt,Vt.bp) | !identical(CheckTimeSt,Wt.bp)) & i <= max.iter)
+    while ( (!identical(CheckTimeTt,Vt.bp) | !identical(CheckTimeSt,Wt.bp)) & i < max.iter)
     {
         CheckTimeTt <- Vt.bp
         CheckTimeSt <- Wt.bp
-
         # TREND
         Vt <- Yt-St
-        p.Vt <- sctest(efp(Vt ~ ti, h=h, type= "OLS-MOSUM"))
+        p.Vt <- sctest(efp(Vt ~ ti, h=ht, type= "OLS-MOSUM"))
         if (p.Vt$p.value <=0.05) 
         {
-          bp.Vt <- breakpoints(Vt ~ ti, h=h,breaks=breaks)
+          bp.Vt <- breakpoints(Vt ~ ti, h=ht,breaks=breaks)
           nobp.Vt <- is.na(breakpoints (bp.Vt)[1])
         } 
         else 
@@ -59,11 +77,10 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         
         # SEASONAL COMPONENT
         Wt <- Yt-Tt
-        
-        p.Wt <- sctest(efp(Wt ~ -1+D, h=h, type= "OLS-MOSUM"))      # preliminary test 
+#        p.Wt <- sctest(efp(smod, h=h, type= "OLS-MOSUM"))      # preliminary test 
 #        if (p.Wt$p.value <=0.05) # OR statement 
 #        {
-            bp.Wt <- breakpoints(Wt ~ -1+D, h=h,breaks=breaks) # Breakpoints in the seasonal component
+            bp.Wt <- breakpoints(smod, h=hs,breaks=breaks) # Breakpoints in the seasonal component
             nobp.Wt <- is.na(breakpoints (bp.Wt)[1])
 #        } 
 #        else 
@@ -73,7 +90,7 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
 #        }
         if (nobp.Wt)
         {
-            sm0 <- rlm(Wt ~ -1+D)
+            sm0 <- rlm(smod)
             St <- ts(fitted(sm0))  #  The fitted seasonal component
             tsp(St) <- tsp(Yt)
             Wt.bp <- 0             # no seasonal breaks
@@ -81,7 +98,8 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
         } 
         else
         {
-            sm1 <-rlm(Wt ~ -1+D %in% breakfactor(bp.Wt))
+            if(smodel=='sdummy') sm1 <-rlm(Wt ~ -1+D %in% breakfactor(bp.Wt))
+            if(smodel=='sincos') sm1 <- rlm(Wt ~ (co+si+co2+si2+co3+si3) %in% breakfactor(bp.Wt)) 
             St <- ts(fitted(sm1))  #  The fitted seasonal component
             tsp(St) <- tsp(Yt)
             ci.Wt <- confint(bp.Wt, het.err = FALSE)
@@ -92,7 +110,7 @@ bfast <- function(Yt, h = 0.15, max.iter = NULL, breaks = NULL)
             Vt=Vt, bp.Vt=bp.Vt, Vt.bp=Vt.bp, ci.Vt=ci.Vt,
             Wt=Wt, bp.Wt=bp.Wt, Wt.bp=Wt.bp, ci.Wt=ci.Wt)
     }
-    if (!nobp.Vt) 
+    if (!nobp.Vt) # probably only works well for sdummy model!
     {
       Vt.nrbp <- length(bp.Vt$breakpoints)
       co <- coef(fm1) # final fitted trend model
