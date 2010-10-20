@@ -11,25 +11,27 @@ time series into trend, seasonal and remainder components with significant
 break detection in the decomposed components of the time series.
 }
 \usage{
-bfast(Yt, ht = 0.15, hs = 0.15, smodel ='sdummy',  max.iter = NULL, breaks = NULL)
+bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, breaks = NULL, hpc = c("none"))
 }
 \arguments{
   \item{Yt}{univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one without NA's.
 }
-  \item{ht}{minimal segment size between potentially detected breaks in the trend model given as fraction relative to the sample size
+  \item{h}{minimal segment size between potentially detected breaks in the trend model given as fraction relative to the sample size
   (i.e. the minimal number of observations in each segment divided by the total length of the timeseries.
 }
-  \item{hs}{minimal segment size between potentially detected breaks in the seasonal model given as fraction relative to the sample size
-  (i.e. the minimal number of observations in each segment divided by the total length of the timeseries.
-}
-  \item{smodel}{the seasonal model used to fit the seasonal component and detect seasonal breaks (i.e. significant phenological change).
-  There are two options: 'sdummy' or 'sincos' where 'sdummy' is the model proposed in the first Remote Sensing of Environment paper
-  and 'sincos' is the model used in the second Remote Sensing of Environment paper (See paper for more details).
+  \item{season}{the seasonal model used to fit the seasonal component and detect seasonal breaks (i.e. significant phenological change).
+  There are three options: "dummy", "harmonic", or "none"
+  where "dummy" is the model proposed in the first Remote Sensing of Environment paper
+  and "harmonic" is the model used in the second Remote Sensing of Environment paper (See paper for more details) and
+  where "none" indicates that no seasonal model will be fitted (i.e. St = 0 ). If there is no seasonal cycle (e.g. frequency of the time series is 1)
+  "none" can be selected to avoid fitting a seasonal model.
 }
   \item{max.iter}{maximum amount of iterations allowed for estimation of breakpoints in seasonal and trend component.
 }
-  \item{breaks}{integer specifying the maximal number of breaks to be calculated. By default the maximal number allowed by ht or hs is used.
+  \item{breaks}{integer specifying the maximal number of breaks to be calculated. By default the maximal number allowed by h is used.
 }
+  \item{hpc}{A character specifying the high performance computing support. Default is "none", can be set to "foreach". Install the "foreach" package for hpc support.
+}	
 }
 \details{To be completed.
 }
@@ -59,8 +61,11 @@ bfast(Yt, ht = 0.15, hs = 0.15, smodel ='sdummy',  max.iter = NULL, breaks = NUL
 \references{
 Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (2009). 
 Detecting trend and seasonal changes in satellite image time series. 
-\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}. 
-Or see \url{http://robjhyndman.com/papers/bfast1}.
+\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}.
+Verbesselt, J., Hyndman, R., Zeileis, A., & Culvenor, D. (2010).
+Phenological change detection while accounting for abrupt and gradual trends in satellite image time series.
+\emph{Remote Sensing of Environment}, 114, 2970-2980. \url{http://dx.doi.org/10.1016/j.rse.2010.08.003}.
+Or see \url{http://bfast.r-forge.r-project.org/}.
 }
 
 \author{
@@ -79,18 +84,17 @@ datats <- ts(rowSums(simts$time.series)) # sum of all the components (season,abr
 tsp(datats) <- tsp(simts$time.series) # assign correct time series attributes
 plot(datats)
 
-fit <- bfast(datats,ht=0.15,hs=0.15,max.iter=1)  # smodel='sdummy' is the default model
+fit <- bfast(datats,h=0.15, season="dummy", max.iter=1) 
 plot(fit,sim=simts)
-
 fit # prints out whether breakpoints are detected in the seasonal and trend component
 
 # Real data
 # The data should be a regular ts() object without NA's
 # See Fig. 8 b in reference
-plot(harvest, ylab='NDVI') # MODIS 16-day cleaned and interpolated NDVI time series 
+plot(harvest, ylab="NDVI") # MODIS 16-day cleaned and interpolated NDVI time series 
 
-(sdist <- 10/length(harvest)) # ratio of distance between breaks (time steps) and length of the time series 
-fit <- bfast(harvest,ht=0.15,hs=sdist, smodel='sincos', max.iter=1,breaks=2)
+(rdist <- 10/length(harvest)) # ratio of distance between breaks (time steps) and length of the time series 
+fit <- bfast(harvest,h=rdist, season="harmonic", max.iter=1,breaks=2)
 plot(fit)
 plot(fit,type="trend",largest=TRUE)
 plot(fit,type="all") 
