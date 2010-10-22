@@ -1,4 +1,4 @@
-bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = c("none"))
+bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = "none")
 # changes
 # 1. max.iteration is now correct - the previous version was doing always doing one iteration extra
 # 2. choose a seasonal model "harmonic" or "dummy"

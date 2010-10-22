@@ -11,7 +11,7 @@ time series into trend, seasonal and remainder components with significant
 break detection in the decomposed components of the time series.
 }
 \usage{
-bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, breaks = NULL, hpc = c("none"))
+bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, breaks = NULL, hpc ="none")
 }
 \arguments{
   \item{Yt}{univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one without NA's.
