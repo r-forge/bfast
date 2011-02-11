@@ -1,7 +1,7 @@
 ###########
 ## Tools ##
 ###########
-# Written by Achim Zeileis and work out by Jan Verbesselt
+# Written by Achim Zeileis and worked out by Jan Verbesselt
 
 ## package and data
 library("bfast")
@@ -293,6 +293,7 @@ roc <- function(y, order = 1, level = 0.05, plot = TRUE) {
 
 ## history
 harvest_start <- roc(window(harvest, end = c(2004, 12)))
+# what does this indicate?
 harvest_tspp  <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
 harvest_mefp <- mefp(response ~ trend + harmon, data = harvest_tspp,
   type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
