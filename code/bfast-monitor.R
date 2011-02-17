@@ -299,6 +299,24 @@ roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
   c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
 }
 
+## alternatively, perform breakpoint estimation and
+## use first observation of last regime as the starting point
+bp <- function(y, order = 3, ic = c("lwz", "bic"), h = NULL) {
+  y <- tspp(y, order = order)
+  ic <- match.arg(ic)
+  if(is.null(h)) h <- (2 * order + 2) * 5
+  rval <- breakpoints(response ~ trend + harmon, data = y, h = h)
+  rval <- if(ic == "bic") {
+    rval$breakpoints
+  } else {
+    breakpoints(rval, breaks = which.min(AIC(rval, k = 0.299 * log(nrow(y))^2.1)) - 1)$breakpoints
+  }
+  rval <- tail(rval, 1)
+  if(is.na(rval)) rval <- 0
+  rval <- as.numeric(time(y$response)[rval + 1])
+  c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
+}
+
 ## history
 harvest_start <- roc(window(harvest, end = c(2004, 12)), order = 3)
 ## ?AZ I added something to add a line to the plot indicating when the recursive process crossess the boundary
@@ -310,6 +328,16 @@ harvest_start <- roc(window(harvest, end = c(2004, 12)), order = 3)
 ##     say that the model does not fit very well. Then the residual variance will be
 ##     very large and all shifts/breaks/etc. may seem very small compared to
 ##     the huge variance and hence lead to non- (or at least less) significant results.
+
+## employ Bai & Perron breakpoint estimation instead
+## with LWZ criterion
+harvest_start2 <- bp(window(harvest, end = c(2004, 12)), order = 3, h = 24)
+## or BIC criterion
+harvest_start3 <- bp(window(harvest, end = c(2004, 12)), order = 3, h = 24, ic = "bic")
+
+## comparison: LWZ selects approximately the same as ROC, BIC somewhat smaller
+harvest_start - harvest_start2
+harvest_start - harvest_start3
 
 harvest_tspp <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
 harvest_mefp <- mefp(response ~ trend + harmon, data = harvest_tspp,
