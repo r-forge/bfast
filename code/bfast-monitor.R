@@ -48,7 +48,6 @@ order <- 3
 
 fit <- bfast(harvest,h = hshort, season = "harmonic", max.iter = 1,breaks = 3)
 ## JV is this h the same as below?
-X11()
 plot(fit)
 
 #######################################
@@ -57,7 +56,6 @@ plot(fit)
 
 ## set up data
 harvest_tspp <- tspp(window(harvest, end = c(2004, 12)), order = order)
-X11()
 plot(harvest_tspp$response)
 ## set up monitoring fluctuation process
 ## for linear model with trend and harmonic season
@@ -89,6 +87,7 @@ tbp <- time(harvest)[harvest_mon$breakpoint]
 
 plot(harvest_mon, functional = NULL)
 ## ?AZ Does this plot show the Partial Moving Sums - of the residuals of the fitted model
+## !Z: Yes, it's the process of MOSUMs of OLS residuals, suitably scaled.
 
 # JV the plot shows the significance level for break detection here, and not the Confidence interval for the time of break 
 # JV (as explained in Achim's mail) the CI time of break detection is not estimated as this is mainly an online monitoring tool
@@ -103,6 +102,8 @@ harvest_pred <- predict(harvest_lm, newdata = harvest_tspp)
 lines(ts(harvest_pred, start = c(2000, 4), freq = 23), col = 4)
 abline(v = 2004 + 11/23, lty = 2) 
 ## ?AZ what does this indicate?
+## !Z: The end of the history perido. 2004(12) with freq = 23 is
+##     2004 + (12 - 1)/23.
 abline(v = tbp, lty = 2, col='red') # time of the breakpoint detected by the monitoring process!
 
 ##########
@@ -222,7 +223,7 @@ test_mefp
 test_lm <- lm(response ~ trend + harmon, data = test_tspp)
 coef(test_lm)
 
-#X11()
+#
 plot(test_tspp$response)
 test_pred <- predict(test_lm, newdata = test_tspp)
 tsp(test_pred) <- tsp(subset)
@@ -300,19 +301,21 @@ roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
 
 ## history
 harvest_start <- roc(window(harvest, end = c(2004, 12)), order = 3)
-## A? I added something to add a line to the plot indicating when the recursive process crossess the boundary
-## A? from what I can see is that the lower order (order = 1) process indicates a longer stable period and when we choose for an higher order harmonic (order = 3)
-## A? I would expect it to be the other way around
+## ?AZ I added something to add a line to the plot indicating when the recursive process crossess the boundary
+## ?AZ from what I can see is that the lower order (order = 1) process indicates a longer stable period and when we choose for an higher order harmonic (order = 3)
+## ?AZ I would expect it to be the other way around
+## !Z: No, not necessarily. First of all, a strict point of view would be
+##     that the model is then misspecified and hence the results are invalid.
+##     But, of course, we could employ a more pragmatic point of view and
+##     say that the model does not fit very well. Then the residual variance will be
+##     very large and all shifts/breaks/etc. may seem very small compared to
+##     the huge variance and hence lead to non- (or at least less) significant results.
 
-
-harvest_tspp  <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
+harvest_tspp <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
 harvest_mefp <- mefp(response ~ trend + harmon, data = harvest_tspp,
   type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
 
 ## monitor
-##harvest_tspp <- tspp(harvest, order = 3) ## ?AZ I corrected this as I think we should keep the start data
-## as identified by the ROC method
-
 harvest_tspp <- tspp(window(harvest, start = harvest_start), order = 3)
 
 harvest_mon <- monitor(harvest_mefp)
