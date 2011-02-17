@@ -203,15 +203,10 @@ out$Vt.bp
 ## The Monitor approach			     ##
 #######################################
 
-## what is the advantage of the monitor approach?
-## why should monitor() be used and not the breakpoint analysis?
-
-## as a test I subsetted the data before AND after the change -> how much data would be required before the change in order to reliabily test for change
-## would that influence the confidence interval
 ## 
-sim$ts.sim.d
-## MANUALLY SET UP HISTORY PERIOD
+sim$ts.sim.d  ## Simulated time series
 
+## MANUALLY SET UP HISTORY PERIOD
 subset <- window(sim$ts.sim.d, start = c(2006,1), end = c(2008, 1))
 plot(subset)
 test_tspp <- tspp(subset,order = order)
@@ -285,7 +280,7 @@ coef(fm_last)
 
 ## reversely order sample and perform
 ## recursive CUSUM test
-roc <- function(y, order = 1, level = 0.05, plot = TRUE) {
+roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
   y_orig <- tspp(y, order = order)
   n      <- nrow(y_orig)
   y_rev  <- y_orig[n:1,]
@@ -298,16 +293,17 @@ roc <- function(y, order = 1, level = 0.05, plot = TRUE) {
   } else {
     1    
   }
-  
   rval <- as.numeric(time(y)[y_start])
+  if(plot & sctest(y_rcus)$p.value < level) abline(v=-rval,col="red")
   c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
 }
 
 ## history
-harvest_start <- roc(window(harvest, end = c(2004, 12)))
+harvest_start <- roc(window(harvest, end = c(2004, 12)), order = 3)
+## A? I added something to add a line to the plot indicating when the recursive process crossess the boundary
+## A? from what I can see is that the lower order (order = 1) process indicates a longer stable period and when we choose for an higher order harmonic (order = 3)
+## A? I would expect it to be the other way around
 
-## ?AZ what does the roc method do? automatically assess the stability of the history section
-## ?AZ and identify a stable start
 
 harvest_tspp  <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
 harvest_mefp <- mefp(response ~ trend + harmon, data = harvest_tspp,
