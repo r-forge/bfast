@@ -43,28 +43,45 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
+
 BFAST:
+
  
+
 <ul> 
+
 <li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
+
 <li> Verbesselt, J., Hyndman, R., Newnham, G., & Culvenor, D. (2009). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">DOI: 10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
 <li> Verbesselt, J., Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">DOI: 10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
+
 </ul>
 
+
 <img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="400" height="300" align=MIDDLE
+
 alt="Fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
+
 northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
+
 (red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons." longdesc="Detecting changes in seasonal time series">
 
+
+
 <p> Figure illustrating the fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
+
 northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
+
 (red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons. See paper for more details about the data and analysis. </p>
+
+
 
 <!-- <p> The temporary windows builds can be dowloaded <a href="http://bfast.r-forge.r-project.org/bfast_1.1.zip"><strong>here</strong></a>.</p> -->
 
+
 <p> Contact: Jan.Verbesselt'@'wur.nl</p>
-<p> The current BFAST package version is 1.2 on R-Forge while on CRAN it is still 1.1 (November 17, 2009)</p>
-<p> To install the most current version directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
+<p> The current BFAST package version is 1.2 on R-Forge and on R CRAN (Feb 28, 2011) </p>
+<p> To install the most recent version (bug fixes) directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
 
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
