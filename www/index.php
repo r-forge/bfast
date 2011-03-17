@@ -80,7 +80,7 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 
 
 <p> Contact: Jan.Verbesselt'@'wur.nl</p>
-<p> The current BFAST package version is 1.2 on R-Forge and on R CRAN (Feb 28, 2011) </p>
+<p> The current BFAST package version is 1.2-1 on R-Forge and 1.2 on R CRAN  (Mar 17, 2011) </p>
 <p> To install the most recent version (bug fixes) directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
 
 
