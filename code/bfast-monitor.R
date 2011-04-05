@@ -1,3 +1,4 @@
+
 ###########
 ## Tools ##
 ###########
@@ -86,6 +87,7 @@ harvest_mon <- monitor(harvest_mefp)
 tbp <- time(harvest)[harvest_mon$breakpoint]
 
 plot(harvest_mon, functional = NULL)
+plot(harvest_mon, functional = NULL)
 ## ?AZ Does this plot show the Partial Moving Sums - of the residuals of the fitted model
 ## !Z: Yes, it's the process of MOSUMs of OLS residuals, suitably scaled.
 
@@ -101,7 +103,7 @@ plot(harvest_tspp$response)
 harvest_pred <- predict(harvest_lm, newdata = harvest_tspp)
 lines(ts(harvest_pred, start = c(2000, 4), freq = 23), col = 4)
 abline(v = 2004 + 11/23, lty = 2) 
-## ?AZ what does this indicate?
+## ?AZ what does this first abline indicate?
 ## !Z: The end of the history perido. 2004(12) with freq = 23 is
 ##     2004 + (12 - 1)/23.
 abline(v = tbp, lty = 2, col='red') # time of the breakpoint detected by the monitoring process!
@@ -157,6 +159,7 @@ noisef <- 3
 #       for (dip in round(-c(0.3,0.2,0.1,0),3) ) {
 #			for (c1delta in c(0,10,20,30) ) {  
 #
+set.seed(1234)
 onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
 noise <- onoise*noisef        # multiply the noise with a factor
 iclouds <- as.integer(runif(5,min=0,max=nrobs))      
@@ -204,14 +207,11 @@ out$Vt.bp
 ## The Monitor approach			     ##
 #######################################
 
-## 
-sim$ts.sim.d  ## Simulated time series
-
 ## MANUALLY SET UP HISTORY PERIOD
 subset <- window(sim$ts.sim.d, start = c(2006,1), end = c(2008, 1))
 plot(subset)
 test_tspp <- tspp(subset,order = order)
-test_tspp
+
 ## set up monitoring fluctuation process
 ## for linear model with trend and harmonic season
 test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
@@ -223,7 +223,6 @@ test_mefp
 test_lm <- lm(response ~ trend + harmon, data = test_tspp)
 coef(test_lm)
 
-#
 plot(test_tspp$response)
 test_pred <- predict(test_lm, newdata = test_tspp)
 tsp(test_pred) <- tsp(subset)
@@ -242,7 +241,7 @@ test_mon <- monitor(test_mefp)
 tbp <- time(test_tspp$response)[test_mon$breakpoint]
 
 plot(test_mon, functional = NULL)
-# JV the plot shows the confidence interval and the detected breakpoint
+# JV the plot shows the confidence interval used to detect breakpoints and the detected breakpoint
 # JV is it possible to characterize the change (e.g. slope/intercepts once it is detected?)
 test_mon
 
@@ -255,29 +254,34 @@ tsp(test_pred) <- tsp(test_tspp$response)
 lines(as.ts(test_pred), col = 4)
 abline(v = tbp, lty = 2, col='red') # time of the breakpoint detected by the monitoring process!
 
+## this section below does not always work because sometimes there is no data left at the end
+## of the time series to fit a model
 fm_last <- lm(response ~ trend + harmon, data = test_tspp[-(1:test_mon$breakpoint),])
 test_pred_last <- predict(fm_last, newdata = test_tspp[-(1:test_mon$breakpoint),])
 lines(ts(test_pred_last, start = tbp, freq = 23), col = "red", lwd = 2)
 coef(fm_last)
 
-## this illustrates that estimation coefficients of the last segment is not relevant as the aim of
-## online monitoring just is to detect whether or not a break is occuring in the last section of the segment
-## --> this method really work on simulated data but I wonder whether it works on real MODIS data
-## --> Especially robustness against noise will be an issue!!!
-## --> The monitoring process is a great tool to be implemented in real time monitoring processes but we need to make
-## --> sure that no structural 
-## --> change is occuring in the historical time series (used to set up the mefp()). Could this be done automatically?
+## this illustrates that estimation coefficients of the last segment is not relevant as the
+## aim of online monitoring just is to detect whether or not a break is occuring in the last 
+## section of the segment
+## this method really work on simulated data but I wonder whether it works on real MODIS data
+## Especially robustness against noise will be an issue!!!
+## The monitoring process is a great tool to be implemented in real time monitoring processes 
+## but we need to make
+## sure that no structural 
+## change is occuring in the historical time series (used to set up the mefp()). 
+## Could this be done automatically?
 
 ## TO DO: set up simulation analysis and save results of determining the time of change
 ## --> What is the influence of noise on the time series?
-## --> Especially the noise robustness and importance of other structural change in the history time period will be important.
+## --> Especially the noise robustness and importance of other structural change in 
+## the history time period will be important.
 
 ########################################
 ## Reversely Ordered CUSUM (ROC) test ##
 ########################################
 
 ## JV A technique to verify whether or not the historical period is stable or not
-## 
 
 ## reversely order sample and perform
 ## recursive CUSUM test
@@ -299,29 +303,13 @@ roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
   c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
 }
 
-## alternatively, perform breakpoint estimation and
-## use first observation of last regime as the starting point
-bp <- function(y, order = 3, ic = c("lwz", "bic"), h = NULL) {
-  y <- tspp(y, order = order)
-  ic <- match.arg(ic)
-  if(is.null(h)) h <- (2 * order + 2) * 5
-  rval <- breakpoints(response ~ trend + harmon, data = y, h = h)
-  rval <- if(ic == "bic") {
-    rval$breakpoints
-  } else {
-    breakpoints(rval, breaks = which.min(AIC(rval, k = 0.299 * log(nrow(y))^2.1)) - 1)$breakpoints
-  }
-  rval <- tail(rval, 1)
-  if(is.na(rval)) rval <- 0
-  rval <- as.numeric(time(y$response)[rval + 1])
-  c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
-}
-
 ## history
 harvest_start <- roc(window(harvest, end = c(2004, 12)), order = 3)
-## ?AZ I added something to add a line to the plot indicating when the recursive process crossess the boundary
-## ?AZ from what I can see is that the lower order (order = 1) process indicates a longer stable period and when we choose for an higher order harmonic (order = 3)
-## ?AZ I would expect it to be the other way around
+## I added something to add a line to the plot indicating when the recursive process crossess 
+## the boundary.
+## A? I noticed that a lower order (order = 1) process indicates a longer stable period
+## then when we choose for an higher order harmonic (order = 3).
+## I would expect it to be the other way around
 ## !Z: No, not necessarily. First of all, a strict point of view would be
 ##     that the model is then misspecified and hence the results are invalid.
 ##     But, of course, we could employ a more pragmatic point of view and
@@ -339,11 +327,16 @@ harvest_start3 <- bp(window(harvest, end = c(2004, 12)), order = 3, h = 24, ic =
 harvest_start - harvest_start2
 harvest_start - harvest_start3
 
-harvest_tspp <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
+
+harvest_tspp  <- tspp(window(harvest, start = harvest_start, end = c(2004, 12)), order = 3)
 harvest_mefp <- mefp(response ~ trend + harmon, data = harvest_tspp,
   type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
 
 ## monitor
+##harvest_tspp <- tspp(harvest, order = 3) 
+## ?AZ I corrected this as I think we should keep the start data
+## as identified by the ROC method
+
 harvest_tspp <- tspp(window(harvest, start = harvest_start), order = 3)
 
 harvest_mon <- monitor(harvest_mefp)
@@ -356,16 +349,23 @@ plot(harvest_mon, functional = NULL)
 ## 
 ## AUTOMATICALLY DEFINE THE START DATE USING THE ROC FUNCTION
 ##
-
-subset_start <- roc(window(sim$ts.sim.d, end = c(2008, 1)))
-subset_start
-test_tspp <- tspp(window(sim$ts.sim.d, start = subset_start, end = c(2008, 1)), order = 3)
+plot(sim$ts.sim.d)
+subset_start <- roc(window(sim$ts.sim.d, end = c(2008, 1))) # searching for a stable period 
+subset_start # not a very long stable period is identified.
+# This period maybe should be of a minimum length no?
+# when applyin this in an operation context this might be a bottle neck
+#
+subsetSIM <- window(sim$ts.sim.d, start = subset_start, end = c(2008, 1))
+length(subsetSIM)/23 # 1.4 year available as a stable model
+test_tspp <- tspp(subsetSIM, order = 3)
 
 test_lm <- lm(response ~ trend + harmon, data = test_tspp)
 
 ## History model
 test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
 		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
+
+#JV explain the h in the monitor function
 
 ## monitor
 test_tspp <- tspp(window(sim$ts.sim.d, start = subset_start),  order = 3)
@@ -380,5 +380,6 @@ test_pred <- predict(test_lm, newdata = test_tspp)
 tsp(test_pred) <- tsp(test_tspp$response)
 lines(as.ts(test_pred), col = 4)
 abline(v = tbp, lty = 2, col='red') # time of the breakpoint detected by the monitoring process!
+
 
 
