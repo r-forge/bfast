@@ -134,10 +134,11 @@ cycle(sim$ts.sim.d)[nrobs-dfend] # position of the simulated break point
 time(sim$ts.sim.d)[nrobs-dfend] 
 abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 
-# A? It would be great if you could test this script for different 
-# A: starts of the history period e.g. -3 until -10 instead of -8!
+# A? It would be great if you could test this script for different  k's
+# A: starts of the history period e.g. 3 until 10
 # A: history period can per definition go until one time step before the break
-thistory <- nrobs-dfend-4
+k <- 2
+thistory <- nrobs-dfend-k
 thistyr <- floor(time(sim$ts.sim.d)[thistory])
 thistdec <- cycle(sim$ts.sim.d)[thistory]
 end = c(thistyr,thistdec) # determines untill where we have data = history period
