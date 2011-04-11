@@ -39,9 +39,9 @@ tspp <- function(y, order = 1) {
 ########################################
 
 ## JV A technique to verify whether or not the historical period is stable or not
-
 ## reversely order sample and perform
 ## recursive CUSUM test
+
 roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
   y_orig <- tspp(y, order = order)
   n      <- nrow(y_orig)
@@ -87,21 +87,6 @@ noisef <- 3
 a <- 0.1
 dfend <- 1
 set.seed(1234) # we should remove this - to access randomness.
-# ik deed dit 500 maal de totale iteratie - om zo een robust rmse te bepalen.
-# dit zou ik dus op de cluster kunnen runnen
-
-# we zullen de performance analyseren op de zelfde manier als we dit gedaan hebben voor bfast
-# a, noise, dip, maar ook afstand van dip voor het einde van de tijd series
-# ook hoeveel dat heb je nodig voor een breek punt? (stabiele period)
-# --> de lengte van de stabiele periode is belangrijk om te weten hoeveel data we nu kunnen gebruiken
-# Zeker op echte data zal dit belangrijk zijn... 
-
-# in hoeveel tijd series kunnen we ene stabiele periode identificeren? ->
-# in deze kunnen we dan abrupte veranderingen gaan detecteren.
-# --> welke vegetatie types zijn onstabiel?
-# --> welke stabiel
-# --> wat is de lengte van zo'n stabiele periode? Dit zou toch zeker een jaar moeten zijn...
-# --> als de lengte korter is dan een jaar dan is dit waarschijnlijk niet representatief.
 
 # for (a in c(0.1,0.3,0.5)) {  
 #   for (noisef in round(seq(1,6,by=1),2) ) {  
@@ -135,46 +120,57 @@ plot(simul)
 ## Reversely Ordered CUSUM (ROC) test ##
 ########################################
 ## AUTOMATICALLY DEFINE THE START DATE USING THE ROC FUNCTION
+
 ## 1 DETERMINE HOW MUCH DATA IS NEEDED BEFORE THE BREAKPOINT
 ## 2 DETERMINE A STABLE PERIOD IN THIS HISTORY PERIOD
+## we will therefore visualise everything to understand beter what is going on.
 
-plot(window(sim$ts.sim.d,start=2008)) # visualise just a short section
+plot(window(sim$ts.sim.d,start=2008)) # visualise just a short section of the full time series
 lines(sim$ts.sim.d,type='p',pch=20,cex=0.5)
 end(sim$ts.sim.d) # einde echt tijd serie
 #abline(v=time(sim$ts.sim.d)[nrobs],col='blue',lty=2)
 
-cycle(sim$ts.sim.d)[nrobs-dfend] #positie van het simuleerde breekpunt
-time(sim$ts.sim.d)[nrobs-dfend] #positie van het simuleerde breekpunt
+cycle(sim$ts.sim.d)[nrobs-dfend] # position of the simulated break point
+time(sim$ts.sim.d)[nrobs-dfend] 
 abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 
-# A: It would be great if you could test this script for different 
-# starts of the history period e.g. -3 until -10 instead of -8!
-
-# history period can per definition go until one time step before the break
-thistory <- nrobs-dfend-8
+# A? It would be great if you could test this script for different 
+# A: starts of the history period e.g. -3 until -10 instead of -8!
+# A: history period can per definition go until one time step before the break
+thistory <- nrobs-dfend-4
 thistyr <- floor(time(sim$ts.sim.d)[thistory])
 thistdec <- cycle(sim$ts.sim.d)[thistory]
 end = c(thistyr,thistdec) # determines untill where we have data = history period
 abline(v=time(sim$ts.sim.d)[thistory],col='blue',lty=2)
-
 tshistory <- window(sim$ts.sim.d, end = end)
 lines(tshistory,col='blue',lwd=2)
+
 # per definiation this could be untill close before that the breakpoint occurs.
 subset_start <- roc(tshistory) # searching for a stable period 
-subset_start # not a long stable period is identified.
-# the lenght differs a lot depending on where the end of the time series is defined!
+subset_start # not a long stable period is identified
+# the lenght differs a lot depending on where the end of the time series is defined
 # A? This is something that needs to be tested
 # This period maybe should be of a minimum length no?
-# when applyin this in an operation context this might be a bottle neck
-subsetSIM <- window(sim$ts.sim.d, start = subset_start, end = end)
-print(length(subsetSIM)/23) # 1.4 year available as a stable model
-test_tspp <- tspp(subsetSIM, order = 3)
+# when applyin this in an operation context this might be a bottle neck - I will test this on real data
+
+
+stableHistory <- window(sim$ts.sim.d, start = subset_start, end = end)
+print(length(stableHistory)/23) # 1.4 year available as a stable model
+
+plot(window(sim$ts.sim.d)) # visualise just a short section of the full time series
+lines(sim$ts.sim.d,type='p',pch=20,cex=0.5)
+abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
+abline(v=time(sim$ts.sim.d)[thistory],col='blue',lty=2)
+lines(tshistory,col='blue',lwd=2)
+lines(stableHistory,col='green',lwd=2)
+
+test_tspp <- tspp(stableHistory, order = 3)
 # }
 # }
 
-test_lm <- lm(response ~ trend + harmon, data = test_tspp)
 
 ## History model
+test_lm <- lm(response ~ trend + harmon, data = test_tspp)
 test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
 		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
 ## monitor
