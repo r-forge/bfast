@@ -1,5 +1,30 @@
 require(bfast)
 
+tspp <- function(y, order = 1) {
+
+  ## data with trend and season factor
+  rval <- data.frame(
+    response = y,
+    trend = 1:length(y),
+    season = factor(cycle(y))
+  )
+
+  ## set up harmonic trend matrix as well
+  freq <- frequency(y)
+  harmon <- outer(2 * pi * as.vector(time(y)), 1:order)
+  harmon <- cbind(apply(harmon, 2, cos), apply(harmon, 2, sin))
+  colnames(harmon) <- if(order == 1) {
+    c("cos", "sin")
+  } else {
+    c(paste("cos", 1:order, sep = ""), paste("sin", 1:order, sep = ""))
+  }
+  if((2 * order) == freq) harmon <- harmon[, -(2 * order)]
+  rval$harmon <- harmon
+
+  ## return everything
+  return(rval)
+}
+
 ## Objective
 ## Dismantle ROC function in order to better understand how the function works
 ## I used some test data below from the BFAST package.
