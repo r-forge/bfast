@@ -50,7 +50,7 @@ level <- 0.05
 	plot(y_rcus)
   lines(y_rcus$process, type='p',pch=20,cex=0.5)
   length(y_rcus$process) 
-  # ?A: Why is the length of the recursive process shorter then the length of the y time series?
+  # ?A: I noticed that the length of the resulting process equals the lenght of the time series - nr of variables used in the model
   # does this influence the time estimation below?
   
   #if(plot) plot(y_rcus)
@@ -107,5 +107,22 @@ lines(window(y,start=tp),col='blue')
 # #
 # temp.cus <- efp(nhtemp ~ 1, type = "Rec-CUSUM")
 # plot(temp.cus)
+
+require(strucchange)
+x <- rnorm(100)
+x[51:100] <- x[51:100] + 2
+rr <- recresid(x ~ 1)
+plot(cumsum(rr), type = "l")
+
+test <- efp(x ~ 1, type = "Rec-CUSUM")
+plot(test)
+length(test$process)
+
+t <- 1:100
+test <- efp(x ~ t, type = "Rec-CUSUM")
+plot(test)
+length(test$process)
+
+# ok - good to know the resulting recursive process is a time series with a length of the time series - number of variables
 
 
