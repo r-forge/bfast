@@ -84,7 +84,7 @@ nrobs <- 208
 sdnoise <- 0.01
 dip <- -0.3;
 noisef <- 3
-a <- 0.1
+a <- 0.3
 dfend <- 1
 set.seed(1234) # we should remove this - to access randomness.
 
@@ -138,6 +138,7 @@ abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 # A: starts of the history period e.g. 3 until 10
 # A: history period can per definition go until one time step before the break
 k <- 2
+#for (k in 2:12) {
 thistory <- nrobs-dfend-k
 thistyr <- floor(time(sim$ts.sim.d)[thistory])
 thistdec <- cycle(sim$ts.sim.d)[thistory]
@@ -164,7 +165,8 @@ abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 abline(v=time(sim$ts.sim.d)[thistory],col='blue',lty=2)
 lines(tshistory,col='blue',lwd=2)
 lines(stableHistory,col='green',lwd=2)
-
+# browser()
+# }
 test_tspp <- tspp(stableHistory, order = 3)
 # }
 # }
