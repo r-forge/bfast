@@ -289,7 +289,7 @@ roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
   y_orig <- tspp(y, order = order)
   n      <- nrow(y_orig)
   y_rev  <- y_orig[n:1,]
-  y_rev$response <- ts(y_rev$response, start = -end(y), frequency = frequency(y))
+  y_rev$response <- ts(y_rev$response, start = -tail(time(y), 1), frequency = frequency(y))
   y_rcus <- efp(response ~ trend + harmon, data = y_rev, type = "Rec-CUSUM")
   if(plot) plot(y_rcus)
 
