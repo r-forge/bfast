@@ -52,6 +52,12 @@ level <- 0.05
   length(y_rcus$process) 
   # ?A: I noticed that the length of the resulting process equals the lenght of the time series - nr of variables used in the model
   # does this influence the time estimation below?
+  # !Z: Yes/No. The recursive CUSUM process is based on the cumultative sum of recursive residuals.
+  # In other words: It's a cumulative sum of weighted 1-step forecasting errors. So for the first
+  # "p" observations you cannot get such a forecast because you cannot estimate the coefficients.
+  # For i > p, you can then compare y_i and \hat y_{i | i - 1}.
+  # Due to the recursive ordering, you just make sure to count from the right direction, though:
+  # The last point of y_rcus$process is the first point of y_orig!
   
   #if(plot) plot(y_rcus)
 	
@@ -62,12 +68,20 @@ level <- 0.05
 			}
       
   # ?A how could I plot the identified point on the y_rcus plot?
+  # !Z: Just the way I did in my original roc() function:
+  abline(v = -as.numeric(time(y)[y_start]), col = "red")
+  # !Z: I just noticed however, that this is not completely correct due
+  # to the negative time index. (But this affects only the visualization above!)
+  
   tpoint <- min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
   points(time(y_rcus)[tpoint],y_rcus$process[tpoint],cex=1.2,col='red') 
   
   
   # ?A should it not be 
   length(y_rcus$process) - min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) -1 ###? -1
+  # !Z: No. If w = which(...) is the first point outside the boundary. Then w - 1 is
+  # the last point inside the boundary. Then you need to reverse: n* - (w - 1) = n* - w + 1
+  # where n* is the length of the process: n* = n - p + 1.
   
 	rval <- as.numeric(time(y)[y_start])
   c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
@@ -75,6 +89,8 @@ level <- 0.05
 	abline(v=-rval,col="red",lty=2)
   # A? just trying to understand but should this not be just before that the recursive progress
   # crosses the border - as shown on the graph?
+  # !Z: As I said above: I just realized today that the graph is somewhat misleading
+  # but I re-checked the computations and they appear to be correct.
   
   
 #}
