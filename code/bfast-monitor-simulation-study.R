@@ -7,7 +7,7 @@
 library("bfast")
 
 ## load functions # ROC / tspp / time series simulation / sos
-setwd('/Users/janvb/Documents/R/bfast/code')    					
+## setwd('/Users/janvb/Documents/R/bfast/code')    					
 source("ts_sim_seas_6x00.R")
 
 #######################################
@@ -73,9 +73,6 @@ cycle(sim$ts.sim.d)[nrobs-dfend] # position of the simulated break point
 time(sim$ts.sim.d)[nrobs-dfend] 
 abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 
-# A? It would be great if you could test this script for different  k's
-# A: starts of the history period e.g. 3 until 10
-# A: history period can per definition go until one time step before the break
 k <- 3
 #for (k in 2:12) {
 thistory <- nrobs-dfend-k
@@ -86,15 +83,10 @@ abline(v=time(sim$ts.sim.d)[thistory],col='blue',lty=2)
 tshistory <- window(sim$ts.sim.d, end = end)
 lines(tshistory,col='blue',lwd=2)
 
-# per definiation this could be untill close before that the breakpoint occurs.
-subset_start <- roc(tshistory) # searching for a stable period 
+subset_start <- roc(tshistory,plot=TRUE) # searching for a stable period
+subset_start <- roc(tshistory,plot=FALSE) # searching for a stable period 
 subset_start # not a long stable period is identified
-# the lenght differs a lot depending on where the end of the time series is defined
-# A? This is something that needs to be tested
-# This period maybe should be of a minimum length no?
-# when applyin this in an operation context this might be a bottle neck - I will test this on real data
 
-# 
 # stableHistory <- window(sim$ts.sim.d, start = subset_start, end = end)
 # print(length(stableHistory)/23) # 1.4 year available as a stable model
 # 

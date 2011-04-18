@@ -1,15 +1,16 @@
-## Concept
-## Analyse MODIS data for changes occuring in 2006 using the stableHistory and Monitoring Methodology
+#################
+## Concept: Analyse MODIS data for changes occuring in 2006 using the stableHistory and Monitoring Methodology
 ## Objective
 ## 1) Verify how long the stable period needs to be for a accurate fit and then change detection 
 ## ?(could we set a threshold on the fit? R2 or RMSE required for a good change detection)
 ## 2) Detect near real time changes just after the monitoring period
 ## ? could we use BFAST to compare with real changes detected in this section
+## setwd('/Users/janvb/Documents/R/bfast/code')
 
 require(bfast)
 require(zoo)
 ## load functions # roc / tspp / time series simulation / sos
-setwd('/Users/janvb/Documents/R/bfast/code')    					
+   					
 source("ts_sim_seas_6x00.R")
 
 ## read in Satellite data time series
