@@ -6,46 +6,19 @@
 ## 2) Detect near real time changes just after the monitoring period
 ## ? could we use BFAST to compare with real changes detected in this section
 
-required = c('zoo')
-installed = required %in% installed.packages()[, 'Package']
-if (length(required[!installed]) >=1) {
- install.packages(required[!installed])
-}
-
-require(zoo)
 require(bfast)
-timeser <- function(index,dt) {
-  z <- zoo(index,dt)
-	yr <- as.numeric(format(time(z), "%Y"))
-	jul <- as.numeric(format(time(z), "%j"))
-	delta <- min(unlist(tapply(jul, yr, diff))) # 16
-	zz <- aggregate(z, yr + (jul - 1) / delta / 23)
-	(tso <- as.ts(zz))
-	return(tso)	
-}
-
-multi.line.paste <-function (..., sep = "", collapse = NULL) 
-{ 
-    args <- list(...) 
-    if (length(args) == 0) 
-        if (length(collapse) == 0) 
-            character(0) 
-        else "" 
-    else { 
-        for (i in seq(along = args)) args[[i]] <- 
-gsub("\n","",as.character(args[[i]])) 
-        .Internal(paste(args, sep, collapse)) 
-    } 
-}
+require(zoo)
+## load functions # roc / tspp / time series simulation / sos
+setwd('/Users/janvb/Documents/R/bfast/code')    					
+source("ts_sim_seas_6x00.R")
 
 ## read in Satellite data time series
-
 setwd('/Users/janvb/Dropbox/SCRIPTS/R/Monitoring/QueryMODISdataandMonitor')
 data <- read.csv("mtsNDVI.csv") 
 names(data) <- as.character(0:120)
 
 ## change the number here ## which corresponds to the plot number
-tsNDVI <- ts(data[,"112"],start=c(2000,4),frequency=23)
+tsNDVI <- ts(data[,"4"],start=c(2000,4),frequency=23)
 plot(tsNDVI)
 
 ## identify history period
@@ -114,12 +87,9 @@ lines(out$Tt,col='purple',lty=3)
 ## the great thing about the monitoring approach is that is Interpolation is not necessary!!!
 ## the users just need to define a period in time where they want to use this function to detect changes
 
-# by applying this scrip on real data you can see that a short history period 
-# does not enable a good fit of the data
-# a break is detected in 2006 which corresponds to a dry period in the plantation forest.
-
-
-
+## by applying this scrip on real data you can see that a short history period 
+## does not enable a good fit of the data
+## a break is detected in 2006 which corresponds to a dry period in the plantation forest.
 
 
 # end of script
