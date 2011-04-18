@@ -73,7 +73,7 @@ cycle(sim$ts.sim.d)[nrobs-dfend] # position of the simulated break point
 time(sim$ts.sim.d)[nrobs-dfend] 
 abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2)
 
-k <- 3
+k <-3
 #for (k in 2:12) {
 thistory <- nrobs-dfend-k
 thistyr <- floor(time(sim$ts.sim.d)[thistory])
