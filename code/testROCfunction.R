@@ -44,7 +44,7 @@ level <- 0.05
 	y_rev  <- y_orig[n:1,]
   
 	y_rev$response <- ts(y_rev$response, start = -tail(time(y), 1), frequency = frequency(y))
-  # !Z:                                              ^^^^^^^^^^^^^^^^^ this was wrong (but just affected the visualization)
+  # !Z:this was wrong (but just affected the visualization)
   plot(y_rev$response)
 	
   y_rcus <- efp(response ~ trend + harmon, data = y_rev, type = "Rec-CUSUM")
@@ -72,8 +72,8 @@ level <- 0.05
   # !Z: Just the way I did in my original roc() function:
   abline(v = -as.numeric(time(y)[y_start]), col = "red")
   
-  tpoint <- min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
-  points(time(y_rcus)[tpoint],y_rcus$process[tpoint],cex=1.2,col='red') 
+#   tpoint <- min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
+#   points(time(y_rcus)[tpoint],y_rcus$process[tpoint],cex=1.2,col='red') 
   
   
   # ?A should it not be 
