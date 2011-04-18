@@ -32,7 +32,7 @@ tspp <- function(y, order = 1) {
 #roc <- function(y, order = 1, level = 0.05, plot = TRUE) {
 
 order <- 3
-y <- tshistory
+y <- NDVIhistory # MonitorMODISdata.R
 plot(y)
 
 
