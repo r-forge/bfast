@@ -14,7 +14,7 @@ require(zoo)
 source("ts_sim_seas_6x00.R")
 
 ## read in Satellite data time series
-setwd('/Users/janvb/Dropbox/SCRIPTS/R/Monitoring/QueryMODISdataandMonitor')
+
 data <- read.csv("mtsNDVI.csv") 
 names(data) <- as.character(0:120)
 
