@@ -19,11 +19,16 @@ data <- read.csv("mtsNDVI.csv")
 names(data) <- as.character(0:120)
 
 ## change the number here ## which corresponds to the plot number
-output <- data.frame(plots=1:120,signaltonoise=NA,Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
+output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-for (i in 1:120) {
+i <- 1
+# for (i in 1:120) {
+
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
   plot(tsNDVI)
+  
+  ## determine the percentage of NA's within a time series
+  output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
   ## fill gaps #### check for amount of NA's
   ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation 
@@ -34,7 +39,7 @@ for (i in 1:120) {
   lines(tsNDVI,lwd=2)
   
   ## select data window until 2009
-  ## to limit the data amout and avoid spline interpolation errors at the end of a time series
+  ## to limit the data amount and avoid spline interpolation errors at the end of a time series
   ftsNDVI <- window(ftsNDVI,end=c(2009,1))
   plot(ftsNDVI, main="History period - maybe not stable")
   
@@ -42,25 +47,24 @@ for (i in 1:120) {
   stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
 #   plot(stlfit)
 #   plot(ftsNDVI)
-  lines(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"],col='red')
+#  lines(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"],col='red')
   
   signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
   noise <- diff(range(stlfit$time.series[,"remainder"]))
   output$signaltonoise[i] <- signal/noise
+  
   ## identify history period
   NDVIhistory <- window(ftsNDVI,end=c(2006,12))
   lines(NDVIhistory,col='blue') # history period
   
   ## verify the stability of the history period
   subset_start <- roc(NDVIhistory) # searching for a stable period 
-  #Z?: I noticed that if the history period contains NA's the plotting function is different.
-  
   subset_start # not a long stable period is identifie
   
   ## subset stable section within the history part
   stableHistory <- window(NDVIhistory, start = subset_start)
   print(length(stableHistory)/frequency(ftsNDVI)) 
-  output$Lhistory[i] <- length(stableHistory)/frequency(ftsNDVI) # write length to a file
+  output$Lhistory[i] <- length(stableHistory)/frequency(ftsNDVI) # write length (nr of years)
   
   plot(NDVIhistory) # visualise just a short section of the full time series
   lines(NDVIhistory,type='p',pch=20,cex=0.5)
@@ -83,13 +87,13 @@ for (i in 1:120) {
   tbp <- time(test_tspp$response)[test_mon$breakpoint]
   
   # ## COMPARE WITH BFAST
-  # require(bfast)
-  # h <- (3*23)/length(tsNDVI)
-  # fit <- bfast(ftsNDVI, h=h, season = c("harmonic"), max.iter = 1)
-  # plot(fit)
-  # # output
-  # niter <- length(fit$output) # nr of iterations
-  # out <- fit$output[[niter]]  
+  require(bfast)
+  h <- (1.5*23)/length(ftsNDVI)
+  fit <- bfast(ftsNDVI, h=h, season = c("harmonic"), max.iter = 1)
+  plot(fit)
+  # output
+  niter <- length(fit$output) # nr of iterations
+  out <- fit$output[[niter]]  
   
   
   ## plot and visualise
@@ -103,13 +107,13 @@ for (i in 1:120) {
   lines(as.ts(test_pred), col = 'blue')
   lines(stableHistory,col='blue',lwd=2,type="p",pch=19,cex=0.5)
   abline(v = tbp, lty = 2, col='green') # time of the breakpoint detected by the monitoring process!
-  # lines(out$Tt,col='purple',lty=3) 
+  lines(out$Tt,col='purple',lty=3) 
   
   ## output
   output$timebp[i] <- tbp
-}
-write.csv(output,"output.csv")
-fix(output)
+# }
+#write.csv(output,"output.csv")
+#fix(output)
 # A? BFAST trend output - could this be used as a validation method?
 
 ########
