@@ -19,9 +19,10 @@ data <- read.csv("mtsNDVI.csv")
 names(data) <- as.character(0:120)
 
 ## change the number here ## which corresponds to the plot number
-output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
+output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
+  Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-i <- 1
+i <- 117
 # for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
@@ -38,9 +39,9 @@ i <- 1
   plot(ftsNDVI,col='red')
   lines(tsNDVI,lwd=2)
   
-  ## select data window until 2009
+  ## select data window until 2008
   ## to limit the data amount and avoid spline interpolation errors at the end of a time series
-  ftsNDVI <- window(ftsNDVI,end=c(2009,1))
+  ftsNDVI <- window(ftsNDVI,end=c(2007,1))
   plot(ftsNDVI, main="History period - maybe not stable")
   
   ## Determine the signal to noise ratio using the range of the stl components
@@ -54,7 +55,7 @@ i <- 1
   output$signaltonoise[i] <- signal/noise
   
   ## identify history period
-  NDVIhistory <- window(ftsNDVI,end=c(2006,12))
+  NDVIhistory <- window(ftsNDVI,end=c(2006,1))
   lines(NDVIhistory,col='blue') # history period
   
   ## verify the stability of the history period
@@ -84,16 +85,18 @@ i <- 1
   test_tspp <- tspp(window(ftsNDVI, start = subset_start),  order = order)
   test_mon <- monitor(test_mefp)
   plot(test_mon, functional = NULL)
-  tbp <- time(test_tspp$response)[test_mon$breakpoint]
+  if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
+    tbp <- time(test_tspp$response)[test_mon$breakpoint]
+  }
   
   # ## COMPARE WITH BFAST
-  require(bfast)
-  h <- (1.5*23)/length(ftsNDVI)
-  fit <- bfast(ftsNDVI, h=h, season = c("harmonic"), max.iter = 1)
-  plot(fit)
-  # output
-  niter <- length(fit$output) # nr of iterations
-  out <- fit$output[[niter]]  
+#   require(bfast)
+#   h <- (1.5*23)/length(ftsNDVI)
+#   fit <- bfast(ftsNDVI, h=h, season = c("harmonic"), max.iter = 1)
+#   plot(fit)
+#   # output
+#   niter <- length(fit$output) # nr of iterations
+#   out <- fit$output[[niter]]  
   
   
   ## plot and visualise
@@ -107,11 +110,12 @@ i <- 1
   lines(as.ts(test_pred), col = 'blue')
   lines(stableHistory,col='blue',lwd=2,type="p",pch=19,cex=0.5)
   abline(v = tbp, lty = 2, col='green') # time of the breakpoint detected by the monitoring process!
-  lines(out$Tt,col='purple',lty=3) 
+#   lines(out$Tt,col='purple',lty=3) 
   
   ## output
   output$timebp[i] <- tbp
-# }
+#  }
+
 #write.csv(output,"output.csv")
 #fix(output)
 # A? BFAST trend output - could this be used as a validation method?
