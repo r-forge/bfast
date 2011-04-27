@@ -39,10 +39,10 @@ i <- 117
   plot(ftsNDVI,col='red')
   lines(tsNDVI,lwd=2)
   
-  ## select data window until 2008
+  ## select data window until 2007 so that we have one year for change detection
   ## to limit the data amount and avoid spline interpolation errors at the end of a time series
   ftsNDVI <- window(ftsNDVI,end=c(2007,1))
-  plot(ftsNDVI, main="History period - maybe not stable")
+  plot(ftsNDVI, main="Full Monitoring period - maybe not stable")
   
   ## Determine the signal to noise ratio using the range of the stl components
   stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
@@ -56,8 +56,8 @@ i <- 117
   
   ## identify history period
   NDVIhistory <- window(ftsNDVI,end=c(2006,1))
-  lines(NDVIhistory,col='blue') # history period
-  
+  lines(NDVIhistory,col='green') # history period
+  legend("bottomleft","History period",col='green',lty=1)
   ## verify the stability of the history period
   subset_start <- roc(NDVIhistory) # searching for a stable period 
   subset_start # not a long stable period is identifie
@@ -67,7 +67,7 @@ i <- 117
   print(length(stableHistory)/frequency(ftsNDVI)) 
   output$Lhistory[i] <- length(stableHistory)/frequency(ftsNDVI) # write length (nr of years)
   
-  plot(NDVIhistory) # visualise just a short section of the full time series
+  plot(NDVIhistory, main="History period") # visualise just a short section of the full time series
   lines(NDVIhistory,type='p',pch=20,cex=0.5)
   lines(stableHistory,col='blue',lwd=2)
   
@@ -111,7 +111,7 @@ i <- 117
   lines(stableHistory,col='blue',lwd=2,type="p",pch=19,cex=0.5)
   abline(v = tbp, lty = 2, col='green') # time of the breakpoint detected by the monitoring process!
 #   lines(out$Tt,col='purple',lty=3) 
-  
+  legend("bottomleft",c("fit based on stable history","stable history","monitoring"),lty=c(1,NA,NA),pch=c(NA,19,19),col=c('blue','blue',1))
   ## output
   output$timebp[i] <- tbp
 #  }
