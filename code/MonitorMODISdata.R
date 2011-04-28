@@ -22,7 +22,7 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-i <- 117
+i <- 119
 # for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)

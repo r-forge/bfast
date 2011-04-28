@@ -128,7 +128,7 @@ simulatets <- function
 	
 	S  <- c(apart,bpart,cpart)
 	S <- S - mean(S)
-    ts.sim.season <- createts(S)
+  ts.sim.season <- createts(S[1:nrobs])
 	#time(ts.sim.season) [length(c(g1[10:23],rep(g1,4),rep(g2,1)/2))] # time of the change more or less!
 	#  plot(ts.sim.season)
 	#  # test dSOS after translation (minus the mean)
