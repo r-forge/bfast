@@ -1,6 +1,6 @@
 \name{bfast-package}
 \alias{bfast-package}
-\Rdversion{1.2-1}
+\Rdversion{1.3}
 \docType{package}
 \title{
 BFAST (Breaks For Additive Seasonal and Trend)
