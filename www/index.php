@@ -80,7 +80,7 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 <p> <strong> Applications: </strong> Deforestation, forest health monitoring and phenological change detection within time series of spatio-temporal data sets (satellite images).
 </p>
 
-<p> Contact: Jan.Verbesselt'@'wur.nl. The current BFAST package version is 1.2-1 on R-Forge and 1.2-1 on R CRAN  (Apr 15, 2011). To install the most recent version (bug fixes) directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
+<p> Contact: Jan.Verbesselt'@'wur.nl. The current BFAST package version is 1.3 on R-Forge and 1.2-1 on R CRAN  (Apr 15, 2011). To install the most recent version (bug fixes) directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
 
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
