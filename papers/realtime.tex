@@ -138,7 +138,11 @@ this method is highly computing intensive and requires expert knowledge.}
 
 Many change detection methods exist but only a few have focussed on real time
 change detection using satellite image data
-\citep{Shimabukuro:2006vb,White2006}. None of these methods, however, exploit
+\citep{Shimabukuro:2006vb,White2006}.  
+\fixme{ JV: give some examples of near-real time monitoring methods and illustrate their importance. the link here between paragraphs is unclear}
+
+
+None of these methods exploit
 the time series properties to differentiate normal (e.g., seasonality, and noise)
 from abnormal changes (e.g., disturbances). In previous work, we proposed the
 BFAST method which focusses on detect change within historical time series but
@@ -172,7 +176,7 @@ We propose two novel approaches for real-time change detection of remotely
 sensed data; (1)~a technique to identify a stable period -- indicating normal
 phenological vegetation variation as measured by satellite image time series -
 which can be used as reference to differentiate normal from abnormal change
-(2)~an approach to compare the reference period with the newly acquired images
+(2)~an approach to compare the stable reference period with the newly acquired images
 to detect abnormal change within time series.
 
 This method is developed so that it can be used a global scale and does not
@@ -180,35 +184,39 @@ require specific thresholds (add reference), landsat images, segmentation or
 unmixing procedures. The method is pixel based enables the detection of abnormal
 disturbance with time series.
 
-\emph{Data:}
+\emph{Data}
 
-I'll start with 16-day data for a study area in Australia but we might need to
-test it on 8-day MODIS data (to improve real-time capacity)
+\readme{I'll start with 16-day data for a study area in Australia but we might need to
+test it on 8-day MODIS data (to improve real-time capacity)}
 
 \emph{Scientific closure}
 
-The method is able to detect change in near-real time.... Noise within satellite
-image time series can be an issue when identifying the stable period before a
-change... especially dealing with daily data. Cloud detection algorithms remain
-important although the method is tested for robustness. The method takes
-seasonality typically for remote sensed time series of vegetation (land surface
+The method is able to detect change in near-real time. 
+
+Noise within satellite image time series can be an issue when identifying the stable period before a
+change (especially dealing with daily data). 
+
+Cloud detection algorithms remain important although the method is tested for robustness.
+
+The method takes seasonal variation of remote sensed time series of vegetation (land surface
 phenology) into account and as such enable detection of abrupt -- abnormal trend
 changes (disturbances).
 
 \emph{Journal}
 
-Remote sensing of environment -- Letter? Can we keep it short -- this means that
+Remote sensing of environment -- Letter? Or other journals? Can we keep it short -- this means that
 we have to skip the simulation section and focus on the method and illustrate
 how it can be used? 
+
+\readme{the method needs to be compared with the ALERT system used by INPE -> contact
+the brazilian/ and talk to Carlos Souza about it. Compare also with rapid
+response MODIS data. This will be something for the next paper focussing on the application of the methodology. 
+In this paper we will test the method on simulated data and for a small study area for which forest harvest data is available}
 
 \readme{So I will not focus on a specific time series issue (maybe the floods in Darwin,
 harvest operation in Green Hillls, something in the Netherlands?, fires in
 Greece? -- test this based on NDVI but I can easily be test for other
 indices/reflectances)}
-
-\readme{the method needs to be compared with the ALERT system used by INPE -> contact
-the brazilian/ and talk to Carlos Souza about it. Compare also with rapid
-response MODIS data}
 
 \newpage
 
@@ -216,6 +224,8 @@ Here we start working on the final paper -- the section above is the concept of
 the paper and the outline.
 
 \section{Introduction -- in progress -- please only read the section above}
+
+\fixme{ Martin? Could you help me here illustrating the importance for near-real time forest cover change monitoring?}
 
 % forest disturbances and their importance
 % satellite data
@@ -239,8 +249,9 @@ variability (e.g., trends in mean annual rainfall) or gradual change in land
 management or land degradation \citep{Lambin2006}; and (3)~\emph{abrupt trend
 change}, caused by disturbances such as deforestation, urbanisation, floods, and
 fires. Here, we focus on the abrupt changes within time series which correspond
-to abnormal events e.g., forest disturbances when monitoring forests. Simarly,
-estimating change from remotely sensed data is not straightforward, since time
+to abnormal events e.g., forest disturbances when monitoring forests. 
+
+Similarly, estimating change from remotely sensed data is not straightforward, since time
 series contain a combination of seasonal, gradual and abrupt ecosystem changes,
 in addition to noise that originates from the sensing environment (e.g., view
 angle), remnant geometric errors, atmospheric scatter and cloud effects
@@ -253,55 +264,56 @@ into seasonal, trend, abrupt and noise components.
 Although the value of remotely sensed time series for change detection has been
 firmly established \citep{deBeurs:2005jq, Verbesselt2009a}, only a limited
 number of automated methods for near-real time change detection have been
-developed. Two major challenges in time series change detection stand out .
+developed. 
 
-\emph{warning this section is very similar to my other two papers -- so I am not sure
-how much I can use again in this paper.}
+%	Two major challenges in time series change detection stand out .
+%	
+%	\readme{warning this section is very similar to my other two papers -- I still need for rewrite this complete section - all ideas are welcome}
+%	
+%	First, these methods must allow for the detection of changes within complete
+%	long term data sets (e.g., Landsat or MODIS data). Thorough reviews of existing
+%	change detection methods by \citet{Coppin2004} and \citet{Lu2004} have shown,
+%	however, that most methods focus on short image time series (only 2--5 images),
+%	focus on specific periods within a year (e.g., growing season), or summarize
+%	data per season or year \citep{Bontemps2008,Fensholt2009,Hilker2009}. The risk
+%	of confounding variability with change is high with infrequent images, since
+%	disturbances can occur in between image acquisitions \citep{Beurs2005}. Several
+%	approaches have been proposed for analyzing image time series, such as Principal
+%	Component Analysis (PCA) \citep{Crist1984}, Fourier analysis and Change Vector
+%	Analysis (CVA) \citep{Lambin1994}. All of these methods involve some type of
+%	transformation designed to isolate dominant components of the variation across
+%	years of imagery through the multi-temporal spectral space
+%	\citep{Crist1984,Lhermitte2008,Lambin1994,Jakubauskas2001,Deng2008}. The
+%	challenge of these methods is the labeling of the change components, because
+%	each analysis depends entirely on the specific image series analyzed. Compared
+%	to PCA, CVA allows the interpretation of change processes, but can still only be
+%	performed between two periods of time (e.g., between years or growing seasons)
+%	\citep{Lambin1994}, which makes the analysis dependent on the selection of the
+%	timing and length of these periods. Furthermore, traditional change detection
+%	techniques only select data during a specific season (e.g., the growing season),
+%	and require the normalisation of reflectance values for each land cover type in
+%	order to scale reflectance values and minimise seasonal variability in the
+%	imagery \citep{Healey2005,Hilker2009}.
+%	
+%	Second, change detection techniques need to be independent of the type of change
+%	or change specific thresholds while being robust against the inherent noise and
+%	seasonality of remotely sensed time series. Most change detection methods
+%	require user designation of a threshold separating real change from spectral
+%	changes caused by variability in illumination, seasonality, or atmospheric
+%	scattering \citep{Lu2004}. Other methods depend on the definition of the
+%	temporal change trajectory to detect disturbances in ecosystems
+%	\citep{Hayes2007,Kennedy2007}, and will only function if the observed trajectory
+%	matches one of the hypothesised trajectories.
 
-First, these methods must allow for the detection of changes within complete
-long term data sets (e.g., Landsat or MODIS data). Thorough reviews of existing
-change detection methods by \citet{Coppin2004} and \citet{Lu2004} have shown,
-however, that most methods focus on short image time series (only 2--5 images),
-focus on specific periods within a year (e.g., growing season), or summarize
-data per season or year \citep{Bontemps2008,Fensholt2009,Hilker2009}. The risk
-of confounding variability with change is high with infrequent images, since
-disturbances can occur in between image acquisitions \citep{Beurs2005}. Several
-approaches have been proposed for analyzing image time series, such as Principal
-Component Analysis (PCA) \citep{Crist1984}, Fourier analysis and Change Vector
-Analysis (CVA) \citep{Lambin1994}. All of these methods involve some type of
-transformation designed to isolate dominant components of the variation across
-years of imagery through the multi-temporal spectral space
-\citep{Crist1984,Lhermitte2008,Lambin1994,Jakubauskas2001,Deng2008}. The
-challenge of these methods is the labeling of the change components, because
-each analysis depends entirely on the specific image series analyzed. Compared
-to PCA, CVA allows the interpretation of change processes, but can still only be
-performed between two periods of time (e.g., between years or growing seasons)
-\citep{Lambin1994}, which makes the analysis dependent on the selection of the
-timing and length of these periods. Furthermore, traditional change detection
-techniques only select data during a specific season (e.g., the growing season),
-and require the normalisation of reflectance values for each land cover type in
-order to scale reflectance values and minimise seasonal variability in the
-imagery \citep{Healey2005,Hilker2009}.
 
-Second, change detection techniques need to be independent of the type of change
-or change specific thresholds while being robust against the inherent noise and
-seasonality of remotely sensed time series. Most change detection methods
-require user designation of a threshold separating real change from spectral
-changes caused by variability in illumination, seasonality, or atmospheric
-scattering \citep{Lu2004}. Other methods depend on the definition of the
-temporal change trajectory to detect disturbances in ecosystems
-\citep{Hayes2007,Kennedy2007}, and will only function if the observed trajectory
-matches one of the hypothesised trajectories.
-
-Third, there is a need for near-real time change detection methods exploiting
-the properties of full time series. See above in the concept of this paper. This
-is really what is new about this paper.
+%Third, there is a need for near-real time change detection methods exploiting
+%the properties of full time series. See above in the concept of this paper. This
+%is really what is new about this paper.
 
 The purpose of this research was to develop and assess an automated near-real
 time change detection approach for remotely sensed time series data.  Therefore,
-the Breaks For Additive Seasonal and Trend (BFAST\@) concept, i.e., detecting
-changes with a trend and seasonal model is optimised here by answering the
-following questions:
+a trend and seasonal model are implemented within a monitoring and change detection framework by answering the
+following research questions:
 
 (1)~Can a stable period, presenting normal data variation, be identified within
 a time series?
@@ -315,8 +327,8 @@ the end of the time series.
 We assessed BFAST for a large range of ecosystems by simulating Normalised
 Difference Vegetation Index (NDVI) time series with varying amounts of seasonal
 variation and noise, and by adding changes with different magnitudes towards the
-end of a time seires. We applied the approach on MODIS 16-day image composites
-(hereafter called 8 or 16-day time series) to detect near-real time forest
+end of a time series. We applied the approach on MODIS 16-day image composites
+(hereafter called 16-day time series) to detect near-real time forest
 disturbance in a forested area in south eastern Australia. 
 
 The approach can be used to detect and characterise changes within other
