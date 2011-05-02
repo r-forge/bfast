@@ -24,8 +24,8 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-# i <- 117
- for (i in 1:120) {
+ i <- 117
+# for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
   plot(tsNDVI)
@@ -116,7 +116,7 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   legend("bottomleft",c("fit based on stable history","stable history","monitoring"),lty=c(1,NA,NA),pch=c(NA,19,19),col=c('blue','blue',1))
   ## output
   output$timebp[i] <- tbp
- }
+#  }
 
 #write.csv(output,"output.csv")
 #fix(output)
