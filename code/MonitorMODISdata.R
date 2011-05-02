@@ -1,3 +1,5 @@
+## Saved in bfast/code folder
+##
 #################
 ## Concept: Analyse MODIS data for changes occuring in 2006 using the stableHistory and Monitoring Methodology
 ## Objective
@@ -22,8 +24,8 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-i <- 119
-# for (i in 1:120) {
+# i <- 117
+ for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
   plot(tsNDVI)
@@ -114,7 +116,7 @@ i <- 119
   legend("bottomleft",c("fit based on stable history","stable history","monitoring"),lty=c(1,NA,NA),pch=c(NA,19,19),col=c('blue','blue',1))
   ## output
   output$timebp[i] <- tbp
-#  }
+ }
 
 #write.csv(output,"output.csv")
 #fix(output)
@@ -134,6 +136,9 @@ i <- 119
 ## a break is detected in 2006 which corresponds to a dry period in the plantation forest.
 # for the manuscript plot number 2 is a great illustration of the principle!
 
+## when looking at i 117 you can see that the method is robust against real outliers - also the roc() function
+## does not take these into account.
+## Z? it is only strange that for 117 not change is detected at the end of the time series
 ############
 ##### end of script
 

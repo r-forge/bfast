@@ -1,3 +1,4 @@
+# bfast code folder
 ## convenience function for time series pre-processing
 ## to response plus regressors (linear time trend, season
 ## dummies, and harmonic season by default with order 1)
