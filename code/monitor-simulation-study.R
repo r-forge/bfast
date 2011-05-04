@@ -8,7 +8,7 @@
 library("bfast")
 
 ## load functions # ROC / tspp / time series simulation / sos
-#setwd('/Users/janvb/Documents/R/bfast/code')    					
+setwd('/Users/janvb/Documents/R/bfast/code')    					
 source("ts_sim_seas_6x00.R")
 
 #######################################
@@ -23,17 +23,17 @@ order <- 3
 
 ## Objective: test break detection accuracy in the monitoring period
 ##  1) What is the influence of noise/amplitude (signal to noise ratio!) on the time series?
-##  2) breaks in the history period need to be taken into account but 
+##  2) What with different change types (e.g. clouds versus breaks) could different tests be used e.g. MOSUM versus CUSUM?
+##  3) breaks in the history period need to be taken into account but 
 ##   the history period needs to be of a minimum length
-##  3) how close can the breakpoint be to the end of the history period
-## 4) assess breaks in this history period - so that we can test the roc function -
+##  4) how close can the breakpoint be to the end of the history period
+## 5) assess breaks in this history period - so that we can test the roc function -
 ## --> although this is not important as we want to detect the change as accurate as possible and not the 
 ## accuracy of the roc() function - (although this still needs to work of course)
-## 4) verify whether the breakpoint is detected to early or not.
+## 6) verify whether the breakpoint is detected to early or not.
 
 ##   Extra: how much data points do we need in the monitoring period to be able to detect a break?
-##   (rephrase this question) how much data is needed before 
-##   a potentially detected break in the monitoring period
+##   (rephrase this question) how much data is needed before a break can be detected in the monitoring period
 
 nrobs <- 159
 sdnoise <- 0.01
@@ -95,6 +95,7 @@ abline(v=time(ftsNDVI)[nrobs-dfend],col='red',lty=2)
 tshistory <- window(ftsNDVI, end = c(2006,1))
 lines(tshistory,col='green',lwd=2)
 
+#write.csv(tshistory,"tshistory.csv")
 ## could bfast be used instead of the roc() function
 ## to verify the stability of the history period?
 test_tspp <- tspp(tshistory, order = 3)
@@ -152,4 +153,20 @@ abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='red',lty=2) ## simulated breakpoin
 legend("bottomleft", c("Model fit through stable history period", "Stable History period",
 "end history period", "Time of Simulated Break", "Time of Detected Break"),
 lty=c(1,0,2,2,2), lwd=c(1,NA,2,1,1),col=c("blue","blue","blue","red","green"),pch=c(NA,19,NA,NA,NA))
+
+## output for accuracy assessment
+## simulation setting that are important to be saved to an output file
+
+dip # vary size of dip between 0 and 0.15 in steps of 0.01
+noisef # vary noise factor by 1 - 3 by steps of 0.05
+n.range
+a
+a/n.range # signal to noise range = amplitude versus noise
+
+## it is al about detection of the breakpoint yes or no
+# time differnence
+time(sim$ts.sim.d)[nrobs-dfend] # time of simulated break
+tbp # time of detected break
+
+
 
