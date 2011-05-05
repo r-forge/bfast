@@ -32,6 +32,6 @@ x <- ts(read.csv("tshistory.csv")$x, start = c(2000, 4), frequency = 23)
  x <- tspp(x, order = 3)
  x <- x[nrow(x):1,]
 rr <-  recresid(response ~ trend + harmon, data = x)
-write.csv(rr,"outputtest_ubuntu.csv") 
+write.csv(rr,"outputtest_.csv") 
  ?recresid
  
