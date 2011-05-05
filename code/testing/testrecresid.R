@@ -26,14 +26,49 @@ tspp <- function(y, order = 1) {
   return(rval)
 }
 
-library(strucchange)
+recresid2 <- function(x, y, start = ncol(x) + 1, end = nrow(x), ...)
+{
+    stopifnot(start > ncol(x) & start <= nrow(x))
+    stopifnot(end >= start & end <= nrow(x))
+    n <- end
+    q <- start - 1
+    w <- rep(0, (n-q))
 
+    for(i in ((q+1):n))
+    {
+      xi1 <- x[1:(i-1), , drop = FALSE]
+      yi1 <- y[1:(i-1)]
+      fmi1 <- lm(yi1 ~ 0 + xi1)       
+      xi <- x[i, , drop = FALSE]
+      sigmai <- sqrt(1 + xi %*% summary(fmi1)$cov.unscaled %*% t(xi))
+      w[i-q] <- (y[i] - sum(x[i,] * coef(fmi1))) / sigmai
+    }
+
+    return(w)
+}
+
+logkappa <- function(x, y, start = ncol(x) + 1, end = nrow(x), ...)
+{
+    stopifnot(start > ncol(x) & start <= nrow(x))
+    stopifnot(end >= start & end <= nrow(x))
+    n <- end
+    q <- start - 1
+    w <- rep(0, (n-q))
+    for(i in ((q+1):n)) w[i-q] <- log(kappa(crossprod(x[1:(i-1), , drop = FALSE]), exact = TRUE))
+    return(w)
+}
+
+
+library("strucchange")
 
 x <- ts(read.csv("tshistory.csv")$x, start = c(2000, 4), frequency = 23)
-#x <- tspp(x, order = 3)
-x <- tspp(x + runif(length(x), -0.01, 0.01), order = 3)
+x <- tspp(x, order = 3)
 x <- x[nrow(x):1,]
-rr <-  recresid(response ~ trend + harmon, data = x)
-write.csv(rr,"outputtest_macpro_runif.csv") 
-
- 
+xx <- model.matrix(response ~ trend + harmon, data = x)
+yy <- x$response
+rr <-  data.frame(
+  strucchange =  recresid(xx, yy),
+  byhand      = recresid2(xx, yy),
+  logkappa    =  logkappa(xx, yy)
+)
+write.csv(rr,"outputtest_debian.csv", row.names = FALSE)
