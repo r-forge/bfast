@@ -28,10 +28,12 @@ tspp <- function(y, order = 1) {
 
 library(strucchange)
 
+
 x <- ts(read.csv("tshistory.csv")$x, start = c(2000, 4), frequency = 23)
- x <- tspp(x, order = 3)
- x <- x[nrow(x):1,]
+#x <- tspp(x, order = 3)
+x <- tspp(x + runif(length(x), -0.01, 0.01), order = 3)
+x <- x[nrow(x):1,]
 rr <-  recresid(response ~ trend + harmon, data = x)
-write.csv(rr,"outputtest_.csv") 
- ?recresid
+write.csv(rr,"outputtest_macpro_runif.csv") 
+
  
