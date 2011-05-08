@@ -47,6 +47,47 @@ recresid2 <- function(x, y, start = ncol(x) + 1, end = nrow(x), ...)
     return(w)
 }
 
+recresid3 <- function(x, y, start = ncol(x) + 1, end = nrow(x), ...)
+{
+    stopifnot(start > ncol(x) & start <= nrow(x))
+    stopifnot(end >= start & end <= nrow(x))
+
+    n <- end
+    q <- start - 1
+    k <- ncol(x)
+    rval <- rep(0, n - q)
+
+    y1 <- y[1:q]
+    fm <- lm.fit(x[1:q, , drop = FALSE], y1)
+    X1 <- chol2inv(qr.R(fm$qr))
+    
+    betar <- fm$coefficients
+    xr <- as.vector(x[q+1,])
+    fr <- as.vector((1 + (t(xr) %*% X1 %*% xr)))
+    rval[1] <- (y[q+1] - t(xr) %*% betar)/sqrt(fr)
+
+    if((q+1) < n)
+    {
+      for(r in ((q+2):n))
+      {
+          if(r < 3 * k) {
+            y1 <- y[1:(r-1)]
+            fm <- lm.fit(x[1:(r-1), , drop = FALSE], y1)
+            X1 <- chol2inv(qr.R(fm$qr))
+            betar <- fm$coefficients 	  
+	  } else {
+	    X1 <- X1 - (X1 %*% outer(xr, xr) %*% X1)/fr
+ 	    betar <- betar + X1 %*% xr * rval[r-q-1] * sqrt(fr)
+	  }
+	  xr <- as.vector(x[r,])
+          fr <- as.vector((1 + (t(xr) %*% X1 %*% xr)))
+          rval[r-q] <- (y[r] - sum(xr * betar))/sqrt(fr)
+      }
+    }
+    return(rval)
+}
+
+
 logkappa <- function(x, y, start = ncol(x) + 1, end = nrow(x), ...)
 {
     stopifnot(start > ncol(x) & start <= nrow(x))
@@ -69,6 +110,6 @@ yy <- x$response
 rr <-  data.frame(
   strucchange =  recresid(xx, yy),
   byhand      = recresid2(xx, yy),
-  logkappa    =  logkappa(xx, yy)
+  hybrid      = recresid3(xx, yy)
 )
-write.csv(rr,"outputtest_ubuntu.csv", row.names = FALSE)
+write.csv(rr,"outputtest_debian.csv", row.names = FALSE)
