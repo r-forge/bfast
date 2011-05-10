@@ -112,4 +112,4 @@ rr <-  data.frame(
   byhand      = recresid2(xx, yy),
   hybrid      = recresid3(xx, yy)
 )
-write.csv(rr,"outputtest_debian.csv", row.names = FALSE)
+write.csv(rr,"outputtest_macpro.csv", row.names = FALSE)
