@@ -122,4 +122,4 @@ rr <-  data.frame(
   byhand      = recresid2(xx, yy),
   hybrid      = recresid3(xx, yy)
 )
-write.csv(rr,"outputtest_imac_R2.12.2.csv", row.names = FALSE)
+write.csv(rr,"outputtest_ubuntu.csv", row.names = FALSE)
