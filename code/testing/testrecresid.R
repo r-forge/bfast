@@ -83,7 +83,7 @@ recresid3 <- function(x, y, start = ncol(x) + 1, end = nrow(x),
 	  y1 <- y[1:(r-1)]
 	  fm <- lm.fit(x[1:(r-1), , drop = FALSE], y1)
 	  ## keep checking?
-	  if(mean(abs(betar - fm$coefficients)) < tol) check <- FALSE 
+	  if(max(abs((betar - fm$coefficients) / fm$coefficients)) < tol) check <- FALSE 
 	  X1 <- chol2inv(qr.R(fm$qr))
           betar <- fm$coefficients
         }
@@ -122,4 +122,4 @@ rr <-  data.frame(
   byhand      = recresid2(xx, yy),
   hybrid      = recresid3(xx, yy)
 )
-write.csv(rr,"outputtest_macpro.csv", row.names = FALSE)
+write.csv(rr,"outputtest_debian.csv", row.names = FALSE)
