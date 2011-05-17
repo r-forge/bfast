@@ -54,12 +54,12 @@ BFAST:
 
 <li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
 
-<li> Verbesselt, J., Hyndman, R., Newnham, G., & Culvenor, D. (2010). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">DOI: 10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
-<li> Verbesselt, J., Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">DOI: 10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
+<li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Newnham, G., & Culvenor, D. (2010). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
+<li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
 
 </ul>
 
-<img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="400" height="300" align=MIDDLE
+<img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="500" height="400" align=MIDDLE
 
 alt="Fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
 
@@ -81,7 +81,7 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 <p> <strong> Applications: </strong> Deforestation, forest health monitoring and phenological change detection within time series of spatio-temporal data sets (satellite images).
 </p>
 
-<p> Contact: Jan.Verbesselt'@'wur.nl. The current BFAST package version is 1.3 on R-Forge and 1.2-1 on R CRAN  (Apr 15, 2011). To install the most recent version (bug fixes) directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
+<p> Contact: Jan.Verbesselt'@'wur.nl. The current BFAST package version is 1.3 on R-Forge and 1.2-1 on R CRAN  (May 17, 2011). To install the most recent version directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
 
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
