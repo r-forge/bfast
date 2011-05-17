@@ -7,10 +7,11 @@
 ## ?(could we set a threshold on the fit? R2 or RMSE required for a good change detection)
 ## 2) Detect near real time changes just after the monitoring period
 ## ? could we use BFAST to compare with real changes detected in this section
-## setwd('/Users/janvb/Documents/R/bfast/code')
+setwd('/Users/janvb/Documents/R/bfast/code')
 
 require(bfast)
 require(zoo)
+require(monash) # package for saving plots for publication
 ## load functions # roc / tspp / time series simulation / sos
    					
 source("ts_sim_seas_6x00.R")
@@ -24,7 +25,9 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-i <- 117
+## i <- 117  ## voorbeeld met cloud piekin the history period.
+
+i <- 115
 #for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
@@ -43,9 +46,9 @@ i <- 117
   
   ## select data window until 2007 so that we have one year for change detection
   ## to limit the data amount and avoid spline interpolation errors at the end of a time series
+#  savepng('Timeseriessetup')
   ftsNDVI <- window(ftsNDVI,end=c(2007,1))
-  plot(ftsNDVI, main="Full Monitoring period - maybe not stable")
-  
+
   ## Determine the signal to noise ratio using the range of the stl components
   stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
 #   plot(stlfit)
@@ -58,8 +61,14 @@ i <- 117
   
   ## identify history period
   NDVIhistory <- window(ftsNDVI,end=c(2006,1))
-  lines(NDVIhistory,col='green') # history period
-  legend("bottomleft","History period",col='green',lty=1)
+  
+#  savepng("figs/Monitoringsetup")
+  plot(ftsNDVI,ylab='NDVI',type='n')
+  lines(NDVIhistory) # history period
+  lines(window(ftsNDVI,start=c(2006,2)),ylab='NDVI',lty=2) # monitoring period
+  legend("bottomleft",c("History","Monitoring"),lty=c(1,2))
+#  dev.off()
+  
   ## verify the stability of the history period
   subset_start <- roc(NDVIhistory) # searching for a stable period 
   subset_start # not a long stable period is identifie
@@ -69,10 +78,14 @@ i <- 117
   print(length(stableHistory)/frequency(ftsNDVI)) 
   output$Lhistory[i] <- length(stableHistory)/frequency(ftsNDVI) # write length (nr of years)
   
-  plot(NDVIhistory, main="History period") # visualise just a short section of the full time series
-  lines(NDVIhistory,type='p',pch=20,cex=0.5)
+#  savepng("figs/StableHistory")
+  plot(ftsNDVI,ylab='NDVI',type='n')
+  lines(NDVIhistory) # history period
+  lines(window(ftsNDVI,start=c(2006,2)),ylab='NDVI',lty=2) # monitoring period
   lines(stableHistory,col='blue',lwd=2)
-  
+  legend("bottomleft",c("History","Monitoring","Stable History"),lty=c(1,2,1),col=c(1,1,'blue'))
+#  dev.off()
+    
   ## create a tspp object - trend and harmonic seasonal model
   order <- 3
   test_tspp <- tspp(stableHistory, order = order)
@@ -91,29 +104,55 @@ i <- 117
     tbp <- time(test_tspp$response)[test_mon$breakpoint]
   }
   
-  # ## COMPARE WITH BFAST
-#   require(bfast)
-#   h <- (1.5*23)/length(ftsNDVI)
-#   fit <- bfast(ftsNDVI, h=h, season = c("harmonic"), max.iter = 1)
-#   plot(fit)
-#   # output
-#   niter <- length(fit$output) # nr of iterations
-#   out <- fit$output[[niter]]  
-  
-  
-  ## plot and visualise
-  plot(ftsNDVI,main = 
+# #   # ## COMPARE WITH BFAST
+#    require(bfast)
+#    h <- (0.5*23)/length(NDVIhistory)
+#    fit <- bfast(NDVIhistory, h=h, season = c("harmonic"), max.iter = 1)
+# # 
+# 
+# # #opar <- par()
+# # savepng("bfast")
+#  plot(fit)  # , ANOVA=TRUE
+# # dev.off()
+# # #par(opar)
+# # 
+# #   # output
+#    niter <- length(fit$output) # nr of iterations
+#     out <- fit$output[[niter]]  
+# #   
+
+# ## COMPARE with the breakpoints function - similarly set-up as the bfast function
+# require(strucchange)
+# order <- 3
+# history_tspp <- tspp(NDVIhistory, order = order)
+# print(fitbp <- breakpoints(response ~ trend + harmon, data = history_tspp))
+# plot(ftsNDVI)
+# lines(createts(fitted(fitbp)),col=2, lty=2)
+# lines(confint(fitbp))
+## plot and visualise
+  savepng(paste("figs/monitorwithbreak",i,sep=""))
+  title <- FALSE
+  plot(ftsNDVI,type='n', main = if (title) {
     if (!is.na(tbp[1])) { 
         paste("Time of detected break is", format(tbp,digits=6))} else
-        { "no breakpoint detected"})
-  lines(test_tspp$response,type='p', pch=19, cex=0.5)
+        { "no breakpoint detected"}
+    }, ylab='NDVI'
+  )
+  lines(NDVIhistory) # history period
+  lines(window(ftsNDVI,start=c(2006,2)),ylab='NDVI',lty=2) # monitoring period
+  lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
+
+  
   test_pred <- predict(test_lm, newdata = test_tspp)
   tsp(test_pred) <- tsp(test_tspp$response)
   lines(as.ts(test_pred), col = 'blue')
-  lines(stableHistory,col='blue',lwd=2,type="p",pch=19,cex=0.5)
-  abline(v = tbp, lty = 2, col='green') # time of the breakpoint detected by the monitoring process!
-#   lines(out$Tt,col='purple',lty=3) 
-  legend("bottomleft",c("fit based on stable history","stable history","monitoring"),lty=c(1,NA,NA),pch=c(NA,19,19),col=c('blue','blue',1))
+   abline(v = tbp, lty = 2, col='red',lwd=2) 
+#  lines(out$Tt,col='purple',lty=3) 
+#   lines(confint(fitbp))
+  legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
+  ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
+ dev.off()
+ 
   ## output
   output$timebp[i] <- tbp
 #  }

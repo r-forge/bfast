@@ -7,7 +7,7 @@
 library("bfast")
 
 ## load functions # ROC / tspp / time series simulation / sos
-## setwd('/Users/janvb/Documents/R/bfast/code')    					
+# setwd('/Users/janvb/Documents/R/bfast/code')    					
 source("ts_sim_seas_6x00.R")
 
 #######################################
