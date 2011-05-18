@@ -19,7 +19,7 @@ tellerstop <- args[2]
 # This does not improve the speed of the simulations
 
 library("bfast")
-require(monash) # package for saving plots for publication
+#require(monash) # package for saving plots for publication
 
 source("ts_sim_seas_6x00.R")
 order <- 3
