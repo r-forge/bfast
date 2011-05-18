@@ -130,7 +130,7 @@ i <- 115
 # lines(createts(fitted(fitbp)),col=2, lty=2)
 # lines(confint(fitbp))
 ## plot and visualise
-  savepng(paste("figs/monitorwithbreak",i,sep=""))
+#   savepng(paste("figs/monitorwithbreak",i,sep=""))
   title <- FALSE
   plot(ftsNDVI,type='n', main = if (title) {
     if (!is.na(tbp[1])) { 
@@ -151,7 +151,7 @@ i <- 115
 #   lines(confint(fitbp))
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
- dev.off()
+#  dev.off()
  
   ## output
   output$timebp[i] <- tbp
