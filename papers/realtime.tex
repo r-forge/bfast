@@ -131,7 +131,8 @@ this method is highly computing intensive and requires expert knowledge.}
 Many change detection methods exist but only a few have focussed on real time
 change detection using satellite image data
 \citep{Shimabukuro:2006vb,White2006}.  
-\fixme{ JV: give some examples of near-real time monitoring methods and illustrate their importance. the link here between paragraphs is unclear}
+\fixme{ JV: give some examples of near-real time monitoring methods and illustrate their importance. 
+the link here between paragraphs is unclear}
 
 
 None of these methods exploit
@@ -224,15 +225,13 @@ the paper and the outline.
 
 \section{Introduction}
 
-\fixme{ Martin? Could you help me here illustrating the importance for near-real time forest cover change monitoring?}
-
 % forest disturbances and their importance
 % the importance of detecting disturbances in near-real time? Disaster monitoring/ fast detection of current forest cover changes/ etc.
 
 Near-real time forest disturbance monitoring is critical for addressing its impact on carbon
-storage, biodiversity, and other socio-ecological processes (ref). Deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes forest health (Christine stone/Morisset2009, carbon status, and even climate change (Cleland et al. 2007) \citep{Hargrove2009}.
+storage, biodiversity, and other socio-ecological processes (ref). Deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes forest health (Christine stone/Morisset2009), carbon status, and even climate change (Cleland et al. 2007) \citep{Hargrove2009}.
 
-\fixme{Add references} 
+\fixme{Add references - Martin any advice on framing this methodological paper?} 
 
 % satellite data
 Satellite sensors are well-suited to provide consistent and frequent
@@ -251,47 +250,30 @@ Estimating change from remotely sensed data is not straightforward, since time
 series contain a combination of seasonal, gradual and abrupt ecosystem changes,
 in addition to noise that originates from the sensing environment (e.g., view
 angle), remnant geometric errors, atmospheric scatter and cloud effects
-\citep{Roy2002,Wolfe1998}.
-
-The ability of any system to detect change depends on its capacity to
-differentiate normal, expected seasonal and annual changes from unusual or suspicious change
-\citep{Hargrove2009}. Many changes are part of the normal annual phenological cycle,
-and should not be confused with abnormal changes (e.g., disturbances). An historical perspective is needed to define a "baseline" for expected, normal behaviour against which abnormal behaviour can be described.
+\citep{Roy2002,Wolfe1998}. The ability of any system to detect change depends on its capacity to
+differentiate normal phenological cycle from abnormal change (e.g. drought stress, degradation, deforestation). An historical perspective is needed to model normal, expected behaviour against which abnormal behaviour can be described \citep{Hargrove2009}.
 
 Several change detection methods are available to detect disturbances within
 historical satellite image time series \citep{Coppin2004, deBeurs:2005jq, Verbesselt2009a} but generic methods to detect changes in near real-time within newly captured satellite images are lacking. Two major challenges remain.
+%Achim: why do you add extra letters behind each reference? it that done with a certain purpose?
 
-First, change detection techniques need to be independent of a change specific thresholds while being robust against the inherent noise and seasonality of remotely sensed time series.
 
-Most change detection methods require user designation of a threshold and change type separating real change from spectral changes caused by variability in illumination, seasonality, or atmospheric scattering \citep{Lu2004}.  \citet{White2006} presented a method for real-time monitoring of land surface phenology that avoids problems related to phenological metrics for individual pixels in real-time, and allows to specify measures of statistical uncertainty but requires a region-specific threshold. The determination of thresholds adds limits the monitoring to threshold specific regions and adds significant cost to efforts to expand change detection to large areas or different spectral data types to be analysed (e.g. short-wave infrared or near-infrared based indices). 
-Trajectory based change detection has been proposed to move towards a threshold independent change detection by characterising change by its temporal signature (Hayes and Cohen, 2007; Kennedy et al., 2007). This approach requires the definition of the change trajectory specific for the type of change to be detected. Furthermore, the method will only function if the observed spectral trajectory matches one of the hypothesised trajectories.
-This illustrates that there is a critical need for methods that enable rapid analysis of satellite image time series to detect disturbances in near-real time independent of region (i.e. spatially) or data (i.e. spectrally) specific thresholds or change types.
-
-Second, full time series need to be processed while being able to deal with missing data (e.g. masked clouds or sensor defects) within the time series. 
-
-Existing change detection techniques minimize seasonal variation by focusing on specific periods within a year (e.g. growing season) (Coppin et al., 2004) or temporally summarizing time series data (Bontemps et al., 2008; Fensholt et al., 2009) instead of explicitly accounting for changes in seasonality. Phenological metrics defined as critical points in the seasonal NDVI trajectory (e.g. the start-of-spring) exploit the information contained in the shape of the seasonal growth cycle, but do not fully utilise its full temporal detail (Geerken, 2009). Also, \citet{White2006} recommended that the continual process of seasonal variation, not just dates of specific events should be described.
-
-Furthermore phenological should not be filled or smoothed \citep{White2006}.
-
-Most existing phenological assessment methods, faced with the prospect of extremely noisy timeseries of remotely sensed data, often NDVI, smooth the data using one of many existing techniques (Jonsson & Eklundh, 2004). For a given date, these methods typically require looking both backwards and for- wards in time, negating use in real-time or forecast applications.
-
-There is a need for a more robust approach to detect changes based on full time series, not just dates of specific events (White & Nemani, 2006). 
+First, change detection techniques need to be independent of region specific thresholds or a change type while being robust against the inherent noise and seasonality captured within time series.
+Most change detection methods require user designation of a threshold or change type definition separating real change from spectral changes caused by variability in illumination, seasonality, or atmospheric scattering \citep{Lu2004}.  \citet{White2006} presented a method for real-time monitoring of land surface phenology that avoids problems related to phenological metrics for individual pixels in real-time but requires a region-specific threshold for detecting change. The determination of region specific thresholds adds significant cost to efforts expanding change detection across regions or when regions are changing dynamically.
+Trajectory based change detection has been proposed to move towards a threshold independent change detection by characterising change by its temporal signature (Hayes and Cohen, 2007; Kennedy et al., 2007). This approach requires the definition of the change trajectory specific for the type of change to be detected. Furthermore, the method will only function if the observed spectral trajectory matches one of the hypothesised trajectories. This illustrates that there is a critical need for methods that enable rapid analysis of satellite image time series to detect disturbances in near-real time independent of region or data specific thresholds or change types.
 
 % missing data: avoid smoothing and interpolation
-% full time series: avoid definition of phenological metrics
+Second, time series analysis is needed to differentiate normal from abnormal changes while being able to deal with missing data (e.g. cloud effects or sensor defects). 
+Most existing change detection methods smooth the data using one of many existing techniques (e.g. Jonsson Eklundh, 2004, HANTS) when dealing with extremely noisy times series of remotely sensed data. For a given date, these methods typically require looking both backwards and for- wards in time, negating use in real-time or forecast applications \citep{White2006}. Also, time series smoothing and interpolation techniques are unable to deal with abrupt or abnormal changes because the data is modelled and gaps are filled based on assumptions of the normal data variations which inhibits the detection of abnormal changes (i.e. disturbances, deforestation) (Potter et al., 2003). Methods able to exploit and model non-gap filled time series are needed to provide a correct historical perspective to model normal data variation and enable near real-time change detection.
 
+ We propose a generic near-real time change detection concept for time series data. The following major research questions are answered in this paper:
 
-
-
-
- We propose an automated near-real time change detection approach for remotely sensed time series data. The following major research questions are answered in this paper:
-
-(1)~Can a stable period, presenting normal historical data variation, be identified within
+(1)~Can a stable period, representing \emph{normal} historical data variation, be identified within
 a time series?
 
-(2)~If a stable historical period can be identified, is the model presenting the normal stable historical data variation able to reliably and fast detect disturbances within newly incoming observations (i.e. near real-time)?
+(2)~Is the model representing the \emph{normal stable} historical data variation able to reliably and fast detect disturbances within newly incoming observations (i.e. near real-time)?
 
-We assessed BFAST for a large range of ecosystems by simulating Normalised
+We assessed this approach  for a large range of ecosystems by simulating Normalised
 Difference Vegetation Index (NDVI) time series with varying amounts of seasonal
 variation and noise, and by adding changes with different magnitudes towards the
 end of a time series. We applied the approach on MODIS 16-day image composites
@@ -301,7 +283,7 @@ disturbances in a forested area in south eastern Australia.
 The approach can be used to detect and characterise changes within other
 remotely sensed time series (e.g., Landsat, Sentinel sensors) or be integrated within monitoring
 frameworks and used as an alarm system to provide information on when and where
-significant disturbances occur.
+significant disturbances occur. The method described in this study are available in the BFAST package for R \citep{R} from CRAN (\url{http://cran.r-project.org/package=bfast})
 
 \section{Real time change detection}\label{sec:Method}
 
@@ -415,6 +397,11 @@ Further, many methods assume that a given mathematical func- tion, such as piece
 %The approach is adaptable to different remote sensing technologies and provides a foundation for ascribing a sequence of ground conditions (e.g. snowmelt, vegetative growth, pollen production, insect phenology) to remotely sensed land surface phenology observations \citep{White2006}.
 
 \section{Acknowledgements}
+
+This work was undertaken using data available via the program of the Cooperative Research Center for Forestry: Monitoring and Measuring (\url{http://www.crcforestry.com.au}). 
+
+%Thanks to xx whose comments greatly improved this paper. We greatly appreciate the constructive feedback we have received from the three reviewers.
+
 
 \bibliographystyle{model5-names}
 \bibliography{refs}
