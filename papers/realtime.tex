@@ -285,15 +285,53 @@ This work was undertaken using expertise and field data available via the progra
 
 \section*{Figures}
 
-%% (For interpretation of the references to color in this figure legend, the reader is referred to the web
-%% version of this article.)
+ (For interpretation of the references to color in this figure legend, the reader is referred to the web
+ version of this article.)
 
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.6\textwidth]{figs/Similarity_Simulated_RealData}
-%  \caption{Real and simulated 16-day NDVI time series of a grassland (top) and pine plantation (bottom).}
-%  \label{fig:SimGF}
-%\end{figure}
+\fixme{There is too much space above and below this figure - i need to fix this somehow in R or Latex} 
+
+\begin{figure}[htp]
+
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
+  \caption{Results from the simulation experiment (1000 iterations of all different options) illustrating the number of the detected breaks (1000 is the maximum) of the detected breaks using the monitor approach for varying amount of noise, magnitude of change (i.e. dip), and amount of data available in the monitoring period (see description of the simulation experiment for more information about set-up) }
+  \label{fig:SimNr}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/RMSE_Time_1000.eps}
+  \caption{Results from the simulation experiment (1000 iterations of all different options) illustrating the accuracy of time estimation of the detected breaks using the monitor approach for varying amount of noise, magnitude of change (i.e. dip), and amount of data available in the monitoring period (see description of the simulation experiment for more information about set-up) }
+  \label{fig:SimRMSE}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/SignaltoNoiseRatio.eps}
+  \caption{Spatial variation of the signal to noise ratio is the study area. (Try out: only for your information - not sure whether I will include this in the paper) }
+  \label{fig:SpatSignalNoise}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006.eps}
+  \caption{ Spatial variation of the Time of change if a break is detected in the study area (no break in 2006 = white) . (only for your information - not sure whether I will include this in the paper) }
+  \label{fig:SpatTimeofChange}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/LengthStableHistory.eps}
+  \caption{Spatial variation of the length the stable history period}
+  \label{fig:SpatLStableHist}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.9\textwidth]{figs/R2ofthemodelfit.eps}
+  \caption{ Spatial variation of the $R^2$ of the model fit which also depend on the length the stable history period}
+  \label{fig:SpateR2}
+\end{figure}
 
 \end{document}
 
