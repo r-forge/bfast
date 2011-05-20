@@ -1,7 +1,5 @@
 ## this script can be run via
 # Rscript monitor-simulation-study.R 1 100
-
-
 args <- commandArgs(TRUE)
 print(args)
 tellerstart <- args[1]
@@ -51,22 +49,21 @@ a <- 0.1
 dfend <- 12  # vary between 0 and 22 data points from the end
 #set.seed(3) # remove this - to access randomness.
 teller <- 1
+
 for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
  for (a in c(0.1,0.3,0.5)) {  
    for (noisef in round(seq(1,6,by=1),2) ) {  
-# ##	   for (adelta in c(0,0.1,0.2,0.3)) {   # specific for seasonal change detection 
-     for (dip in round(-c(0.4,0.3,0.2,0.1,0),3) ) {
-# ##		 for (c1delta in c(0,10,20,30) ) {  # specific for seasonal change detection
-#       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
+     for (dip in round(-c(0.5,0.4,0.3,0.2,0.1,0),3) ) {
+###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
           onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
           noise <- onoise*noisef        # multiply the noise with a factor
           iclouds <- as.integer(runif(5,min=0,max=nrobs))      
           noise[iclouds] <- -0.1     # with VI specific noise
           ts.sim.noise  <- createts(noise)
           n.range <- sum(abs(range(ts.sim.noise)))  # determine the noise range
-          a/n.range # signal to noise range = amplitude versus noise
+          #a/n.range # signal to noise range = amplitude versus noise
           
           tsp(ts.sim.noise)
           
@@ -86,9 +83,9 @@ writefirst <- TRUE
           ## Determine how much data we have for the monitoring and for detecting a break
           (start <- cycle(ts.sim.noise)[nrobs-dfend]) # position of the simulated break point
           time(ts.sim.noise)[nrobs-dfend]
-#           startmonitor <- start+1
+          startmonitor <- start+1
             
-          for (startmonitor in start:19) { # we start the for loop for the time we just started the break
+           for (startmonitor in start:(start+5)) { # we start the for loop for the time we just started the break
            (nrdatamonitor <- startmonitor-(start-1)) # nr of datapoints in the monitoring period           
            ftsNDVI <- window(sim$ts.sim.d,end=c(2006,startmonitor)) # full time series
             
@@ -128,43 +125,44 @@ writefirst <- TRUE
               }
           
             ## plot and visualise
-            #savepng("figs/Sim_Monitoring",pointsize=9)
-              title = TRUE
-              plot(ftsNDVI,type='n', main = if (title) {
-                if (!is.na(tbp[1])) { 
-                    paste("Time of detected break is", format(tbp,digits=6))} else
-                    { "no breakpoint detected"}
-                }, ylab = 'NDVI'
-              )
-              
-              lines(tshistory) # history period
-              lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
-              lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
-              test_pred <- predict(test_lm, newdata = test_tspp)
-              tsp(test_pred) <- tsp(test_tspp$response)
-              lines(as.ts(test_pred), col = 4)
-              abline(v = tbp, lty = 2, col='red', lwd=2) # time of the breakpoint detected by the monitoring process!
-              abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='blue',lty=2,lwd=2) ## simulated breakpoint 
-              lines(window(ftsNDVI,start=c(2006,start)),col='red',type='p',pch=19, cex=0.5)
-              legend("bottomleft",
-              c("History","Stable History","Monitoring","fit based on stable history",
-              "Time of Simulated Break", "Time of Detected Break")
-                ,lty=c(1,NA,NA,1,2,2),col=c(1,'blue','red','blue','blue','red'),pch=c(NA,19,19,NA,NA,NA))
-            #dev.off()   
-            ## output for accuracy assessment
-           ## simulation setting that are important to be saved to an output file
+#             #savepng("figs/Sim_Monitoring",pointsize=9)
+#               title = TRUE
+#               plot(ftsNDVI,type='n', main = if (title) {
+#                 if (!is.na(tbp[1])) { 
+#                     paste("Time of detected break is", format(tbp,digits=6))} else
+#                     { "no breakpoint detected"}
+#                 }, ylab = 'NDVI'
+#               )
+#               
+#               lines(tshistory) # history period
+#               lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
+#               lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
+#               test_pred <- predict(test_lm, newdata = test_tspp)
+#               tsp(test_pred) <- tsp(test_tspp$response)
+#               lines(as.ts(test_pred), col = 4)
+#               abline(v = tbp, lty = 2, col='red', lwd=2) # time of the breakpoint detected by the monitoring process!
+#               abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='blue',lty=2,lwd=2) ## simulated breakpoint 
+#               lines(window(ftsNDVI,start=c(2006,start)),col='red',type='p',pch=19, cex=0.5)
+#               legend("bottomleft",
+#               c("History","Stable History","Monitoring","fit based on stable history",
+#               "Time of Simulated Break", "Time of Detected Break")
+#                 ,lty=c(1,NA,NA,1,2,2),col=c(1,'blue','red','blue','blue','red'),pch=c(NA,19,19,NA,NA,NA))
+#             #dev.off()   
+#             ## output for accuracy assessment
+#            ## simulation setting that are important to be saved to an output file
            
           out <- data.frame(dip, noisef, nrange = round(n.range,digit=4),
             a, dfend, Lhistory = length(tshistory), LStablehistory = length(stableHistory),
-            nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint)
+            nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
+              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp  )
             
-          fname <- paste("output/outputsim_",teller,".csv",sep="")
+          fname <- paste("output1/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE
           } else write.table(out,fname, append=TRUE, sep=",", col.names= FALSE, row.names=FALSE)
           
-      } # amount of data in the monitoring period
+     } # amount of data in the monitoring period
     } # dip
   } # noisef
 }  # a 
@@ -181,4 +179,3 @@ writefirst <- TRUE
 # # time differnence
 # time(sim$ts.sim.d)[nrobs-dfend] # time of simulated break
 # tbp # time of detected break
-
