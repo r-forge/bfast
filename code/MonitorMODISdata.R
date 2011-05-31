@@ -26,8 +26,8 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
 
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
 
-i <- 90
-#for (i in 1:120) {
+i <- 70
+for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
   plot(tsNDVI)
@@ -80,7 +80,7 @@ i <- 90
   print(length(stableHistory)/frequency(ftsNDVI)) 
   output$Lhistory[i] <- length(stableHistory)/frequency(ftsNDVI) # write length (nr of years)
   
-#  savepng("figs/StableHistory")
+# savepng("figs/StableHistory")
   plot(ftsNDVI,ylab='NDVI',type='n')
   lines(NDVIhistory) # history period
   lines(window(ftsNDVI,start=c(2006,2)),ylab='NDVI',lty=2) # monitoring period
@@ -153,11 +153,11 @@ savepng(paste("../papers/figs/monitorwithbreak",i,sep=""), height=14)
 #   lines(confint(fitbp))
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
- dev.off()
+dev.off()
  
   ## output
-  output$timebp[i] <- tbp
-#  }
+#   output$timebp[i] <- tbp
+ }
 
 #write.csv(output,"output.csv")
 #fix(output)
