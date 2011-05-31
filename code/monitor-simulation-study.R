@@ -156,7 +156,7 @@ writefirst <- TRUE
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
               Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp  )
             
-          fname <- paste("output1/outputsim_",teller,".csv",sep="")
+          fname <- paste("output/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE

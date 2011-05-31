@@ -92,7 +92,7 @@ sp <- list(superpose.symbol = list(pch =c(18), cex = 0.4, col=c(1,2,3,4,5,6)),  
 
 require(monash)
 
-savepng(paste("RMSE_Time_",iter,sep=""), height = 16)  
+#savepng(paste("RMSE_Time_",iter,sep=""), height = 16)  
 print(
     xyplot(dT ~ (nrange) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
       groups=~nrdatamonitor,
@@ -108,9 +108,9 @@ print(
       )
     )
 )       
-dev.off()
+#dev.off()
 
-saveeps(paste("NrDetections_Time_",iter,sep=""), height = 16)
+#saveeps(paste("NrDetections_Time_",iter,sep=""), height = 16)
 print(
     xyplot(Ndata ~ (nrange) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
       groups=~nrdatamonitor,
@@ -126,7 +126,7 @@ print(
       )
     )
 )       
-dev.off()
+#dev.off()
 
 # the amplitude differences of the simulations are also accounted for and do not influence the RMSE of the time difference
 # the length of the stable history does not influence immediately the accuracy of the break detection
