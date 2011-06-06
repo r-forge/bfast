@@ -38,7 +38,7 @@
 
     \title
     {
-    Near-real time disturbance detection using satellite image time series
+    Near-real time land cover disturbance detection \\ using satellite image time series
     %Near-real time change detection using satellite image time series:
     %Early warning for forest disturbances
     % Real-time change detection of forest disturbances using satellite image time series
@@ -62,7 +62,7 @@
 
 \begin{abstract}
 
-Monitoring forest disturbances is critical for addressing its impact on carbon
+Monitoring forest and land cover disturbances are critical for addressing impacts on carbon
 storage, biodiversity, and other socio-ecological processes. Satellite remote
 sensing enables cost-effective and accurate monitoring at frequent time steps
 over large areas. Several methods are available to detect disturbances within
@@ -74,11 +74,11 @@ based on time series modelling of the stable historical period, representation e
 the differentiation between normal and abnormal change in near-real time becomes
 possible when new image data is captured. 
 
-The method is a light and fast version based on the ``Break For Additive Seasonal
+The method is based on the ``Break For Additive Seasonal
 Trend'' (BFAST) concept. Validation is done (1)~simulating 16-day MODIS NDVI time
 series (2000--2010) with different amount of noise, seasonality and containing
 disturbances at the end of the time series (2)~by application on real MODIS
-satellite image time series to detect forest disturbances in near real-time for
+satellite image time series to detect forest and land cover disturbances in near real-time for
 a study area in Australia. 
 
 Results illustrate that abrupt changes at the end of time series are
@@ -86,9 +86,9 @@ successfully detected while being robust for strong seasonality and noise.
 
 Data preprocessing, such as cloud masking remains important as the clouds can be detected as an abnormal
 change. The method is publicly available within the BFAST package for
-R. This method is developed so that it can be used a global scale since is not computer intensive, does not
-depend on thresholds or change type definitions and is able to deal with data gaps in time series (e.g. clouds). Furthermore,
-the method can be applied for different purposes (e.g. fire or oil spill detection) and onto all sorts of time series data (e.g. in-situ monitoring sensors or different types of satellite data).
+R. This method is specifically developed so that it can be used a global scale since is fast, does not
+depend on thresholds or change type definitions and does not require gap filling of time series (e.g. clouds). Furthermore,
+the method is flexible and can be applied for different purposes (e.g. fire or oil spill detection) and onto all sorts of time series data (e.g. in-situ monitoring sensors or different types of satellite data).
 
 %The proposed method is a generic and robust change detection approach which is able to deal with data gaps within time series and that can be applied for different purposes (e.g., fire or oil spil detection, on different types of data  (e.g., Landsat data and future sensors like the Sentinel constellation that provide higher spatial resolution at regular time steps). 
 %There is a critical need for methods that enable rapid analysis of satellite image time series to detect disturbances in near-real time.
@@ -97,7 +97,7 @@ the method can be applied for different purposes (e.g. fire or oil spill detecti
 \end{abstract}
 
 \begin{keyword}
-Early warning \sep Real-time \sep change detection \sep disturbance \sep monitoring \sep forest \sep NDVI \sep time series \sep MODIS \sep vegetation dynamics \sep phenology
+Early warning \sep Real-time \sep change detection \sep land cover and land use change\sep disturbance \sep monitoring \sep forest \sep NDVI \sep time series \sep MODIS \sep vegetation dynamics \sep phenology
 \end{keyword}
 
 \end{frontmatter} 
@@ -108,10 +108,8 @@ Early warning \sep Real-time \sep change detection \sep disturbance \sep monitor
 % forest disturbances and their importance
 % the importance of detecting disturbances in near-real time? Disaster monitoring/ fast detection of current forest cover changes/ etc.
 
-\fixme{Martin any ideas/tips on framing/introducing (discussing) this methodological paper?} 
 
-Near-real time forest disturbance monitoring is critical for addressing its impact on carbon
-storage, biodiversity, and other socio-ecological processes (ref). Deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes forest health \citep{Stone2008,Morisette2009}, carbon status, and even climate change \citep{Cleland2007,Hargrove2009}.
+Near-real time forest and land cover disturbance monitoring is critical for tracking human-induced and natural disturbances promptly. Such information is needed for signalling abnormal developments, quickly raising awareness, and allow for prompt actions to intervene, relief efforts and reduce negative impacts to natural resources, humans, and infrastructure. Near-real time remote sensing approaches are already performed for weather monitoring and prediction \citep{Ebert:2007tj}, and in case of after-disasters and relief efforts \citep{Tralli:2005ch}. However, key to approaches looking at forest and land cover disturbances is that many change events occur worldwide at locations and magnitudes are unknown beforehand. In this sense, remote sensing tools can be in the first instance used to alert when things start to appear \emph{abnormal}. For example, deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes forest health \citep{Stone2008,Morisette2009}, carbon status, and even climate change \citep{Cleland2007,Hargrove2009}.
 
 % satellite data
 Satellite sensors are well-suited to provide consistent and frequent
@@ -119,20 +117,18 @@ measurements over large areas which is appropriate for capturing the effects
 of many processes that cause change, including natural (e.g., insect attacks, droughts, fires, floods) and
 anthropogenic (e.g., deforestation, urbanisation, farming) disturbances
 \citep{Jin2005}. % different change types in ecosystem dynamics
-Change in ecosystems can be divided into three classes: (1)~\emph{seasonal change}, driven by annual temperature and rainfall interactions impacting plant
-phenology; (2)~\emph{gradual trend change} such as trends in mean annual rainfall or gradual change in land
-management \citep{Lambin2006}; and (3)~\emph{abrupt trend change}, caused by disturbances such as deforestation and fires. 
+Many types of changes affecting the land surface and land cover operate in ecosystems and range from diurnal cycles to long-term change in vegetation patterns. The changes commonly observed with remote sensing approaches can be divided into three categories: (1)~\emph{seasonal or cyclic change}, driven by annual temperature and rainfall interactions impacting plant phenology resulting in distinct intra-annual patterns for different vegetation types; (2)~\emph{gradual trend change} such as trends in mean annual rainfall or gradual change in land management (e.g. forest regrowth after fire) that result in changes over several years or decades; and (3)~\emph{abrupt trend change}, caused by events from human activities (e.g. deforestation) or natural causes (e.g. wind throw) that change land cover over short time frames (days or weeks). %These different types of changes commonly operate in parallel and approaches to detect and map a particular change type have to include information about the other types to avoid confusion and wrong labelling of change. 
 
 % problem statement
 Estimating change from remotely sensed data is not straightforward, since time
-series contain a combination of seasonal, gradual and abrupt ecosystem changes,
+series contain a combination of seasonal, gradual and abrupt ecosystem changes occurring in parallel,
 in addition to noise that originates from the sensing environment (e.g., view
 angle), remnant geometric errors, atmospheric scatter and cloud effects
-\citep{Roy2002,Wolfe1998}. The ability of any system to detect change depends on its capacity to
-differentiate normal phenological cycle from abnormal change (e.g. drought stress, degradation, deforestation). An historical perspective is needed to model normal, expected behaviour against which abnormal behaviour in the near-future can be described \citep{Hargrove2009}.
+\citep{deBeurs:2005jq, Beurs2005a, Roy2002, Wolfe1998}. The ability of any system to detect change depends on its capacity to
+differentiate normal phenological cycle from abnormal change (e.g. drought stress, degradation, deforestation). An historical analysis using archived satellite data is needed to model normal, expected behaviour against which abnormal behaviour in the near-future can be described \citep{Hargrove2009}.
 
 Several change detection methods are available to detect disturbances within
-historical satellite image time series \citep{Kennedy2007,deBeurs:2005jq, Verbesselt2009a} but generic methods to detect changes in near real-time within newly captured satellite images are lacking. Two major challenges remain.
+historical satellite image time series \citep{Kennedy2007,deBeurs:2005jq, Verbesselt2009a} but generic methods to detect changes in near real-time within newly captured satellite images while using historical information are lacking. Two major challenges remain.
 %Achim: why do you add extra letters behind each reference? it that done with a certain purpose?
 
 
@@ -145,10 +141,10 @@ Second, time series analysis is needed to differentiate normal from abnormal cha
 Most existing change detection methods smooth or interpolate data using one of many existing techniques \citep{Jonsson2002, Roerink2000} when dealing with extremely noisy times series of remotely sensed data. For a given date, these methods typically require looking both backwards and forwards in time, negating use in real-time or forecast applications \citep{White2006}.  Also, time series smoothing and interpolation techniques model data and fill gaps based on assumptions of normal data variation which inhibits the detection of abnormal changes (i.e. disturbances, deforestation). Methods able to analyse non-gap filled time series are required to to enable near real-time change detection.
 
 
-We propose a generic near-real time change detection concept for time series data. The following major research questions are answered in this paper:
+We propose a generic near-real time change detection of abrupt changes using time series data. The following major research questions are answered in this paper:
 
-(1)~Can a period, representing \emph{normal} historical data variation, be identified within a time series?
-(2)~Is the model representing the \emph{normal} historical data variation able to reliably and fast detect disturbances within newly incoming observations (i.e. near real-time)?
+(1)~Can a period, representing \emph{normal} historical data variation representing both seasonal and gradual changes, be identified within a time series? \\
+(2)~Is the model representing the \emph{normal} historical data variation able to reliably and fast detect abrupt changes within newly incoming observations (i.e. near real-time)?
 
 We assessed this approach for a large range of ecosystems by simulating Normalised
 Difference Vegetation Index (NDVI) time series with varying amounts of seasonal
