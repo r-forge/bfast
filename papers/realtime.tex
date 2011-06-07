@@ -158,28 +158,55 @@ significant disturbances occur. The method described in this study are available
 \newpage
 \section{Real-time change detection}\label{sec:Method}
 
-We are using a seasonal trend model similar to the additive season and trend
-decompositioning model proposed by \citet{Verbesselt:2010wo}. Here, we are not
-decomposing the time series in to a seasonal and trend model but using this
-seasonal-trend model to assess stability, i.e., normality within a time series,
-and detect abnormality at the end of a time series.
+The methods proposed here are based on a similar additive season and trend
+model as employed by \citet{Verbesselt:2010wo}. However, while
+\citet{Verbesselt:2010wo} focus on the question if and where there
+are structural breaks in season/trend of a given observed sample
+$t = 1, \dots, n$, we want to investigate a different questions:
+Does the season/trend for future observations $t = n, n + 1, \dots$ still
+conform with the season/trend established for the historical sample
+$t = 1, \dots, n$? Thus, we want to monitor potential abnormality
+(compared to previous observations) at the end of a time series in
+real time.
 
-It is assumed that seasonal-trend model ($Y_t$) is piecewise linear trend and
-harmonic model with $m+1$ different segments and $K$ the number of harmonic
-terms. Thus, there are $m$ breakpoints $\tau_1^*, \dots, \tau_m^*$ so that:
+\subsection{Season trend model}
+
+For the observations $y_t$ at time $t$, a season trend model is assumed with linear
+trend and harmonic season:
 %
 \begin{align} \label{lmod}
-  Y_t & = \alpha_i + \beta_i t + \sum_{k=1}^K a_{j,k} \sin\left(\frac{2\pi kt}{f}+\delta_{j,k}\right)  \qquad (\tau_{i-1}^* < t \leq \tau_i^*),
+  y_t & = \alpha_1 + \alpha_2 t + \sum_{j = 1}^k \gamma_{j} \sin \left(\frac{2\pi j t}{f} + \delta_{j} \right) ~+~ \varepsilon_t,
 \end{align}
 %
-where $i = 1, \dots, m$ and we define $\tau_0^* = 0$ and $\tau_{m+1}^* = n$ and
-where the unknown parameters are the segment-specific amplitude $a_{j,k}$ and
-phase $\delta_{j,k}$ and $f$ is the (known) frequency (e.g., $f=23$ annual
-observations for a 16-day time series). We used three harmonic terms (i.e.,
-$K=3$) to robustly detect phenological changes within MODIS NDVI time series, as
-components four and higher represent variations that that occur on a three-month
-cycle or less \citep{Geerken2009,Julien2010}. More information about this
-seasonal trend model are provided by \citet{Verbesselt:2010wo}.
+where the intercept $\alpha_1$, slope $\alpha_2$ (both pertaining to trend), amplitudes $\gamma_1, \dots, \gamma_k$,
+and phases $\delta_1, \dots, \delta_k$ (all pertaining to season) are the unknown parameters,
+$f$ is the known frequency (e.g., $f = 23$ annual observations for a 16-day time series),
+and $\varepsilon_t$ is the unobservable error term at time $t$. The choice of
+$k$ controls at which frequencies seasonal variations occur. In the applications
+below, we employ three harmonic terms (i.e., $k = 3$) to robustly detect phenological
+changes within MODIS NDVI time series, as components four and higher represent variations
+that occur on a three-month cycle or less \citep{Geerken2009,Julien2010}. More information about this
+season trend model are provided by \citet{Verbesselt:2010wo}.
+
+For inference it is typically more convenient to reparametrize the model
+so that it can be written as standard a linear regression model while
+still giving equivalent predictions \citep[see e.g.,][Chapter~3.3]{Cryer2008}:
+%
+\begin{align*}
+  y_t   & = x_t^\top \beta ~+~ \varepsilon_t, \\
+  x_t   & = \left\{1, t, \sin(2 \pi 1 t / f), \cos(2 \pi 1 t / f), \dots, \sin(2 \pi k t / f), \sin(2 \pi k t / f)\right\}^\top, \\
+  \beta & = \left\{\alpha_1, \alpha_2, \gamma_1 \cos(\delta_1), \gamma_1 \sin(\delta_1), \dots, \gamma_k \cos(\delta_k), \gamma_k \sin(\delta_k)\right\}^\top,
+\end{align*}
+%
+where the $p = 2 + 2 k$ parameters are collected in the regression coefficients $\beta$
+which can be estimated and tested using ordinary least squares (OLS) techniques. In particular,
+if all trend/season parameters in $\beta$ can be assumed to be stable for a given
+sample $t = 1, \dots, n$, the OLS estimator $\hat \beta$ is consistent for the
+unknown parameters.
+
+
+
+\subsection{Monitoring structural change}
 
 As such, the questions mentioned in the introduction can be rephrased into
 change detection framework using a seasonal-trend model: (1)~Is a given seasonal
@@ -192,13 +219,11 @@ where the first question is referred to as testing for structural change \citep{
 well established for inference about the coefficients in piece-wise
 least-squares regression  \citep{Zeileis2003}.
 
-\subsection{Testing for structural change}
 
-\fixme{Achim could you help here?}
+\subsection{Selecting the stable history period}
 
-\subsection{Monitoring structural change}
 
-\fixme{Achim could you help here?}
+
 
 \section{Validation}\label{sec:Validation}
 
