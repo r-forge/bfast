@@ -5,7 +5,7 @@ require(monash)
 
 #Analysis of Simulation Results
 getwd()
-setwd(c('../output1'))
+setwd(c('../output'))
 
 name <- c("outputsim_")
 iter <- 1000
@@ -43,8 +43,7 @@ total$Tmon
 # tot <- data.frame(a,sdn=sdnoisef,adelta,simdSOS,nrange,dnrb=SimNrSb-EstNrSb,dT=SimTSb-EstTimeSb)
 tot <- data.frame(total,dT=total$Dsim-total$Dmon) ## dT1=total$Tsim-total$Tmon  # here is definitely something wrong with Tsim
 names(tot)
-tot$dip
-
+tot <- tot[tot$a == 0.3,]
 # aggregate the data 
 levels(factor(tot$a))
 levels(factor(tot$noisef))
@@ -60,8 +59,14 @@ levels(factor(tot$nrdatamonitor))
 #        if (length(which(!is.na(x))> iter/2)) sqrt(mean(x^2, na.rm=TRUE)) else x <- NA
 #        } 
 #    )
-tot$dip
-Agg <- aggregate(tot, by=list(tot$a,tot$noisef,tot$dip,tot$nrdatamonitor),FUN = 
+
+## we took out tot$a out of the aggregate function since it had no effect on the results
+## all the seasonality has been removed pretty good by the seasonal model
+## 
+
+
+#tot$a,
+Agg <- aggregate(tot, by=list(tot$noisef,tot$dip,tot$nrdatamonitor),FUN = 
   function(x){
       sqrt(mean(x^2, na.rm=TRUE))
       } 
@@ -69,7 +74,8 @@ Agg <- aggregate(tot, by=list(tot$a,tot$noisef,tot$dip,tot$nrdatamonitor),FUN =
 dim(Agg)
 head(Agg)
 
-Ndata <- aggregate(tot, by=list(tot$a,tot$noisef,tot$dip,tot$nrdatamonitor),FUN = function(x){ length(which(!is.na(x)))} )   
+# again we remove "tot$a," to stay consistent
+Ndata <- aggregate(tot, by=list(tot$noisef,tot$dip,tot$nrdatamonitor),FUN = function(x){ length(which(!is.na(x)))} )   
 # function to derive the amount of measurements
 dim(Ndata)
 head(Ndata)
@@ -81,24 +87,32 @@ Agg$sn <- Agg$a/Agg$nrange
 
 #Agg$a <- as.factor(paste("a =", Agg$a))
 Agg$dip <- as.factor(paste("dip = -", Agg$dip))
+Agg$Nr <- as.factor(paste("# = ", Agg$nrdatamonitor))
+
 names(Agg);head(Agg)
 
 require(lattice)
 #lattice.options(default.theme = canonical.theme(color = TRUE))  
     
 sp <- list(superpose.symbol = list(pch =c(18), cex = 0.4, col=c(1,2,3,4,5,6)),   # c(1,2,3,4)
-             superpose.line = list(col = c(1,2,3,4,5,6), lty = c(1,2,4,6,7,8)) #lty = c(1,2,4,6)
+             superpose.line = list(col = c(1,2,3,4,5,6), lty = c(1,2,7,4,5,6)) #lty = c(1,2,4,6)
              )
 
 require(monash)
+setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
+ 
 
-#savepng(paste("RMSE_Time_",iter,sep=""), height = 16)  
+# remark one time step = 1/23 (which is a 16-day period) - 
+tail(Agg$dT)[1]/(1/23)
+
+saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
 print(
-    xyplot(dT ~ (nrange) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
-      groups=~nrdatamonitor,
+    xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
+      groups=~Nr,
+      as.table =TRUE,
       aspect="1",
       scales = list(relation="same", alternating=1, tck=c(T,F)),
-      layout = c(4,1),
+      layout = c(2,2),
       ylab='RMSE',xlab='Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
@@ -108,16 +122,17 @@ print(
       )
     )
 )       
-#dev.off()
+dev.off()
 
-#saveeps(paste("NrDetections_Time_",iter,sep=""), height = 16)
+saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata ~ (nrange) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
-      groups=~nrdatamonitor,
+    xyplot(Ndata/1000 ~ (nrange) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
+      groups=~Nr,
       aspect="1",
+      as.table =TRUE,
       scales = list(relation="same", alternating=1, tck=c(T,F)),
-      layout = c(4,1),
-      ylab='# of detected breaks',xlab='Noise',
+      layout = c(2,2),
+      ylab='Probability of break detection',xlab='Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
       },
@@ -126,26 +141,26 @@ print(
       )
     )
 )       
-#dev.off()
+dev.off()
 
 # the amplitude differences of the simulations are also accounted for and do not influence the RMSE of the time difference
 # the length of the stable history does not influence immediately the accuracy of the break detection
 
-print(
-    xyplot(dT ~ (LStablehistory) | dip , data=Agg, subset=((Ndata>iter/2)& (dip != "dip = -0.1")), #) &(Group.3 >-4)
-      groups=~nrdatamonitor,
-      aspect="1",
-      scales = list(relation="same", alternating=1, tck=c(T,F)),
-      #layout = c(3,2),
-      ylab='RMSE',xlab='Noise',
-      panel = function(x, y, type, ...) {
-        panel.superpose(x, y, type=c("l"), ...)  
-      },
-      par.settings = sp,
-      auto.key = list(columns = 4, lines = T, points = FALSE, between.columns=0.4
-      )
-    )
-)
+# print(
+#     xyplot(dT ~ (LStablehistory) | dip , data=Agg, subset=((Ndata>iter/2)& (dip != "dip = -0.1")), #) &(Group.3 >-4)
+#       groups=~nrdatamonitor,
+#       aspect="1",
+#       scales = list(relation="same", alternating=1, tck=c(T,F)),
+#       #layout = c(3,2),
+#       ylab='RMSE',xlab='Noise',
+#       panel = function(x, y, type, ...) {
+#         panel.superpose(x, y, type=c("l"), ...)  
+#       },
+#       par.settings = sp,
+#       auto.key = list(columns = 4, lines = T, points = FALSE, between.columns=0.4
+#       )
+#     )
+# )
 # # saveeps(paste("RMSE_dnr_c1_0_",iter,sep=""),pointsize=12, height= 12) 
 # print(
 #     xyplot(dnrb ~(sdn*4) |a, data=Agg, subset= ((simdSOS== "Sim shift = 0") ),            #& (Ndata>iter/2)
