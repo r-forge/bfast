@@ -107,13 +107,13 @@ tail(Agg$dT)[1]/(1/23)
 
 saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
 print(
-    xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
+    xyplot((dT/(1/23)) ~ (sn) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
       groups=~Nr,
       as.table =TRUE,
       aspect="1",
       scales = list(relation="same", alternating=1, tck=c(T,F)),
       layout = c(2,2),
-      ylab='RMSE',xlab='Noise',
+      ylab='RMSE',xlab='Signal/Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
       },
@@ -126,13 +126,13 @@ dev.off()
 
 saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata/1000 ~ (nrange) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
+    xyplot(Ndata/1000 ~ (sn) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
       as.table =TRUE,
       scales = list(relation="same", alternating=1, tck=c(T,F)),
       layout = c(2,2),
-      ylab='Probability of break detection',xlab='Noise',
+      ylab='Probability of break detection',xlab='Signal/Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
       },

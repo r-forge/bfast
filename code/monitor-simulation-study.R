@@ -45,7 +45,7 @@ nrobs <- 159
 sdnoise <- 0.01
 dip <- -0.5; # vary size of dip between 0 and 0.15 in steps of 0.01
 noisef <- 3 # vary noise factor by 1 - 3 by steps of 0.05
-a <- 0.1
+a <- 0.3
 dfend <- 12  # vary between 0 and 22 data points from the end
 #set.seed(3) # remove this - to access randomness.
 teller <- 1
@@ -53,8 +53,8 @@ teller <- 1
 for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
- for (a in c(0.1,0.3,0.5)) {  
-   for (noisef in round(seq(1,6,by=0.5),2) ) {  
+#  for (a in c(0.1,0.3,0.5)) {  
+   for (noisef in round(seq(1,6,by=1),2) ) {  
      for (dip in round(-c(0.5,0.4,0.3,0.2,0.1,0),3) ) {
 ###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
           onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
@@ -91,6 +91,13 @@ writefirst <- TRUE
             
             ## determine stable history
             tshistory <- window(ftsNDVI,end=c(2006,start-1))
+            
+            ## determine the signal to noise ratio of the FULL period
+            stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
+            signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
+            noise <- diff(range(stlfit$time.series[,"remainder"]))
+            sn <- signal/noise
+  
             subset_start <- roc(tshistory, order = 3, level = 0.05, plot = FALSE) # searching for a stable period 
             print(subset_start)
           
@@ -154,9 +161,9 @@ writefirst <- TRUE
           out <- data.frame(dip, noisef, nrange = round(n.range,digit=4),
             a, dfend, Lhistory = length(tshistory), LStablehistory = length(stableHistory),
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
-              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp  )
+              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sn)
             
-          fname <- paste("output/outputsim_",teller,".csv",sep="")
+          fname <- paste("output1/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE
@@ -165,7 +172,7 @@ writefirst <- TRUE
      } # amount of data in the monitoring period
     } # dip
   } # noisef
-}  # a 
+# }  # a 
 } # different iterations of the whole simulation set-up : I will do 500 to start with          
 
 
