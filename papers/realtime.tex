@@ -66,27 +66,27 @@ over large areas. Yet, methods to detect changes
 in real-time within newly captured satellite images are lacking. 
 
 We are proposing a generic approach to detect disturbances in real-time 
-based on time series modelling of the stable historical period, representating expected normal behaviour. As such,
+based on time series modelling of the stable historical period, representing expected normal behaviour. As such,
 the differentiation between normal and abnormal change in real-time becomes
-possible when new image data is captured. Validation is done (1)~simulating 16-day MODIS NDVI time
-series (2000--2010) with different amount of noise, seasonality and containing
-disturbances at the end of the time series (2)~by application on real MODIS
-satellite image time series to detect forest and land cover disturbances in real-time for
-a study area in Australia. 
+possible when new image data is captured. Validation and accuracy assessment of the real-time change detection method is done by 
+(1)~simulating 16-day MODIS NDVI time series (2000--2010) with different amount of noise, seasonality and containing
+disturbances at the end of the time series 
+(2)~ using real MODIS satellite image time series. 
 
 Results illustrate that abrupt changes at the end of time series are
 successfully detected while being robust for strong seasonality and noise. 
 
-Data preprocessing, such as cloud masking remains important as the clouds can be detected as an abnormal
-change. The method is publicly available within the BFAST package for
-R. This method is specifically developed so that it can be used a global scale since is fast, does not
+The signal to noise ratio of the time series being analysed for real-time change remains the most important driver of accuracy and potential to detect changes.
+As such, data pre-processing in order to improve the quality and reliability of remotely sensed time series remains essential to enable change detection in time series data. 
+
+The method is publicly available within the BFAST package for R. This method is specifically developed so that it can be used a global scale since is fast, does not
 depend on thresholds or change type definitions and does not require gap filling of time series (e.g. clouds). Furthermore,
-the method is flexible and can be applied for different purposes (e.g. fire or oil spill detection) and onto all sorts of time series data (e.g. in-situ monitoring sensors or different types of satellite data).
+the method is flexible and can be applied for different purposes (e.g. fire or oil spill detection) and onto all sorts of time series data (e.g. in-situ monitoring sensors or different types of satellite data such as the DMCii satellite image time series).
 
 \textbf{Research Highlights}
 \begin{itemize}
     \item real-time change detection within newly measured data using time series analysis
-    \item a new method is proposed based on the BFAST concept and is available as a function in the open source R software
+    \item a new method is proposed is freely available as a function in the BFAST package for open source R software
     \item the method is validated by simulating time series and applying it on real satellite data
     \item the approach is fast and flexible to different data sets and can analyse time series with data gaps
 \end{itemize}
@@ -160,14 +160,12 @@ significant disturbances occur. The method described in this study are available
 
 The methods proposed here are based on a similar additive season and trend
 model as employed by \citet{Verbesselt:2010wo}. However, while
-\citet{Verbesselt:2010wo} focus on the question if and where there
-are structural breaks in season/trend of a given observed sample
-$t = 1, \dots, n$, we want to investigate a different questions:
-Does the season/trend for future observations $t = n, n + 1, \dots$ still
-conform with the season/trend established for the historical sample
-$t = 1, \dots, n$? Thus, we want to monitor potential abnormality
-(compared to previous observations) at the end of a time series in
-real time.
+\citet{Verbesselt:2010wo} focussed on the question if and where structural breaks occur in the season and trend component of a given observed time series
+$t = 1, \dots, n$, we want to investigate a different question:
+\emph{Does the season-trend model for future observations $t = n, n + 1, \dots$ still
+conform with the season-trend model established for the historical sample
+$t = 1, \dots, n$}? Thus, we want to monitor potential abnormality at the end of a time series in
+real-time by comparing it with historical observations.
 
 \subsection{Season-trend model}
 
@@ -178,8 +176,8 @@ trend and harmonic season:
   y_t & = \alpha_1 + \alpha_2 t + \sum_{j = 1}^k \gamma_{j} \sin \left(\frac{2\pi j t}{f} + \delta_{j} \right) ~+~ \varepsilon_t,
 \end{align}
 %
-where the intercept $\alpha_1$, slope $\alpha_2$ (both pertaining to trend), amplitudes $\gamma_1, \dots, \gamma_k$,
-and phases $\delta_1, \dots, \delta_k$ (all pertaining to season) are the unknown parameters,
+where the intercept $\alpha_1$, slope $\alpha_2$ (i.e. trend), amplitudes $\gamma_1, \dots, \gamma_k$,
+and phases $\delta_1, \dots, \delta_k$ (i.e. season) are the unknown parameters,
 $f$ is the known frequency (e.g., $f = 23$ annual observations for a 16-day time series),
 and $\varepsilon_t$ is the unobservable error term at time $t$. The choice of
 $k$ controls at which frequencies seasonal variations occur. In the applications
@@ -202,20 +200,19 @@ still giving equivalent predictions \citep[see e.g.,][Chapter~3.3]{Cryer2008}:
 %
 where the $p = 2 + 2 k$ parameters are collected in the regression coefficients $\beta$
 which can be estimated and tested using ordinary least squares (OLS) techniques. In particular,
-if all trend/season parameters in $\beta$ can be assumed to be stable for a given
+if all season-trend parameters in $\beta$ can be assumed to be stable for a given
 sample $t = 1, \dots, n$, the OLS estimator $\hat \beta$ is consistent for the
 unknown parameters.
-
-
 
 \subsection{Monitoring structural change}
 
 Based on the season-trend model introduced above, the question raised in
 the introduction can be rephrased into a structural change framework:
-Given that a stable season-trend model was estimated in an observed
+\emph{Given that a stable season-trend model was estimated in an observed
 time period, does it remain stable for future incoming
-observations? If not it will indicated an abnormal structural change
-in the process.
+observations?} . An abnormal structural change is detected when the model does not remain stable for new incoming observations.
+
+% If the model does not remain stable for real-time observations, it indicates an abnormal structural change in the process.
 
 As the season-trend model can be formulated as an OLS regression,
 we can leverage the methods proposed in the structural change literature
@@ -236,28 +233,22 @@ period $t = n + 1, \dots, N$:
 \end{align}
 %
 where $h$ is the bandwidth of the MOSUM and is typically chosen relative to
-the size of the history sample, e.g., $h = n/4$ or $h = n$ etc.
+the size of the history sample, e.g., $h = n/4$ or $h = n$ \citep{Zeileis2005a, Zeileis:2010tt}.
 If the model remains stable, the MOSUM process $m_t$ should be close to zero and
 fluctuate only randomly. However, if a structural change occurs, $m_t$ will deviate
 systematically from zero. A structural break is declared if the absolute value
 $|m_t|$ exceeds some boundary that is asymptotically only crossed with 5\%
-probability under structural stability.
+probability under structural stability. The technical details for the boundary are based
+on a so called functional central limit theorem. See \cite{Leisch2000} and especially their Table~1 for more details.
 
-The technical details for the boundary are somewhat more involved and based
-on a so called functional central limit theorem. Here, we use the boundary
-function $c \sqrt{2 \log_+ t/n}$, where $\log_+ x$ is $1$ for $x \le e$ and $\log x$
-otherwise and $c$ is the critical value determines the significance level. The
-critical values also depends on the choice of $h$ and the monitoring horizon $N$,
-e.g., for $h = 0.25 n$ and $N = 10 n$, $c = 1.3409$ at the 5\% level.
-See \cite{Leisch2000} and especially their Table~1 for more details.
-
+% JV: good section but maybe tool much details. However, Achim if you think this is specific for this paper I will include it in the paper.
+% Here, we use the boundary function $c \sqrt{2 \log_+ t/n}$, where $\log_+ x$ is $1$ for $x \le e$ and $\log x$ otherwise and $c$ is the critical value that determines the significance level. The critical values also depends on the choice of $h$ and the monitoring horizon $N$, e.g., for $h = 0.25 n$ and $N = 10 n$, $c = 1.3409$ at the 5\% level.
 
 \subsection{Selecting the stable history period}
 
 A crucial assumption for the monitoring approach proposed above is that
-the history period $t = 1, \dots, n$ itself is free of structural changes,
-i.e., that the parameters $\beta$ are stable during this time. Only in that
-case $\hat \beta$ is a consistent estimate (i.e., the season-trend structure
+the history period $t = 1, \dots, n$ itself is free of structural changes, i.e. that the parameters $\beta$ are stable during this time. 
+Only in that case $\hat \beta$ is a consistent estimate (i.e. the season-trend structure
 can be sensibly estimated) against which incoming new observations for $t > n$
 can be compared.
 
@@ -276,18 +267,20 @@ whose timing can be estimated using the methods of \cite{Bai2003} (which
 was is also a core ingredient of the BFAST method of \citealp{Verbesselt:2010wo}).
 Then, $\ell$ is selected as the first observation after the last estimated
 breakpoint. This approach is straightforward and is known to work well if there are
-large abrupt shifts in the season-trend model in the history period. However,
-if there are smaller gradual changes, \cite{Pesaran2002} show that this
-breakpoint approach wastes power (due to the trade-off between bias and variance).
-Hence, they suggest an alternative technique: Moving backward in time for
-$t = n, n-1, n-2, \dots$ they consider cumulative 1-step ahead prediction errors
-the season-trend model until this breaks down. The method is also known
-as reversed ordered cumulative sum (CUSUM) of residuals, or ROC for short.
+large abrupt shifts in the season-trend model in the history period. However, \cite{Pesaran2002} show that, when smaller gradual changes occur, this
+breakpoint approach is less accurate due to a trade-off between bias and variance.  % removed 'wastes power'
 
+Hence, they suggest an alternative technique. By moving backward in time for $t = n, n-1, n-2, \dots$ they consider cumulative 1-step ahead prediction errors
+until the season-trend model breaks down \citep{Zeileis2002}.
+% OK solved. \fixme{when does this model breakdown? is there a threshold -> is this based on the central limit theorem similar as above with the MOSUM process?}
+% Moving backward in time for $t = n, n-1, n-2, \dots$ they consider cumulative 1-step ahead prediction errors the season-trend model until this breaks down. 
+The method is also known as Reversed-Ordered-Cumulative sum (CUSUM) of residuals, or ROC.
 The ROC method is based on similar ideas as the monitoring approach introduced
 above, but in reverse ordering. The season-trend model is estimated $\hat \beta^{(s+1:n)}$
 based on observations $t = s + 1, \dots, n$ and it is checked whether the last
-previous observation $s$ conforms with this. The suitably scaled residuals
+previous observation $s$ conforms with this. 
+
+The suitably scaled residuals
 $\tilde \varepsilon_s$ are then cumulated (in reverse ordering):
 %
 \begin{align*}
@@ -296,6 +289,9 @@ $\tilde \varepsilon_s$ are then cumulated (in reverse ordering):
     \sqrt{1 + x_s^\top \left({X^{(s+1:n)}}^\top X^{(s+1:n)} \right)^{-1} x_s}}
 \end{align*}
 %
+
+\fixme{Achim - is it necessary to mention the scaling of $\tilde \varepsilon_s$ with Xs, this scaling is difficult to understand}.
+
 where $X^{(s+1:n)}$ is the regressor matrix based on observations $s+1, \dots, n$
 and $\tilde \sigma$ is an estimate of the residual standard deviation.
 For this ROC process $r_i$ with $i = p + 1, \dots, n$, there are again
@@ -311,7 +307,7 @@ as $\ell$, corrsponding to the last point up to which there is no sufficiently
 large deviation from parameter stability. The remaining observations
 $1, \dots, \ell - 1$ are pruned from the history period and then the
 monitoring is conducted as described above but with a reduced sample
-size of the history period.
+size of the history period (i.e. the stable history).
 
 
 \section{Validation}\label{sec:Validation}
@@ -386,7 +382,7 @@ Further, many methods assume that a given mathematical func- tion, such as piece
 
 
 \section{Conclusion}
-Currently, real-time satellite images and their derivatives are routinely produced and published on the World wide Web (e.g. http://rapidfire.sci.gsfc.nasa.gov/) but methods for real-time monitoring and change detection are lacking. 
+Currently, real-time satellite images and their derivatives are routinely produced and published on the World wide Web (e.g. \url{http://rapidfire.sci.gsfc.nasa.gov/} or \url{http://www.dmcii.com/index.html}) but methods for real-time monitoring and change detection are lacking. 
 
 
 This validation approach by combining tests with simulated and real data should be a standard practice when validating novel change detection approaches. Furthermore, methods being proposed should also be made available to other scientist enabling the reproducibility of the research and collaboration towards further improvement of the methods.
