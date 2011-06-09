@@ -54,7 +54,7 @@ for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
 #  for (a in c(0.1,0.3,0.5)) {  
-   for (noisef in round(seq(1,6,by=1),2) ) {  
+   for (noisef in round(seq(0,6,by=0.5),2) ) {  
      for (dip in round(-c(0.5,0.4,0.3,0.2,0.1,0),3) ) {
 ###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
           onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
@@ -92,8 +92,8 @@ writefirst <- TRUE
             ## determine stable history
             tshistory <- window(ftsNDVI,end=c(2006,start-1))
             
-            ## determine the signal to noise ratio of the FULL period
-            stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
+            ## determine the signal to noise ratio of the History period
+            stlfit <- stl(tshistory, s.window="periodic", robust=TRUE)
             signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
             noise <- diff(range(stlfit$time.series[,"remainder"]))
             sn <- signal/noise
