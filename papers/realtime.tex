@@ -93,14 +93,12 @@ the method is flexible and can be applied for different purposes (e.g. fire or o
 
 \end{abstract}
 
-
 \begin{keyword}
 Early warning \sep real-time \sep change detection \sep land cover and land use change\sep disturbance \sep monitoring \sep forest \sep NDVI \sep time series \sep MODIS \sep vegetation dynamics \sep phenology
 \end{keyword}
 
 \end{frontmatter} 
 
-\newpage
 \section{Introduction}
 
 % forest disturbances and their importance
@@ -241,6 +239,8 @@ $|m_t|$ exceeds some boundary that is asymptotically only crossed with 5\%
 probability under structural stability. The technical details for the boundary are based
 on a so called functional central limit theorem. See \cite{Leisch2000} and especially their Table~1 for more details.
 
+In summary, when using the method on real data three steps are being performed: (1) verify which part of the history period is stable by going back in time from the last of the history period, (2) fit the seasonal-trend model on the stable history period and (3) monitor and verify whether the stable history model is still valid for the new incoming data (i.e. real-time change detection).
+
 % JV: good section but maybe tool much details. However, Achim if you think this is specific for this paper I will include it in the paper.
 % Here, we use the boundary function $c \sqrt{2 \log_+ t/n}$, where $\log_+ x$ is $1$ for $x \le e$ and $\log x$ otherwise and $c$ is the critical value that determines the significance level. The critical values also depends on the choice of $h$ and the monitoring horizon $N$, e.g., for $h = 0.25 n$ and $N = 10 n$, $c = 1.3409$ at the 5\% level.
 
@@ -264,14 +264,14 @@ history period. If not, various data-driven techniques for determining $\ell$
 have been suggested in the literature. One popular approach is to assume
 that there are multiple structural breaks already in the history period
 whose timing can be estimated using the methods of \cite{Bai2003} (which
-was is also a core ingredient of the BFAST method of \citealp{Verbesselt:2010wo}).
+was is also a core ingredient of the BFAST method of \citet{Verbesselt:2010wo}.
 Then, $\ell$ is selected as the first observation after the last estimated
 breakpoint. This approach is straightforward and is known to work well if there are
 large abrupt shifts in the season-trend model in the history period. However, \cite{Pesaran2002} show that, when smaller gradual changes occur, this
 breakpoint approach is less accurate due to a trade-off between bias and variance.  % removed 'wastes power'
 
 Hence, they suggest an alternative technique. By moving backward in time for $t = n, n-1, n-2, \dots$ they consider cumulative 1-step ahead prediction errors
-until the season-trend model breaks down \citep{Zeileis2002}.
+until the season-trend model breaks down.
 % OK solved. \fixme{when does this model breakdown? is there a threshold -> is this based on the central limit theorem similar as above with the MOSUM process?}
 % Moving backward in time for $t = n, n-1, n-2, \dots$ they consider cumulative 1-step ahead prediction errors the season-trend model until this breaks down. 
 The method is also known as Reversed-Ordered-Cumulative sum (CUSUM) of residuals, or ROC.
@@ -303,7 +303,7 @@ If no boundary crossing occurs, there is no evidence for structural changes
 within the history period. Thus $\ell = 1$ can be chosen and the monitoring
 approach can be conducted as described above. However, if there is a boundary
 crossing, the last observation before the boundary crossing is chosen
-as $\ell$, corrsponding to the last point up to which there is no sufficiently
+as $\ell$, corresponding to the last point up to which there is no sufficiently
 large deviation from parameter stability. The remaining observations
 $1, \dots, \ell - 1$ are pruned from the history period and then the
 monitoring is conducted as described above but with a reduced sample
@@ -312,28 +312,32 @@ size of the history period (i.e. the stable history).
 
 \section{Validation}\label{sec:Validation}
 
-The proposed approach can be applied to a variety of time series, and is not
-restricted to specific remotely sensed vegetation indices. However, validation
-has been conducted using Normalized Difference Vegetation Index (NDVI) time
-series, the most widely used vegetation index in medium to coarse scale studies \citep{Myneni1995,Tucker1979}.
-We validated BFAST by (1)~simulating 16-day NDVI time series, and (2)~applying
-the method to 16-day MODIS satellite NDVI time series (2000--2011). Validation
-of multi-temporal change-detection methods is often not straightforward, since
+We validated the real-time change detection approach by (1)~simulating 16-day NDVI time series, and (2)~applying
+the method to real 16-day MODIS satellite NDVI time series. 
+Validation of multi-temporal change-detection methods is often not straightforward, since
 independent reference sources for a broad range of potential changes must be
-available during the change interval \citep{Verbesselt2009a}. Field validated single-date maps are
-unable to represent the type and number of changes detected \citep{Kennedy2007}.
-We simulated 16-day NDVI time series with different noise, seasonality, and
-change magnitudes in order to robustly test the real-time change detection capacity in a controlled environment.
-However, it is challenging to create simulated time series that approximate
+available during the change interval \citep{Kennedy2007}.
+We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change detection capacity in a controlled environment. However, it is challenging to create simulated time series that approximate
 remotely sensed time series, because these contain combined information on
 vegetation phenology, inter-annual climate variability, disturbance events,
 sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds)
 \citep{Zhang2009}. Therefore, applying the method to remotely sensed data and
-performing comparisons with in-situ data remains necessary. In the next two
-sections, simulation of NDVI time series and application on real NDVI time
-series are described.
+performing comparisons with in-situ data remains necessary. 
+
+A similar validation strategy was proposed by \citet{Verbesselt2009a} to validate change detection capacity in the seasonal and trend component of time series using the BFAST method (\url{http://cran.r-project.org/package=bfast}), respectively. More details about the validation strategy can be found there. Here, we focus on the validation of detection of changes at the end of a time series (i.e. in real-time when new images are recently captured). In the next two sections, simulation of NDVI time series and application on real MODIS NDVI satellite image time series are described. 
 
 \subsection{Simulation of NDVI time series}
+
+%time series are simulate for the full period 2007 where we introduced an abrupt change in the year 2007. then the full time series (2006) is being used as the history period and investigated for stability and a model is being fitted. then we verify whether we can detect the change that has been introduced in 2007 while varying amplitude, noise, the magnitude of the abrupt change (dip), and the amount of data available in the monitoring period. 
+
+% we focus on detecting abrupt changes in the monitoring period. so a time serieus with an abrupt change at the end of the time series is being simulated.
+% amplitude, noise are being varied. in order to test the monitoring method the amount of data available for the method is being varied...
+
+Simulated NDVI time series are generated by summing individually simulated seasonal, noise, and trend components. First, the seasonal component is created using an asymmetric Gaussian function for each season \citep{Verbesselt:2010wo}. No phenological changes were introduced here as the focus of this 
+ 
+ 
+Time-series where simulated with similar parameters as show in Table 1 and 
+For more details about the validation strategy please refer to 
 
 \subsection{Application on real NDVI time series}\label{sec:RealData}
 
@@ -358,7 +362,11 @@ Ideal prediction period discussion:
 (1) how much data is needed before a break can be detected? 
 (2) how much data can be used before the prediction of the model is not valid anymore?.  . See forecasting papers and also White et al. paper.
 
+3. Pro's and con's of data simulation. Data simulation enables testing of a method however with data simulation it is very difficult to reproduce similar behavior as in real time series e.g. measured by satellite sensors of vegetation dynamcis.
 Further work
+
+4. no decompositioning is done here - one model is being used.
+
 
 The real-time monitoring could be further improved by including other explanatory variables in the monitoring model (e.g. temperature, rainfall) which will contribute to model the data and determine what is normal versus what is abnormal. Furthermore, the monitoring model proposed here can also further improved to be used as a forecasting model. Similar to current real-time monitoring approach, forecasting requires a profound understanding of vegetation dynamics and vegetation interaction with the atmosphere, combined with proper data analysis techniques  \citep{LeiJi:2004kx}.
 
