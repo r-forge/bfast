@@ -27,7 +27,7 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
 
 i <- 70
-for (i in 1:120) {
+# for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
   plot(tsNDVI)
@@ -132,7 +132,7 @@ for (i in 1:120) {
 # lines(createts(fitted(fitbp)),col=2, lty=2)
 # lines(confint(fitbp))
 ## plot and visualise
-savepng(paste("../papers/figs/monitorwithbreak",i,sep=""), height=14)
+# savepng(paste("../papers/figs/monitorwithbreak",i,sep=""), height=14)
   title <- FALSE
   plot(ftsNDVI,type='n', main = if (title) {
     if (!is.na(tbp[1])) { 
@@ -153,11 +153,11 @@ savepng(paste("../papers/figs/monitorwithbreak",i,sep=""), height=14)
 #   lines(confint(fitbp))
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
-dev.off()
+# dev.off()
  
   ## output
 #   output$timebp[i] <- tbp
- }
+#  }
 
 #write.csv(output,"output.csv")
 #fix(output)
