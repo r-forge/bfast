@@ -5,7 +5,7 @@ require(monash)
 
 #Analysis of Simulation Results
 getwd()
-setwd(c('../output'))
+setwd(c('../output1'))
 
 name <- c("outputsim_")
 iter <- 1000
@@ -83,7 +83,7 @@ head(Ndata)
 Agg$Ndata <- Ndata$dT
 names(Agg) 
 
-Agg$sn <- Agg$a/Agg$nrange
+Agg$sna <- Agg$a/Agg$nrange
 
 #Agg$a <- as.factor(paste("a =", Agg$a))
 Agg$dip <- as.factor(paste("dip = -", Agg$dip))
@@ -105,9 +105,9 @@ setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
 # remark one time step = 1/23 (which is a 16-day period) - 
 tail(Agg$dT)[1]/(1/23)
 
-saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
+# saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
 print(
-    xyplot((dT/(1/23)) ~ (sn) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
+    xyplot((dT/(1/23)) ~ (sna) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
       groups=~Nr,
       as.table =TRUE,
       aspect="1",
@@ -122,15 +122,16 @@ print(
       )
     )
 )       
-dev.off()
+# dev.off()
 
-saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
+# saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata/1000 ~ (sn) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
+    xyplot(Ndata/1000 ~ (sna) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
       as.table =TRUE,
       scales = list(relation="same", alternating=1, tck=c(T,F)),
+#       scales = list(relation="free",x=list(alternating=1),rot=0),
       layout = c(2,2),
       ylab='Probability of break detection',xlab='Signal/Noise',
       panel = function(x, y, type, ...) {
@@ -141,7 +142,7 @@ print(
       )
     )
 )       
-dev.off()
+# dev.off()
 
 # the amplitude differences of the simulations are also accounted for and do not influence the RMSE of the time difference
 # the length of the stable history does not influence immediately the accuracy of the break detection
