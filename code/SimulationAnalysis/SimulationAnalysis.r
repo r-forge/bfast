@@ -43,7 +43,7 @@ total$Tmon
 # tot <- data.frame(a,sdn=sdnoisef,adelta,simdSOS,nrange,dnrb=SimNrSb-EstNrSb,dT=SimTSb-EstTimeSb)
 tot <- data.frame(total,dT=total$Dsim-total$Dmon) ## dT1=total$Tsim-total$Tmon  # here is definitely something wrong with Tsim
 names(tot)
-tot <- tot[tot$a == 0.3,]
+tot <- tot[tot$a == 0.1,]
 # aggregate the data 
 levels(factor(tot$a))
 levels(factor(tot$noisef))
@@ -112,7 +112,7 @@ print(
       as.table =TRUE,
       aspect="1",
       scales = list(relation="same", alternating=1, tck=c(T,F)),
-      layout = c(2,2),
+      #layout = c(2,2),
       ylab='RMSE',xlab='Signal/Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
