@@ -99,8 +99,8 @@ sp <- list(superpose.symbol = list(pch =c(18), cex = 0.4, col=c(1,2,3,4,5,6)),  
              )
 
 require(monash)
-setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
- 
+# setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
+setwd('/Users/janvb/Documents/R/bfast/papers/figs')  # imac 
 
 # remark one time step = 1/23 (which is a 16-day period) - 
 tail(Agg$dT)[1]/(1/23)
