@@ -24,7 +24,11 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-opar <- par(mfrow=c(2,1))
+saveeps(paste("../papers/figs/realmonitoring",sep=""), height=14)
+opar <- par(mfrow=c(2,1),mar=c(0,4,0,1))
+# def.par <- par(no.readonly = TRUE,mar=c(0,4,0,1))
+# nf <- layout(matrix(c(1,2),2,1,byrow=T))
+# layout.show(nf)
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
 i <- 4  # tree mortality
   # i <- 8  # harvest event
@@ -32,8 +36,9 @@ i <- 4  # tree mortality
 i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
 
-for (i in c(4,77)) {
-
+count <- 0
+for (i in c(4,35)) {
+  count <- count +1
 # for (i in 1:120) {
 
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
@@ -139,14 +144,37 @@ for (i in c(4,77)) {
 # lines(createts(fitted(fitbp)),col=2, lty=2)
 # lines(confint(fitbp))
 ## plot and visualise
-# savepng(paste("figsallplot/monitorwithbreak",i,sep=""), height=14)
-  title <- FALSE
-  plot(ftsNDVI,type='n', main = if (title) {
-    if (!is.na(tbp[1])) { 
-        paste("Time of detected break is", format(tbp,digits=6))} else
-        { "no breakpoint detected"}
-    }, ylab='NDVI'
-  )
+  title <- F
+  if (count==1) {
+    par(mar=c(0,4,4,1))
+    plot(ftsNDVI,type='n', main = if (title) {
+      if (!is.na(tbp[1])) { 
+          paste("Plot nr",i," Time of detected break is", format(tbp,digits=6))} else
+          {paste("Plot nr",i,"no breakpoint detected",sep="")}
+      }, ylab='NDVI',xaxt="n",xlab=""
+    )
+#   legend("topleft","a")
+  } 
+#   if (count==2) {
+#     par(mar=c(0,4,0,1))
+#     plot(ftsNDVI,type='n', main = if (title) {
+#       if (!is.na(tbp[1])) { 
+#           paste("Plot nr",i," Time of detected break is", format(tbp,digits=6))} else
+#           {paste("Plot nr",i,"no breakpoint detected",sep="")}
+#       }, ylab='NDVI',xaxt="n",xlab=""
+#     )
+#   } 
+  if (count==2) {
+     par(mar=c(4,4,0,1))
+    plot(ftsNDVI,type='n', main = if (title) {
+      if (!is.na(tbp[1])) { 
+          paste("Plot nr",i," Time of detected break is", format(tbp,digits=6))} else
+          {paste("Plot nr",i,"no breakpoint detected",sep="")}
+      }, ylab='NDVI'
+    )
+#   legend("topleft","b")
+  }
+  
   lines(NDVIhistory) # history period
   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
   lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
@@ -158,14 +186,17 @@ for (i in c(4,77)) {
    abline(v = tbp, lty = 2, col='red',lwd=2) 
 #  lines(out$Tt,col='purple',lty=3) 
 #   lines(confint(fitbp))
+  if (count==2) {
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
-#  dev.off()
- 
+  }
   ## output
 #   output$timebp[i] <- tbp
- }
+}
 
+dev.off()
+par(opar)
+# par(def.par)
 #write.csv(output,"output.csv")
 #fix(output)
 # A? BFAST trend output - could this be used as a validation method?
