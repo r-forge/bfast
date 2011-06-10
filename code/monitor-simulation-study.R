@@ -53,8 +53,8 @@ teller <- 1
 for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
-#  for (a in c(0.1,0.3,0.5)) {  
-   for (noisef in round(seq(0,6,by=0.5),2) ) {  
+  for (a in c(0.1,0.3,0.5)) {  
+   for (noisef in round(seq(0,8,by=0.5),2) ) {  
      for (dip in round(-c(0.5,0.4,0.3,0.2,0.1,0),3) ) {
 ###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
           onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
