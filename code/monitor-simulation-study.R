@@ -172,7 +172,7 @@ writefirst <- TRUE
      } # amount of data in the monitoring period
     } # dip
   } # noisef
-# }  # a 
+}  # a 
 } # different iterations of the whole simulation set-up : I will do 500 to start with          
 
 
