@@ -48,10 +48,10 @@ for (i in c(4,35)) {
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
   ## fill gaps #### check for amount of NA's
-  ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+  #ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
   # watch out when using splines - because at the end of a time series they can produce errors
   # see i <- 120
-  
+  ftsNDVI <- tsNDVI
   ## we have to be carefull here as new/ maybe not realistic data is created here
   tsp(ftsNDVI) <- tsp(tsNDVI)
   ## illustrates the data filling procedure
@@ -64,7 +64,7 @@ for (i in c(4,35)) {
   ftsNDVI <- window(ftsNDVI,end=c(2007,1))
 
   ## Determine the signal to noise ratio using the range of the stl components
-  stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
+  stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE, na.action=na.approx)
 #   plot(stlfit)
 #   plot(ftsNDVI)
 #  lines(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"],col='red')
