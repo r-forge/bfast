@@ -24,15 +24,13 @@ names(data) <- as.character(0:120)
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
-opar <- par(mfrow=c(2,1))
+
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
 i <- 4  # tree mortality
   # i <- 8  # harvest event
   # i <- 35 # is also a harvest activity ook 36
-i <- 77 # harvest event!
+ i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
-
-for (i in c(4,77)) {
 
 # for (i in 1:120) {
 
@@ -43,12 +41,9 @@ for (i in c(4,77)) {
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
   ## fill gaps #### check for amount of NA's
-  ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
-  # watch out when using splines - because at the end of a time series they can produce errors
-  # see i <- 120
-  
-  ## we have to be carefull here as new/ maybe not realistic data is created here
-  tsp(ftsNDVI) <- tsp(tsNDVI)
+#   ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+  ftsNDVI <-tsNDVI
+ 
   ## illustrates the data filling procedure
 #   plot(ftsNDVI,col='red')
 #   lines(tsNDVI,lwd=2)
@@ -59,7 +54,7 @@ for (i in c(4,77)) {
   ftsNDVI <- window(ftsNDVI,end=c(2007,1))
 
   ## Determine the signal to noise ratio using the range of the stl components
-  stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE)
+  stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE, na.action=na.approx)
 #   plot(stlfit)
 #   plot(ftsNDVI)
 #  lines(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"],col='red')
@@ -100,7 +95,7 @@ for (i in c(4,77)) {
   test_tspp <- tspp(stableHistory, order = order)
   
   ## History model
-  test_lm <- lm(response ~ trend + harmon, data = test_tspp) 
+  test_lm <- lm(response ~ trend + harmon, data = test_tspp) #, na.action=na.omit
   output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
   test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
     	type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
@@ -140,19 +135,19 @@ for (i in c(4,77)) {
 # lines(confint(fitbp))
 ## plot and visualise
 # savepng(paste("figsallplot/monitorwithbreak",i,sep=""), height=14)
-  title <- FALSE
+  title <- TRUE
   plot(ftsNDVI,type='n', main = if (title) {
-    if (!is.na(tbp[1])) { 
-        paste("Time of detected break is", format(tbp,digits=6))} else
-        { "no breakpoint detected"}
-    }, ylab='NDVI'
-  )
+      if (!is.na(tbp[1])) { 
+          paste("Plot nr",i," Time of detected break is", format(tbp,digits=6))} else
+          {paste("Plot nr",i,"no breakpoint detected",sep="")}
+      }, ylab='NDVI'
+    )
   lines(NDVIhistory) # history period
   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
   lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
 
   
-  test_pred <- predict(test_lm, newdata = test_tspp)
+  test_pred <- predict(test_lm, newdata = test_tspp, na.action=na.exclude)
   tsp(test_pred) <- tsp(test_tspp$response)
   lines(as.ts(test_pred), col = 'blue')
    abline(v = tbp, lty = 2, col='red',lwd=2) 
@@ -160,11 +155,11 @@ for (i in c(4,77)) {
 #   lines(confint(fitbp))
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
-#  dev.off()
+# dev.off()
  
   ## output
 #   output$timebp[i] <- tbp
- }
+#  }
 
 #write.csv(output,"output.csv")
 #fix(output)
