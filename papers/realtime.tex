@@ -2,7 +2,7 @@
 \usepackage{amssymb,amsthm,amsmath,setspace}
 \usepackage{url,color}
 \usepackage{lineno}
-\usepackage[labelfont=bf,format=hang,textfont=it]{caption}
+%\usepackage[labelfont=bf,format=hang,textfont=it]{caption}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage[letterpaper,text={15cm,23cm}]{geometry}
@@ -68,15 +68,14 @@ in real-time within newly captured satellite images are lacking.
 We are proposing a generic approach to detect disturbances in real-time 
 based on time series modelling of the stable historical period, representing expected normal behaviour. As such,
 the differentiation between normal and abnormal change in real-time becomes
-possible when new image data is captured. Validation and accuracy assessment of the real-time change detection method is done by 
+possible when new data is captured. Validation and accuracy assessment of the real-time change detection method is done by 
 (1)~simulating 16-day MODIS NDVI time series (2000--2010) with different amount of noise, seasonality and containing
-disturbances at the end of the time series 
-(2)~ using real MODIS satellite image time series. 
+disturbances at the end of the time series, (2)~using real MODIS satellite image time series. 
 
 Results illustrate that abrupt changes at the end of time series are
 successfully detected while being robust for strong seasonality and noise. 
 
-The signal to noise ratio of the time series being analysed for real-time change remains the most important driver of accuracy and potential to detect changes.
+The signal-to-noise ratio of the time series being analysed for real-time change remains the most important driver of accuracy and potential to detect changes.
 As such, data pre-processing in order to improve the quality and reliability of remotely sensed time series remains essential to enable change detection in time series data. 
 
 The method is publicly available within the BFAST package for R. This method is specifically developed so that it can be used a global scale since is fast, does not
@@ -88,13 +87,13 @@ the method is flexible and can be applied for different purposes (e.g. fire or o
     \item real-time change detection within newly measured data using time series analysis
     \item a new method is proposed is freely available as a function in the BFAST package for open source R software
     \item the method is validated by simulating time series and applying it on real satellite data
-    \item the approach is fast and flexible to different data sets and can analyse time series with data gaps
+    \item the approach is robust, fast and flexible to different data sets and does not require gap filling
 \end{itemize}
 
 \end{abstract}
 
 \begin{keyword}
-Early warning \sep real-time \sep change detection \sep land cover and land use change\sep disturbance \sep monitoring \sep forest \sep NDVI \sep time series \sep MODIS \sep vegetation dynamics \sep phenology
+Early warning \sep real-time \sep change detection \sep land cover and land use change\sep disturbance \sep NDVI \sep time series \sep MODIS \sep vegetation dynamics \sep phenology
 \end{keyword}
 
 \end{frontmatter} 
@@ -153,7 +152,6 @@ remotely sensed time series (e.g., Landsat, Sentinel sensors) or be integrated w
 frameworks and used as an alarm system to provide information on when and where
 significant disturbances occur. The method described in this study are available in the BFAST package for R \citep{R} from CRAN (\url{http://cran.r-project.org/package=bfast})
 
-\newpage
 \section{Real-time change detection}\label{sec:Method}
 
 The methods proposed here are based on a similar additive season and trend
@@ -313,36 +311,59 @@ size of the history period (i.e. the stable history).
 \section{Validation}\label{sec:Validation}
 
 We validated the real-time change detection approach by (1)~simulating 16-day NDVI time series, and (2)~applying
-the method to real 16-day MODIS satellite NDVI time series. 
-Validation of multi-temporal change-detection methods is often not straightforward, since
-independent reference sources for a broad range of potential changes must be
-available during the change interval \citep{Kennedy2007}.
-We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change detection capacity in a controlled environment. However, it is challenging to create simulated time series that approximate
-remotely sensed time series, because these contain combined information on
-vegetation phenology, inter-annual climate variability, disturbance events,
-sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds)
-\citep{Zhang2009}. Therefore, applying the method to remotely sensed data and
-performing comparisons with in-situ data remains necessary. 
+the method to real 16-day MODIS satellite NDVI time series. Validation of multi-temporal change-detection methods is often not straightforward, since
+independent reference sources for a broad range of potential changes must be available during the change interval \citep{Kennedy2007, Verbesselt2009a}.
 
-A similar validation strategy was proposed by \citet{Verbesselt2009a} to validate change detection capacity in the seasonal and trend component of time series using the BFAST method (\url{http://cran.r-project.org/package=bfast}), respectively. More details about the validation strategy can be found there. Here, we focus on the validation of detection of changes at the end of a time series (i.e. in real-time when new images are recently captured). In the next two sections, simulation of NDVI time series and application on real MODIS NDVI satellite image time series are described. 
+We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change detection capacity in a controlled environment. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. Therefore, applying the method to remotely sensed data remains necessary. 
+A similar validation strategy was proposed by \citet{Verbesselt2009a, Verbesselt:2010wo} to validate the detection of phenological shifts, abrupt and gradual changes within time series. Here, we focus on the validation of detection of changes at the end of a time series, i.e. in real-time, when new images are recently captured. In the next two sections, the simulation of NDVI time series and application on real MODIS NDVI satellite image time series are described. 
 
 \subsection{Simulation of NDVI time series}
 
-%time series are simulate for the full period 2007 where we introduced an abrupt change in the year 2007. then the full time series (2006) is being used as the history period and investigated for stability and a model is being fitted. then we verify whether we can detect the change that has been introduced in 2007 while varying amplitude, noise, the magnitude of the abrupt change (dip), and the amount of data available in the monitoring period. 
+The objective of the time series simulation was to validate (1) the accuracy of the real-time change detection approach and (2) how much new data is required before a disturbance can be detected while varying the amount of noise, seasonal amplitude, and the magnitude of the disturbance in the simulated time series. The real-time change detection approach requires (a) a \emph{history period} i.e. data that already has been acquired and which will be analysed for stability in order to model normal vegetation dynamics, (b) a \emph{monitoring period} i.e. the period representing new data that recently has been captured which needs to be analyse whether something normal or abnormal is happening. 
 
-% we focus on detecting abrupt changes in the monitoring period. so a time serieus with an abrupt change at the end of the time series is being simulated.
-% amplitude, noise are being varied. in order to test the monitoring method the amount of data available for the method is being varied...
+Here, NDVI time series were simulated with an arbitrary length of 7 years  (i.e. 2000--2006) containing a simulated abrupt change in 2006, where the period 2000-2005 is the history period and the year 2006 the monitoring period. %(see Fig. which illustrates the set-up). 
+The objective is to test and see how much data is required in 2006 before the abrupt change in the monitoring period (2006) can be detected while varying the noise, seasonal amplitude and the magnitude of the abrupt change.
 
-Simulated NDVI time series are generated by summing individually simulated seasonal, noise, and trend components. First, the seasonal component is created using an asymmetric Gaussian function for each season \citep{Verbesselt:2010wo}. No phenological changes were introduced here as the focus of this 
- 
- 
-Time-series where simulated with similar parameters as show in Table 1 and 
-For more details about the validation strategy please refer to 
+NDVI time series were simulated using a similar approach as proposed by  \citet{Verbesselt2009a, Verbesselt:2010wo}. Simulated NDVI time series are generated by summing individually simulated seasonal, noise, and trend components. First, the seasonal component is created using an asymmetric Gaussian function for each season \citep{Verbesselt:2010wo}. Second, the noise component was generated using a random number generator that follows a normal distribution N($\mu = 0$, $\sigma =x$). Vegetation index specific noise was generated by randomly replacing the white noise by noise with a value of $-0.1$, representing cloud contamination that often remains after atmospheric correction and cloud masking procedures. Third, an abrupt change was added to the trend component to simulate an abrupt disturbance (e.g., fire, flood or harvest operation). This was simulated by combining a step function with a specific magnitude (i.e. $m$) and fixed gradient recovery phase (See Fig. XX).
+
+We simulated 16-day NDVI time series with one abrupt disturbance in the monitoring period (Figue~\ref{fig:Simults}). The 16-day NDVI time series are simulated by extracting key characteristics from MODIS 16-day NDVI time series within the study area \citep{Verbesselt2009a}. We selected a range of amplitude, noise, and $m$ values for the simulation study to represent a large range of land cover types of different data quality  while varying the amount of data available in the monitoring period(Table~\ref{table:simpar}). 1000 iterations of all the combinations of amplitude, noise, $m$, and amount of data in the monitoring period were performed to quantify; (1) the probability of detecting a disturbance in the monitoring period and (2) accuracy of estimating the timing of the detected disturbance change within a time series expressed as Root Mean Square Error (RMSE). 
+
+% add figure to explain simulation strategy
+
+\begin{table}[t!]
+\caption{Parameter values ($a$, $\sigma$ noise and $m$) for simulation of 16-day NDVI time series while varying the amount of data available in the monitoring period ($n$).}
+\centering
+\begin{tabular}{ll}
+  \hline
+  Parameters & Values \\ [0.5ex]
+  \hline
+  $a$         & $0.1, 0.3, 0.5$ \\
+  $\sigma$ noise    & $0.01,0.02,\dots,0.07$ \\
+  $m$         & $0, -0.1, -0.2, \dots, -0.5$ \\
+  %$\Delta SOS$   & $0, 1.9, 3.2, 4.3$ \\ [.5ex]
+  $n$   & $1, 2, \dots, 8$ \\ [.5ex]
+  \hline
+\end{tabular}
+\label{table:simpar}
+\end{table}
 
 \subsection{Application on real NDVI time series}\label{sec:RealData}
 
-% we use 16-day MODIS data to illustrate the concept and plan to use day and 8-day time series for operational forest disturbance monitoring.
+We selected the 16-day MODIS NDVI composites with a 250m spatial resolution (MOD13Q1 collection~5), since this product provides frequent information at the
+spatial scale at which the majority of human-driven land cover changes occur \citep{Townshend1988}. The MOD13Q1 16-day composites were generated using a
+constrained view angle maximum NDVI value compositing technique \citep{Huete2002}. The MOD13Q1 images were acquired from 24 February 2000 to 14 September
+2009 for a multi-purpose forested study area (\emph{Pinus radiata} plantation) in South Eastern Australia (Lat.~35.5$^\circ$~S, Lon.~148.0$^\circ$~E). The
+abrupt and gradual changes occurring within the trend component of the MODIS satellite image time series for this study area are described by
+\citet{Verbesselt2009a}. Furthermore, the study area consists out of two very different land cover types, i.e., grasslands and plantations, providing time
+series with a large difference in seasonal amplitudes (i.e., 0.05--0.7 NDVI), ideal for evaluating the effect of the seasonal amplitude on change detection method.
 
+We used the binary MODIS Quality Assurance flags to select only cloud-free data of optimal quality. Moreover, a pixel time series was only selected for analysis when it lacked less than 10\% of the data \citep{Beurs2009}. The signal-to-noise ratio of the 16-day MODIS NDVI image series was derived by using the STL method 
+
+% add info the STL decomposition to derive the signal to noise ratio
+% we should redo the analyse without linear interpolation in order to verify whether it still works!!! - This is the aim of applying it on real data i.e. DEMONSTRATION!!!
+
+
+The timing of the detected abrupt changes in the monitoring period (i.e. 2006) revealed were discussed and compared with the signal-to-noise ratio.
 
 \section{Results}
 
@@ -453,7 +474,7 @@ This work was undertaken using expertise and field data available via the progra
 \centering
     \includegraphics[height=0.8\textwidth]{figs/realmonitoring.eps}
   \caption{ plot nr 4 and 35}
-  \label{fig:SpatTimeofChange}
+  \label{fig:realmonitoring}
 \end{figure}
 
 
