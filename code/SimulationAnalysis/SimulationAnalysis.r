@@ -43,7 +43,7 @@ total$Tmon
 # tot <- data.frame(a,sdn=sdnoisef,adelta,simdSOS,nrange,dnrb=SimNrSb-EstNrSb,dT=SimTSb-EstTimeSb)
 tot <- data.frame(total,dT=total$Dsim-total$Dmon) ## dT1=total$Tsim-total$Tmon  # here is definitely something wrong with Tsim
 names(tot)
-tot <- tot[tot$a == 0.1,]
+# tot <- tot[tot$a == 0.3,]
 # aggregate the data 
 levels(factor(tot$a))
 levels(factor(tot$noisef))
@@ -66,7 +66,7 @@ levels(factor(tot$nrdatamonitor))
 
 
 #tot$a,
-Agg <- aggregate(tot, by=list(tot$noisef,tot$dip,tot$nrdatamonitor),FUN = 
+Agg <- aggregate(tot, by=list(tot$noisef,tot$a,tot$dip,tot$nrdatamonitor),FUN = 
   function(x){
       sqrt(mean(x^2, na.rm=TRUE))
       } 
@@ -75,7 +75,7 @@ dim(Agg)
 head(Agg)
 
 # again we remove "tot$a," to stay consistent
-Ndata <- aggregate(tot, by=list(tot$noisef,tot$dip,tot$nrdatamonitor),FUN = function(x){ length(which(!is.na(x)))} )   
+Ndata <- aggregate(tot, by=list(tot$noisef,tot$a,tot$dip,tot$nrdatamonitor),FUN = function(x){ length(which(!is.na(x)))} )   
 # function to derive the amount of measurements
 dim(Ndata)
 head(Ndata)
@@ -85,9 +85,9 @@ names(Agg)
 
 Agg$sna <- Agg$a/Agg$nrange
 
-#Agg$a <- as.factor(paste("a =", Agg$a))
-Agg$dip <- as.factor(paste("dip = -", Agg$dip))
-Agg$Nr <- as.factor(paste("# = ", Agg$nrdatamonitor))
+Agg$a <- as.factor(paste("a =", Agg$a))
+Agg$dip <- as.factor(paste("m = -", Agg$dip))
+Agg$Nr <- as.factor(paste("# =", Agg$nrdatamonitor))
 
 names(Agg);head(Agg)
 
@@ -99,41 +99,44 @@ sp <- list(superpose.symbol = list(pch =c(18), cex = 0.4, col=c(1,2,3,4,5,6)),  
              )
 
 require(monash)
-# setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
-setwd('/Users/janvb/Documents/R/bfast/papers/figs')  # imac 
+setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
+# setwd('/Users/janv/Documents/R/bfast/papers/figs')  # mac pro
 
 # remark one time step = 1/23 (which is a 16-day period) - 
 tail(Agg$dT)[1]/(1/23)
-
-# saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
-print(
-    xyplot((dT/(1/23)) ~ (sna) | dip , data=Agg, subset=((Ndata>iter/2) & (dip != "dip = - 0.1")), #) &(Group.3 >-4)
-      groups=~Nr,
-      as.table =TRUE,
-      aspect="1",
-      scales = list(relation="same", alternating=1, tck=c(T,F)),
-      #layout = c(2,2),
-      ylab='RMSE',xlab='Signal/Noise',
-      panel = function(x, y, type, ...) {
-        panel.superpose(x, y, type=c("l"), ...)  
-      },
-      par.settings = sp,
-      auto.key = list(columns = 6, lines = T, points = FALSE, between.columns=0.4
+# for (am in c(0.1,0.3,0.5) ) {
+saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
+  print(
+      xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, 
+             subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (a == paste("a = ",0.3,sep=""))), #) &(Group.3 >-4)
+        groups=~Nr,
+        as.table =TRUE,
+        aspect="1",
+        scales = list(relation="same", alternating=1, tck=c(T,F)),
+        #layout = c(2,2),
+        ylab='RMSE', xlab='Noise',
+        panel = function(x, y, type, ...) {
+          panel.superpose(x, y, type=c("l"), ...)  
+        },
+        par.settings = sp,
+        auto.key = list(columns = 6, lines = T, points = FALSE, between.columns=0.4
+        )
       )
-    )
-)       
-# dev.off()
-
-# saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
+  )       
+dev.off()
+# }
+# getwd()
+saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata/1000 ~ (sna) | dip , data=Agg, subset=(dip != "dip = - 0.4") & (dip != "dip = - 0.5"), #) &(Group.3 >-4)
+    xyplot(Ndata/1000 ~ (nrange) | dip , data=Agg, 
+           subset= (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
       as.table =TRUE,
       scales = list(relation="same", alternating=1, tck=c(T,F)),
 #       scales = list(relation="free",x=list(alternating=1),rot=0),
       layout = c(2,2),
-      ylab='Probability of break detection',xlab='Signal/Noise',
+      ylab='Probability of break detection',xlab='Noise',
       panel = function(x, y, type, ...) {
         panel.superpose(x, y, type=c("l"), ...)  
       },
@@ -142,7 +145,41 @@ print(
       )
     )
 )       
-# dev.off()
+dev.off()
+
+# the effect of the amplitude!!!!
+# This plot proves that there is no effect of the amplitude on the modelling!!!
+# therefore we need to express everything is noise levels - since the signal to noise ratio does not make sense!
+print(
+      xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, 
+             subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (Nr == '# = 6')), #) &(Group.3 >-4) 
+        groups=~a,
+        as.table =TRUE,
+        aspect="1",
+        scales = list(relation="same", alternating=1, tck=c(T,F)),
+        #layout = c(2,2),
+        ylab='RMSE', xlab='noise',
+        panel = function(x, y, type, ...) {
+          panel.superpose(x, y, type=c("l"), ...)  
+        },
+        par.settings = sp,
+        auto.key = list(lines = T, points = FALSE, between.columns=0.4
+        )
+      )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # the amplitude differences of the simulations are also accounted for and do not influence the RMSE of the time difference
 # the length of the stable history does not influence immediately the accuracy of the break detection

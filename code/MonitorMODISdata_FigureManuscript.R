@@ -1,3 +1,4 @@
+setwd('/Users/janv/Documents/R/bfast/bfast/code/')
 ## Saved in bfast/code folder
 ##
 #################
@@ -37,7 +38,7 @@ i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
 
 count <- 0
-for (i in c(4,35)) {
+for (i in c(120,8)) {
   count <- count +1
 # for (i in 1:120) {
 
@@ -48,10 +49,10 @@ for (i in c(4,35)) {
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
   ## fill gaps #### check for amount of NA's
-  #ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+  ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
   # watch out when using splines - because at the end of a time series they can produce errors
   # see i <- 120
-  ftsNDVI <- tsNDVI
+#   ftsNDVI <- tsNDVI
   ## we have to be carefull here as new/ maybe not realistic data is created here
   tsp(ftsNDVI) <- tsp(tsNDVI)
   ## illustrates the data filling procedure
