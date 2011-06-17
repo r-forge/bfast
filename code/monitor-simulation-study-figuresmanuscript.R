@@ -148,7 +148,7 @@ writefirst <- TRUE
               
                lines(tshistory) # history period
               lines(window(ftsNDVI,start=c(2006,1)),lty=2) # monitoring period
-              lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
+              lines(stableHistory,col='blue',type="p",pch=19,cex=0.6)
               test_pred <- predict(test_lm, newdata = test_tspp)
               tsp(test_pred) <- tsp(test_tspp$response)
               lines(as.ts(test_pred), col = 4)
@@ -157,7 +157,7 @@ writefirst <- TRUE
               lines(window(ftsNDVI,start=c(2006,start)),col='red',type='p',pch=3, cex=0.7)
               
               legend("bottomleft",
-              c("History period","Monitoring period","Nr. data extra in the monitoring period","Stable history","Stable history model")
+              c("History period","Monitoring period","n","Stable history","Stable history model")
                 ,lty=c(1,2,NA,NA,1),col=c(1,1,'red','blue','blue'),pch=c(NA,NA,3,19,NA))
             dev.off()
 
