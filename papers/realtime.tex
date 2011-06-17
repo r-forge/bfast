@@ -326,22 +326,21 @@ The objective of the time series simulation was to validate
  \begin{figure}[htp]
 \centering
     \includegraphics[height=0.6\textwidth]{figs/Sim_Monitoringsetup.eps}
-  \caption{Simulated 16-day MODIS NDVI time series with a seasonal amplitude = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}). The simulated data series is the sum of the simulated seasonal, abrupt and noise series (black), and is used as an input in real-time monitoring method.  During the simulation experiment the period from 2000 until end 2005 is considered the history period and the year 2006 is the monitoring period that contains a simulated abrupt change.}
+  \caption{Simulated 16-day MODIS NDVI time series (data) with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}). The simulated data series is the sum of the simulated seasonal, abrupt and noise series and is used as an input in real-time monitoring method and has a length of 7 years (i.e. 2000--2006) containing a simulated abrupt change in 2006.}
   \label{fig:SimSetup}
 \end{figure}
 
+The simulation experiment requires (a) a \emph{history period} i.e. data that already has been acquired and which will be analyzed for stability in order to model normal vegetation dynamics, and (b) a \emph{monitoring period} i.e. the period representing new data that recently has been captured which needs to be analyzed for disturbances. Here, the history is defined as the period from 2000 until mid 2006 (i.e. the time step just before the simulated break), whereas the monitoring period is defined as the period from the simulated break onwards of which the length is gradually increased during the experiment ($n$) (Fig.~\ref{fig:SimMonitor} and Table~\ref{table:simpar}). 
 
-The real-time change detection approach requires (a) a \emph{history period} i.e. data that already has been acquired and which will be analysed for stability in order to model normal vegetation dynamics, (b) a \emph{monitoring period} i.e. the period representing new data that recently has been captured which needs to be analyse whether something a change (i.e. disturbance) is occurring. Here, NDVI time series were simulated with an arbitrary length of 7 years  (i.e. 2000--2006) containing a simulated abrupt change in 2006, where the period 2000-2005 is the history period and the year 2006 the monitoring period (Fig.~\ref{fig:SimSetup}).
-The objective is to test and see how much data is required before the abrupt change in the monitoring period can be detected while varying the noise, seasonal amplitude and the magnitude of the abrupt change.
+The objective is to verify how much data (n) is required before the abrupt change in the monitoring period is detected while varying the noise, $a$, and $m$ of the abrupt change (Table~\ref{table:simpar}). The 16-day NDVI time series are simulated by extracting key characteristics from MODIS 16-day NDVI time series within the study area \citep{Verbesselt2009a}. We selected a range of $a$, noise, and $m$ values for the simulation study to represent a large range of land cover types of different data quality while varying the amount of data available in the monitoring period (Table~\ref{table:simpar}). 1000 iterations of all the combinations of amplitude, noise, $m$, and amount of data in the monitoring period were performed to quantify; (1) the probability of detecting a disturbance in the monitoring period and (2) accuracy of estimating the timing of the detected disturbance change within a time series expressed as Root Mean Square Error (RMSE). 
 
-
-We simulated 16-day NDVI time series with one abrupt disturbance in the monitoring period (Fig.~\ref{fig:SimSetup}). The 16-day NDVI time series are simulated by extracting key characteristics from MODIS 16-day NDVI time series within the study area \citep{Verbesselt2009a}. We selected a range of amplitude, noise, and $m$ values for the simulation study to represent a large range of land cover types of different data quality  while varying the amount of data available in the monitoring period (Table~\ref{table:simpar}). 1000 iterations of all the combinations of amplitude, noise, $m$, and amount of data in the monitoring period were performed to quantify; (1) the probability of detecting a disturbance in the monitoring period and (2) accuracy of estimating the timing of the detected disturbance change within a time series expressed as Root Mean Square Error (RMSE). Fig.~\ref{fig:SimMonitor} illustrates the simulation experiment.
+Fig.~\ref{fig:SimMonitor} illustrates the simulation experiment.
 
  \begin{figure}[htp]
 \centering
     \includegraphics[height=0.6\textwidth]{figs/Sim_Monitoring.eps}
-  \caption{Simulated 16-day MODIS NDVI time series with a seasonal amplitude = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}). The simulated data series is the sum of the simulated seasonal, abrupt and noise series (black) (Fig.~\ref{fig:SimSetup}), and is used as an input in real-time monitoring method.  During the simulation experiment the period from 2000 until end 2005 is considered the history period and the year 2006 is the monitoring period that contains a simulated abrupt change.}
-  \label{fig:SimSetup}
+  \caption{Simulated 16-day MODIS NDVI time series with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}). During the simulation experiment the period from 2000 until mid 2006 (i.e. the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period}. In this example, $n$ = 6. The result of applying the monitoring approach on the  simulated NDVI series is also shown. A stable history period is identified within the history period and used to model the normal data variation (i.e. stable history model) and predict normal data variation during monitoring period.}
+  \label{fig:SimMonitor}
 \end{figure}
 
 % add figure to explain simulation strategy
@@ -461,14 +460,14 @@ This work was undertaken using expertise and field data available via the progra
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
-  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise, magnitude of the simulated break ($dip$), and amount of data  available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
+  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise, magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
   \label{fig:SimNr}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/RMSE_Time_1000.eps}
-  \caption{Results from the simulation experiment (1000 iterations) illustrating the accuracy of time estimation of the detected breaks (RMSE expressed in time steps between images here 1 equals a 16-day period) while varying the amount of noise, magnitude of simulated break ($dip$), and amount of data available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
+  \caption{Results from the simulation experiment (1000 iterations) illustrating the accuracy of time estimation of the detected breaks (RMSE expressed in time steps between images here 1 equals a 16-day period) while varying the amount of noise, magnitude of simulated break ($m$), and amount of data available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
   \label{fig:SimRMSE}
 \end{figure}
 
