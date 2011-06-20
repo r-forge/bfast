@@ -31,7 +31,7 @@ i <- 4  # tree mortality
   # i <- 35 # is also a harvest activity ook 36
  i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
-i <- 8
+# i <- 8
 # for (i in 1:120) {
 
 
@@ -42,9 +42,9 @@ i <- 8
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
 ## With gap filling
-#    ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+    ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
 ## Witout gap filling
-ftsNDVI <- tsNDVI
+# ftsNDVI <- tsNDVI
 tsp(ftsNDVI) <- tsp(tsNDVI)
 #   ftsNDVI <-tsNDVI
  
@@ -57,29 +57,31 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
 #  savepng('Timeseriessetup')
   ftsNDVI <- window(ftsNDVI,end=c(2007,1))
 
-  ## Determine the signal to noise ratio using the range of the stl components
+## Determine the signal to noise ratio using the range of the stl components
   stlfit <- stl(ftsNDVI, s.window="periodic", robust=TRUE, na.action=na.approx)
-#   plot(stlfit)
+  plot(stlfit)
 #   plot(ftsNDVI)
 #  lines(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"],col='red')
   
   signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
   noise <- diff(range(stlfit$time.series[,"remainder"]))
-  output$signaltonoise[i] <- signal/noise
+  print(noise)
+  plot(stlfit$time.series[,"remainder"])  
+output$signaltonoise[i] <- signal/noise
   
   ## identify history period
   NDVIhistory <- window(ftsNDVI,end=c(2006,1))
-  
+
 # #  savepng("figs/Monitoringsetup")
-  plot(ftsNDVI,ylab='NDVI',type='n')
-  lines(NDVIhistory) # history period
-  lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
-  legend("bottomleft",c("History","Monitoring"),lty=c(1,2))
+#   plot(ftsNDVI,ylab='NDVI',type='n')
+#   lines(NDVIhistory) # history period
+#   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
+#   legend("bottomleft",c("History","Monitoring"),lty=c(1,2))
 # #  dev.off()
   
   ## verify the stability of the history period
   subset_start <- roc(NDVIhistory, plot=FALSE) # searching for a stable period 
-  subset_start # not a long stable period is identifie
+  print(subset_start) # not a long stable period is identifie
   
   ## subset stable section within the history part
   stableHistory <- window(NDVIhistory, start = subset_start)
@@ -100,7 +102,15 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
   
   ## History model
   test_lm <- lm(response ~ trend + harmon, data = test_tspp) #, na.action=na.omit
-  output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
+    
+#       plot(test_tspp$response)
+      test_pred <- predict(test_lm)
+      tsp(test_pred) <- tsp(test_tspp$response)
+#       lines(as.ts(test_pred),col=2)
+#       plot(test_tspp$response-test_pred)
+      output$stablenoise <- diff(range(test_tspp$response-test_pred))  
+      print(output$stablenoise[i])
+output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
   test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
     	type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
   
@@ -153,7 +163,7 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
   lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
 
   
-  test_pred <- predict(test_lm, newdata = test_tspp, na.action=na.exclude)
+  test_pred <- predict(test_lm, newdata = test_tspp)
   tsp(test_pred) <- tsp(test_tspp$response)
   lines(as.ts(test_pred), col = 'blue')
    abline(v = tbp, lty = 2, col='red',lwd=2) 
