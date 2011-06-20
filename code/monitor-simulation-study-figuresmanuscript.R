@@ -137,7 +137,7 @@ writefirst <- TRUE
               }
           
             ## plot and visualise
-            saveeps("../papers/figs/Sim_Monitoring",height=14)
+#             saveeps("../papers/figs/Sim_Monitoring",height=14)
               title = FALSE
               plot(ftsNDVI,type='n', main = if (title) {
                 if (!is.na(tbp[1])) { 
@@ -159,7 +159,7 @@ writefirst <- TRUE
               legend("bottomleft",
               c("History period","Monitoring period","n","Stable history","Stable history model")
                 ,lty=c(1,2,NA,NA,1),col=c(1,1,'red','blue','blue'),pch=c(NA,NA,3,19,NA))
-            dev.off()
+#             dev.off()
 
 #               legend("bottomleft",
 #               c("History","Stable History","Monitoring","fit based on stable history",
