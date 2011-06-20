@@ -71,10 +71,10 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
   NDVIhistory <- window(ftsNDVI,end=c(2006,1))
   
 # #  savepng("figs/Monitoringsetup")
-#   plot(ftsNDVI,ylab='NDVI',type='n')
-#   lines(NDVIhistory) # history period
-#   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
-#   legend("bottomleft",c("History","Monitoring"),lty=c(1,2))
+  plot(ftsNDVI,ylab='NDVI',type='n')
+  lines(NDVIhistory) # history period
+  lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
+  legend("bottomleft",c("History","Monitoring"),lty=c(1,2))
 # #  dev.off()
   
   ## verify the stability of the history period
@@ -104,12 +104,14 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
   test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
     	type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
   
+  
   ## monitor
   test_tspp <- tspp(window(ftsNDVI, start = subset_start),  order = order)
+  lengthNAs <- length(which(is.na(ftsNDVI)))
   test_mon <- monitor(test_mefp)
 #   plot(test_mon, functional = NULL)
   if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
-    tbp <- time(test_tspp$response)[test_mon$breakpoint]
+    tbp <- time(test_tspp$response)[test_mon$breakpoint+lengthNAs]
   }
   
 # #   # ## COMPARE WITH BFAST
