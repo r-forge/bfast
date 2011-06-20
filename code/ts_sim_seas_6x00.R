@@ -6,6 +6,7 @@ tspp <- function(y, order = 1) {
 
   ## data with trend and season factor
   rval <- data.frame(
+    time = as.numeric(time(y)),
     response = y,
     trend = 1:length(y),
     season = factor(cycle(y))
@@ -22,7 +23,10 @@ tspp <- function(y, order = 1) {
   }
   if((2 * order) == freq) harmon <- harmon[, -(2 * order)]
   rval$harmon <- harmon
-#   rval <- na.omit(rval)
+
+  ## omit missing values
+  rval <- na.omit(rval)
+
   ## return everything
   return(rval)
 }
@@ -40,21 +44,20 @@ createts <- function(datats) {
 ## JV A technique to verify whether or not the historical period is stable or not
 ## reversely order sample and perform
 ## recursive CUSUM test
-roc <- function(y, order = 3, level = 0.05, plot = TRUE) {
+roc <- function(y, order = 3, level = 0.05) {
   y_orig <- tspp(y, order = order)
   n      <- nrow(y_orig)
   y_rev  <- y_orig[n:1,]
-  y_rev$response <- ts(y_rev$response, start = -tail(time(y), 1), frequency = frequency(y))
+  y_rev$response <- ts(y_rev$response) ## , start = -tail(time(y), 1), frequency = frequency(y))
   y_rcus <- efp(response ~ trend + harmon, data = y_rev, type = "Rec-CUSUM")
-  if(plot) plot(y_rcus)
 
   y_start <- if(sctest(y_rcus)$p.value < level) {
     length(y_rcus$process) - min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
   } else {
     1    
   }
-  rval <- as.numeric(time(y)[y_start])
-  if(plot & sctest(y_rcus)$p.value < level) abline(v=-rval,col="green")
+
+  rval <- y_orig$time[y_start]
   c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
 }
 
