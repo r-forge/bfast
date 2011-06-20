@@ -5,7 +5,7 @@ require(monash)
 
 #Analysis of Simulation Results
 getwd()
-setwd(c('../output1'))
+setwd(c('../output'))
 
 name <- c("outputsim_")
 iter <- 1000

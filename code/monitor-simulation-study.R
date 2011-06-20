@@ -94,11 +94,11 @@ writefirst <- TRUE
             
             ## determine the signal to noise ratio of the History period
             stlfit <- stl(tshistory, s.window="periodic", robust=TRUE)
-            signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
-            noise <- diff(range(stlfit$time.series[,"remainder"]))
-            sn <- signal/noise
+            sstl <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
+            nstl <- diff(range(stlfit$time.series[,"remainder"]))
+#             sn <- signal/noise
   
-            subset_start <- roc(tshistory, order = 3, level = 0.05, plot = FALSE) # searching for a stable period 
+            subset_start <- roc(tshistory, order = 3, level = 0.05) # searching for a stable period 
             print(subset_start)
           
             stableHistory <- window(tshistory, start = subset_start)
@@ -117,6 +117,11 @@ writefirst <- TRUE
             test_tspp <- tspp(stableHistory, order = 3)
             ## History model
             test_lm <- lm(response ~ trend + harmon, data = test_tspp)
+           
+            ## Derive range of the residuals of the model
+            test_pred <- predict(test_lm)
+            nres <- diff(range(test_tspp$response-test_pred))
+           
             test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
             		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
             ## monitor
@@ -128,7 +133,7 @@ writefirst <- TRUE
             #plot(test_mon, functional = NULL)
             
             if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
-                tbp <- time(test_tspp$response)[test_mon$breakpoint]
+                tbp <- test_tspp$time[test_mon$breakpoint]
               }
           
             ## plot and visualise
@@ -161,9 +166,9 @@ writefirst <- TRUE
           out <- data.frame(dip, noisef, nrange = round(n.range,digit=4),
             a, dfend, Lhistory = length(tshistory), LStablehistory = length(stableHistory),
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
-              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sn)
+              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sstl,nstl,nres)
             
-          fname <- paste("output1/outputsim_",teller,".csv",sep="")
+          fname <- paste("output/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE

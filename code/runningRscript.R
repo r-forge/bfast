@@ -12,3 +12,4 @@ Rscript monitor-simulation-study.R 751 1000
 
 # mac
 Rscript monitor-simulation-study.R 1 1000
+Rscript monitor-simulation-study.R 1 1

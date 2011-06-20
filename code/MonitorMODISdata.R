@@ -31,7 +31,7 @@ i <- 4  # tree mortality
   # i <- 35 # is also a harvest activity ook 36
 #  i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
-# i <- 8
+i <- 8
 # for (i in 1:120) {
 
 
