@@ -29,7 +29,7 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
 i <- 4  # tree mortality
   # i <- 8  # harvest event
   # i <- 35 # is also a harvest activity ook 36
- i <- 77 # harvest event!
+#  i <- 77 # harvest event!
   # i <- 43 # regrowth effect that where a change is detected that is not really a change
 # i <- 8
 # for (i in 1:120) {
@@ -40,11 +40,12 @@ i <- 4  # tree mortality
   
   ## determine the percentage of NA's within a time series
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
-  
-## With gap filling
-    ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+
 ## Witout gap filling
-# ftsNDVI <- tsNDVI
+ftsNDVI <- tsNDVI
+## With gap filling
+# ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+
 tsp(ftsNDVI) <- tsp(tsNDVI)
 #   ftsNDVI <-tsNDVI
  
@@ -80,7 +81,7 @@ output$signaltonoise[i] <- signal/noise
 # #  dev.off()
   
   ## verify the stability of the history period
-  subset_start <- roc(NDVIhistory, plot=FALSE) # searching for a stable period 
+  subset_start <- roc(NDVIhistory) # searching for a stable period 
   print(subset_start) # not a long stable period is identifie
   
   ## subset stable section within the history part
@@ -118,12 +119,14 @@ output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
   ## monitor
   test_tspp <- tspp(window(ftsNDVI, start = subset_start),  order = order)
   lengthNAs <- length(which(is.na(ftsNDVI)))
+  print(lengthNAs)
   test_mon <- monitor(test_mefp)
 #   plot(test_mon, functional = NULL)
   if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
-    tbp <- time(test_tspp$response)[test_mon$breakpoint+lengthNAs]
+#     tbp <- time(test_tspp$response)[test_mon$breakpoint]
+    tbp <- test_tspp$time[test_mon$breakpoint]
   }
-  
+names(test_tspp)  
 # #   # ## COMPARE WITH BFAST
 #    require(bfast)
 #    h <- (0.5*23)/length(NDVIhistory)
