@@ -34,15 +34,18 @@ i <- 4  # tree mortality
 i <- 8
 # for (i in 1:120) {
 
+
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
 #   plot(tsNDVI)
   
   ## determine the percentage of NA's within a time series
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
-  ## fill gaps #### check for amount of NA's
-   ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
-    tsp(ftsNDVI) <- tsp(tsNDVI)
+## With gap filling
+#    ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+## Witout gap filling
+ftsNDVI <- tsNDVI
+tsp(ftsNDVI) <- tsp(tsNDVI)
 #   ftsNDVI <-tsNDVI
  
   ## illustrates the data filling procedure
