@@ -22,7 +22,7 @@ tspp <- function(y, order = 1) {
   }
   if((2 * order) == freq) harmon <- harmon[, -(2 * order)]
   rval$harmon <- harmon
-
+#   rval <- na.omit(rval)
   ## return everything
   return(rval)
 }
