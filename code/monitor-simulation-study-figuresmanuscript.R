@@ -102,7 +102,7 @@ writefirst <- TRUE
             noise <- diff(range(stlfit$time.series[,"remainder"]))
             sn <- signal/noise
   
-            subset_start <- roc(tshistory, order = 3, level = 0.05, plot = FALSE) # searching for a stable period 
+            subset_start <- roc(tshistory, order = 3, level = 0.05) # searching for a stable period 
             print(subset_start)
           
             stableHistory <- window(tshistory, start = subset_start)
