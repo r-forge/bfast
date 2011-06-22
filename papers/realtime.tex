@@ -324,7 +324,7 @@ independent reference sources for a broad range of potential changes must be ava
 We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change detection capacity in a controlled environment. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. Therefore, applying the method to remotely sensed data remains necessary. 
 A similar validation strategy was proposed by \citet{Verbesselt2009a, Verbesselt:2010wo} to validate the detection of phenological shifts, abrupt and gradual changes within time series. Here, we focus on the validation of detection of changes at the end of a time series, i.e. in real-time, when new images are recently captured. In the next two sections, the simulation of NDVI time series and application on real MODIS NDVI satellite image time series are explained. 
 
-\subsection{Simulation of NDVI time series}
+\subsection{Simulation of NDVI time series}\label{sec:Valsim}
 
 The objective of the time series simulation was to validate 
 (1) how much new data is required to detect a disturbance,
@@ -345,7 +345,7 @@ The objective of the time series simulation was to validate
   Parameters & Values \\ [0.5ex]
   \hline
   $a$         & $0.1, 0.3, 0.5$ \\
-  $\sigma$ noise    & $0.01,0.02,\dots,0.07$ \\
+  $\sigma$ noise    & $0.01,0.02,\dots,0.08$ \\
   $m$         & $0, -0.1, -0.2, \dots, -0.5$ \\
   %$\Delta SOS$   & $0, 1.9, 3.2, 4.3$ \\ [.5ex]
   $n$   & $1, 2, \dots, 8$ \\ [.5ex]
@@ -462,14 +462,14 @@ This work was undertaken using expertise and field data available via the progra
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
-  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise, magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
+  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise, magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($n$). The units of the x and y-axis are noise (i.e. noise range expressed in NDVI) and probability of detecting a break (i.e. proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section \ref{sec:Valsim}). }
   \label{fig:SimNr}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/RMSE_Time_1000.eps}
-  \caption{Results from the simulation experiment (1000 iterations) illustrating the accuracy of time estimation of the detected breaks (RMSE expressed in time steps between images here 1 equals a 16-day period) while varying the amount of noise, magnitude of simulated break ($m$), and amount of data available in the monitoring period ($\#$). For more details please see description of the simulation experiment. }
+  \caption{Results from the simulation experiment (1000 iterations) illustrating the accuracy of time estimation of the detected breaks while varying the amount of noise, magnitude of simulated break ($m$), and amount of data available in the monitoring period ($n$). The units of the x and y-axis are noise (i.e. noise range expressed in NDVI) and RMSE (i.e. time steps between images where 1 equals a 16-day period). See description of the simulation experiment for more details (Section \ref{sec:Valsim}).}
   \label{fig:SimRMSE}
 \end{figure}
 
@@ -480,16 +480,16 @@ This work was undertaken using expertise and field data available via the progra
   \label{fig:SpatNoise}
 \end{figure}
 
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.9\textwidth]{figs/SignaltoNoiseRatio.eps}
-  \caption{Spatial variation of the signal to noise ratio is the study area. (Try out: only for your information - not sure whether I will include this in the paper) }
-  \label{fig:SpatSignalNoise}
-\end{figure}
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.9\textwidth]{figs/SignaltoNoiseRatio.eps}
+%  \caption{Spatial variation of the signal to noise ratio is the study area. (Try out: only for your information - not sure whether I will include this in the paper) }
+%  \label{fig:SpatSignalNoise}
+%\end{figure}
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006.eps}
+    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006_II.eps}
   \caption{ Spatial variation of the Time of change if a break is detected in the study area (no break in 2006 = white) . (only for your information - not sure whether I will include this in the paper) }
   \label{fig:SpatTimeofChange}
 \end{figure}
