@@ -1,3 +1,4 @@
+setwd('/Users/janv/Documents/R/bfast/bfast/code/')
 ## Saved in bfast/code folder
 ##
 #################
@@ -16,9 +17,17 @@ require(monash) # package for saving plots for publication
 source("ts_sim_seas_6x00.R")
 
 ## read in Satellite data time series
-
 data <- read.csv("mtsNDVI.csv") 
 names(data) <- as.character(0:120)
+
+## extra
+gras <- read.csv("grass.csv")
+
+
+## Query NDVI data from the database
+## using a Query script
+
+
 
 ## change the number here ## which corresponds to the plot number
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
@@ -26,18 +35,20 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
 
 
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
-i <- 4  # tree mortality
+# i <- 4  # tree mortality
   # i <- 8  # harvest event
 #   i <- 35 # is also a harvest activity ook 36
 #  i <- 77 # harvest event!
 #   i <- 43 # regrowth effect that where a change is detected that is not really a change
-# i <- 8
-# i<-120
+# i <- 8  # latlong 147.99E and -35.43N 
+i <- 120 # latlong 148.035E and -35.58N
+i <- 5 # latlong 
 # for (i in 1:120) {
 
-
+str(gras)
   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
-#   plot(tsNDVI)
+  tsNDVI<- ts(gras$x,start=c(2000,4),frequency=23)
+plot(tsNDVI)
   
   ## determine the percentage of NA's within a time series
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
