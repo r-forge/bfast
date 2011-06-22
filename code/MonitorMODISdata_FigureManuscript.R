@@ -1,4 +1,4 @@
-setwd('/Users/janv/Documents/R/bfast/bfast/code/')
+# setwd('/Users/janv/Documents/R/bfast/bfast/code/')
 ## Saved in bfast/code folder
 ##
 #################
@@ -48,11 +48,9 @@ for (i in c(120,8)) {
   ## determine the percentage of NA's within a time series
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
   
-  ## fill gaps #### check for amount of NA's
-  ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
-  # watch out when using splines - because at the end of a time series they can produce errors
-  # see i <- 120
-#   ftsNDVI <- tsNDVI
+## Gap filling or no gap filling
+#   ftsNDVI <-ts(na.spline(tsNDVI)) # bicubic interpolation
+  ftsNDVI <- tsNDVI
   ## we have to be carefull here as new/ maybe not realistic data is created here
   tsp(ftsNDVI) <- tsp(tsNDVI)
   ## illustrates the data filling procedure
@@ -85,7 +83,7 @@ for (i in c(120,8)) {
 # #  dev.off()
   
   ## verify the stability of the history period
-  subset_start <- roc(NDVIhistory, plot=FALSE) # searching for a stable period 
+  subset_start <- roc(NDVIhistory) # searching for a stable period 
   subset_start # not a long stable period is identifie
   
   ## subset stable section within the history part
@@ -116,7 +114,7 @@ for (i in c(120,8)) {
   test_mon <- monitor(test_mefp)
 #   plot(test_mon, functional = NULL)
   if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
-    tbp <- time(test_tspp$response)[test_mon$breakpoint]
+    tbp <- test_tspp$time[test_mon$breakpoint]
   }
   
 # #   # ## COMPARE WITH BFAST
@@ -179,12 +177,11 @@ for (i in c(120,8)) {
   lines(NDVIhistory) # history period
   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
   lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
-
-  
   test_pred <- predict(test_lm, newdata = test_tspp)
-  tsp(test_pred) <- tsp(test_tspp$response)
-  lines(as.ts(test_pred), col = 'blue')
-   abline(v = tbp, lty = 2, col='red',lwd=2) 
+  pfit <- window(ftsNDVI, start = subset_start) # this is the final monitor period
+  pfit[!is.na(pfit)] <- test_pred
+  lines(pfit, col = 'blue')
+  abline(v = tbp, lty = 2, col='red',lwd=2) 
 #  lines(out$Tt,col='purple',lty=3) 
 #   lines(confint(fitbp))
   if (count==2) {
