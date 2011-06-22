@@ -28,10 +28,11 @@ output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
 ## i <- 117  ## voorbeeld met cloud piekin the history period.
 i <- 4  # tree mortality
   # i <- 8  # harvest event
-  # i <- 35 # is also a harvest activity ook 36
+#   i <- 35 # is also a harvest activity ook 36
 #  i <- 77 # harvest event!
-  # i <- 43 # regrowth effect that where a change is detected that is not really a change
-i <- 8
+#   i <- 43 # regrowth effect that where a change is detected that is not really a change
+# i <- 8
+# i<-120
 # for (i in 1:120) {
 
 
@@ -67,7 +68,7 @@ tsp(ftsNDVI) <- tsp(tsNDVI)
   signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
   noise <- diff(range(stlfit$time.series[,"remainder"]))
   print(noise)
-  plot(stlfit$time.series[,"remainder"])  
+#   plot(stlfit$time.series[,"remainder"])  
 output$signaltonoise[i] <- signal/noise
   
   ## identify history period
@@ -127,32 +128,7 @@ output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
     tbp <- test_tspp$time[test_mon$breakpoint]
   }
 names(test_tspp)  
-# #   # ## COMPARE WITH BFAST
-#    require(bfast)
-#    h <- (0.5*23)/length(NDVIhistory)
-#    fit <- bfast(NDVIhistory, h=h, season = c("harmonic"), max.iter = 1)
-# # 
-# 
-# # #opar <- par()
-# # savepng("bfast")
-#  plot(fit)  # , ANOVA=TRUE
-# # dev.off()
-# # #par(opar)
-# # 
-# #   # output
-#    niter <- length(fit$output) # nr of iterations
-#     out <- fit$output[[niter]]  
-# #   
 
-# ## COMPARE with the breakpoints function - similarly set-up as the bfast function
-# require(strucchange)
-# order <- 3
-# history_tspp <- tspp(NDVIhistory, order = order)
-# print(fitbp <- breakpoints(response ~ trend + harmon, data = history_tspp))
-# plot(ftsNDVI)
-# lines(createts(fitted(fitbp)),col=2, lty=2)
-# lines(confint(fitbp))
-## plot and visualise
 # savepng(paste("figsallplot/monitorwithbreak",i,sep=""), height=14)
   title <- TRUE
   plot(ftsNDVI,type='n', main = if (title) {
@@ -164,11 +140,12 @@ names(test_tspp)
   lines(NDVIhistory) # history period
   lines(window(ftsNDVI,start=c(2006,1)),ylab='NDVI',lty=2) # monitoring period
   lines(stableHistory,col='blue',type="p",pch=19,cex=0.3)
-
   
   test_pred <- predict(test_lm, newdata = test_tspp)
-  tsp(test_pred) <- tsp(test_tspp$response)
-  lines(as.ts(test_pred), col = 'blue')
+  pfit <- window(ftsNDVI, start = subset_start) # this is the final monitor period
+  pfit[!is.na(pfit)] <- test_pred
+  lines(pfit, col = 'blue')
+
    abline(v = tbp, lty = 2, col='red',lwd=2) 
 #  lines(out$Tt,col='purple',lty=3) 
 #   lines(confint(fitbp))
@@ -182,7 +159,12 @@ names(test_tspp)
 
 #write.csv(output,"output.csv")
 #fix(output)
-# A? BFAST trend output - could this be used as a validation method?
+
+length(which(is.na(ftsNDVI)))
+length(test_pred)
+length(ftsNDVI)
+
+
 
 ########
 ## Final Comments: for the paper writing discussion section
@@ -190,9 +172,6 @@ names(test_tspp)
 
 ## the great thing about the monitoring approach is that is Interpolation is not necessary!!!
 ## the users just need to define a period in time where they want to use this function to detect changes
-
-## by applying this scrip on real data you can see that a short history period 
-## does not enable a good fit of the data
 
 ## Assess the length of the history period and the quality of the fit
 ## a break is detected in 2006 which corresponds to a dry period in the plantation forest.
