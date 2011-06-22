@@ -1,4 +1,4 @@
-setwd('/Users/janv/Documents/R/bfast/bfast/code/')
+# setwd('/Users/janv/Documents/R/bfast/bfast/code/')
 ## Saved in bfast/code folder
 ##
 #################
@@ -115,7 +115,7 @@ output$signaltonoise[i] <- signal/noise
   
   ## History model
   test_lm <- lm(response ~ trend + harmon, data = test_tspp) #, na.action=na.omit
-    
+
 #       plot(test_tspp$response)
       test_pred <- predict(test_lm)
       tsp(test_pred) <- tsp(test_tspp$response)
@@ -123,6 +123,9 @@ output$signaltonoise[i] <- signal/noise
 #       plot(test_tspp$response-test_pred)
       output$stablenoise <- diff(range(test_tspp$response-test_pred))  
       print(output$stablenoise[i])
+#       diff(range(residuals(test_lm)))
+      output$stablesigmanoise[i] <-summary(test_lm)$sigma
+
 output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
   test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
     	type = "OLS-MOSUM", h = 0.25, alpha = 0.05)

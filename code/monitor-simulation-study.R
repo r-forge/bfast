@@ -16,7 +16,7 @@ tellerstop <- args[2]
 # getDoParWorkers() # double checks the number of cores!!!
 # This does not improve the speed of the simulations
 
-library("bfast")
+# library("bfast")
 #require(monash) # package for saving plots for publication
 
 source("ts_sim_seas_6x00.R")
@@ -53,7 +53,7 @@ teller <- 1
 for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
-  for (a in c(0.1,0.3,0.5)) {  
+#   for (a in c(0.1,0.3,0.5)) {  
    for (noisef in round(seq(0,8,by=0.5),2) ) {  
      for (dip in round(-c(0.5,0.4,0.3,0.2,0.1,0),3) ) {
 ###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
@@ -121,7 +121,7 @@ writefirst <- TRUE
             ## Derive range of the residuals of the model
             test_pred <- predict(test_lm)
             nres <- diff(range(test_tspp$response-test_pred))
-           
+            sigmares <- summary(test_lm)$sigma
             test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
             		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
             ## monitor
@@ -166,9 +166,9 @@ writefirst <- TRUE
           out <- data.frame(dip, noisef, nrange = round(n.range,digit=4),
             a, dfend, Lhistory = length(tshistory), LStablehistory = length(stableHistory),
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
-              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sstl,nstl,nres)
+              Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sstl,nstl,nres,sigmares)
             
-          fname <- paste("output/outputsim_",teller,".csv",sep="")
+          fname <- paste("output1/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE
@@ -177,7 +177,7 @@ writefirst <- TRUE
      } # amount of data in the monitoring period
     } # dip
   } # noisef
-}  # a 
+# }  # a 
 } # different iterations of the whole simulation set-up : I will do 500 to start with          
 
 
