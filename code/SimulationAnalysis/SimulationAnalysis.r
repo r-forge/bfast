@@ -87,7 +87,7 @@ Agg$sna <- Agg$a/Agg$nrange
 
 Agg$a <- as.factor(paste("a =", Agg$a))
 Agg$dip <- as.factor(paste("m = -", Agg$dip))
-Agg$Nr <- as.factor(paste("# =", Agg$nrdatamonitor))
+Agg$Nr <- as.factor(paste("n =", Agg$nrdatamonitor))
 
 names(Agg);head(Agg)
 
@@ -107,7 +107,7 @@ tail(Agg$dT)[1]/(1/23)
 # for (am in c(0.1,0.3,0.5) ) {
 saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
   print(
-      xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, 
+      xyplot((dT/(1/23)) ~ (nres) | dip , data=Agg, 
              subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (a == paste("a = ",0.3,sep=""))), #) &(Group.3 >-4)
         groups=~Nr,
         as.table =TRUE,
@@ -128,7 +128,7 @@ dev.off()
 # getwd()
 saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata/1000 ~ (nrange) | dip , data=Agg, 
+    xyplot(Ndata/1000 ~ (nres) | dip , data=Agg, 
            subset= (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
@@ -151,8 +151,8 @@ dev.off()
 # This plot proves that there is no effect of the amplitude on the modelling!!!
 # therefore we need to express everything is noise levels - since the signal to noise ratio does not make sense!
 print(
-      xyplot((dT/(1/23)) ~ (nrange) | dip , data=Agg, 
-             subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (Nr == '# = 6')), #) &(Group.3 >-4) 
+      xyplot((dT/(1/23)) ~ (nres) | dip , data=Agg, 
+             subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (Nr == 'n = 6')), #) &(Group.3 >-4) 
         groups=~a,
         as.table =TRUE,
         aspect="1",
