@@ -498,16 +498,16 @@ This work was undertaken using expertise and field data available via the progra
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006_II.eps}
-  \caption{Time of detected changes within the study area in the monitoring period (i.e. 2006), where white indicates that no change is detected for a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation which is surrounded by grasslands.}
-  \label{fig:SpatTimeofChange}
+    \includegraphics[height=0.9\textwidth]{figs/Noise.eps}
+  \caption{Spatial variation of the noise level (i.e. the standard deviation of the residuals of the stable history model) in the study area, a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which corresponds to the area with a lower noise level. The plantation is surrounded by grasslands.}
+  \label{fig:SpatNoise}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/Noise.eps}
-  \caption{Spatial variation of the noise level (i.e. the standard deviation of the residuals of the stable history model) in the study area, a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which corresponds to the area with a lower noise level. The plantation is surrounded by grasslands.}
-  \label{fig:SpatNoise}
+    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006_II.eps}
+  \caption{Time of detected changes within the study area in the monitoring period (i.e. 2006), where white indicates that no change is detected for a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation which is surrounded by grasslands.}
+  \label{fig:SpatTimeofChange}
 \end{figure}
 
 \begin{figure}[htp]
@@ -517,18 +517,22 @@ This work was undertaken using expertise and field data available via the progra
   \label{fig:SpatLStableHist}
 \end{figure}
 
-
-% WAT IS THE EFFECT OF THE STABLE HISTORY LENGTH ON THE PROBABILITY OF CHANCE DETECTION?
-
-
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.6\textwidth]{figs/realmonitoring.eps}
   \caption{
-  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for plot 120 and 8 situated within the Green Hills study area. In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
+  %plot 120 and 8
+  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for two locations, i.e. $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}), situated within the Green Hills study area. In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analyzed and model fit based on the stable history period.}
   \label{fig:realmonitoring}
 \end{figure}
 
+\begin{figure}[htp]
+\centering
+    \includegraphics[height=0.6\textwidth]{figs/shorthistoryperiod.eps}
+  \caption{
+  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e. the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}) . A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analyzed and model fit based on the stable history period.}
+  \label{fig:shorthistory}
+\end{figure}
 
 %\begin{figure}[htp]
 %\centering
