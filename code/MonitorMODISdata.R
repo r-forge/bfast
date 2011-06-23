@@ -1,4 +1,4 @@
-# setwd('/Users/janv/Documents/R/bfast/bfast/code/')
+setwd('/Users/janv/Documents/R/bfast/bfast/code/')
 ## Saved in bfast/code folder
 ##
 #################
@@ -12,8 +12,33 @@
 require(bfast)
 require(zoo)
 require(monash) # package for saving plots for publication
-## load functions # roc / tspp / time series simulation / sos
-   					
+library(RMySQL)
+require(zoo)
+
+timeser <- function(index,dt) {
+  z <- zoo(index,dt)
+  yr <- as.numeric(format(time(z), "%Y"))
+	jul <- as.numeric(format(time(z), "%j"))
+	delta <- min(unlist(tapply(jul, yr, diff))) # 16
+	zz <- aggregate(z, yr + (jul - 1) / delta / 23)
+	(tso <- as.ts(zz))
+	return(tso)	
+}
+
+multi.line.paste <-function (..., sep = "", collapse = NULL) 
+{ 
+    args <- list(...) 
+    if (length(args) == 0) 
+        if (length(collapse) == 0) 
+            character(0) 
+        else "" 
+    else { 
+        for (i in seq(along = args)) args[[i]] <- 
+gsub("\n","",as.character(args[[i]])) 
+        .Internal(paste(args, sep, collapse)) 
+    } 
+}
+
 source("ts_sim_seas_6x00.R")
 
 ## read in Satellite data time series
@@ -23,32 +48,54 @@ names(data) <- as.character(0:120)
 ## extra
 gras <- read.csv("grass.csv")
 
-
 ## Query NDVI data from the database
 ## using a Query script
-
-
+  ## connect to the database
+  con <- dbConnect(MySQL(), user="verbe039", password="Jv100977", 
+  dbname="Greenhills", host="10.75.1.112")
+  dbListTables(con)
+  
+  gid <-44098
+    
+  ## query based on gid
+  Query <- multi.line.paste("
+  SELECT yr,dy,ndvi 
+  FROM xymod13q1 AS a 
+  LEFT JOIN datamod13q1 AS b ON ( a.gid = b.gid ) 
+  WHERE a.gid = ",gid," and b.rel>=0 and b.rel<1 
+  group by yr,dy 
+  order by yr,dy 
+  ") # use only good data! e.g. with reliability = 0
+  
+  res <- dbSendQuery(con, Query)
+  data <- fetch(res, n = -1)
+  data[1,]
+  
+  ## creata time series with the data
+  datum <- as.Date(paste(data$yr,data$dy,sep=","),"%Y,%j") # Ayear,julianday
+  tsNDVI <- timeser(data$ndvi/10000,datum) 
+  plot(tsNDVI)
 
 ## change the number here ## which corresponds to the plot number
 output <- data.frame(plots=1:120,percNA=NA,signaltonoise=NA,
   Lhistory=NA,historylmfit.adjr2=NA,timebp=NA)
 
 
-## i <- 117  ## voorbeeld met cloud piekin the history period.
-# i <- 4  # tree mortality
-  # i <- 8  # harvest event
-#   i <- 35 # is also a harvest activity ook 36
-#  i <- 77 # harvest event!
-#   i <- 43 # regrowth effect that where a change is detected that is not really a change
-# i <- 8  # latlong 147.99E and -35.43N 
-i <- 120 # latlong 148.035E and -35.58N
-i <- 5 # latlong 
-# for (i in 1:120) {
-
-str(gras)
-  tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
-  tsNDVI<- ts(gras$x,start=c(2000,4),frequency=23)
-plot(tsNDVI)
+# ## i <- 117  ## voorbeeld met cloud piekin the history period.
+# # i <- 4  # tree mortality
+#   # i <- 8  # harvest event
+# #   i <- 35 # is also a harvest activity ook 36
+# #  i <- 77 # harvest event!
+# #   i <- 43 # regrowth effect that where a change is detected that is not really a change
+# # i <- 8  # latlong 147.99E and -35.43N 
+# i <- 120 # latlong 148.035E and -35.58N
+# i <- 5 # latlong 
+# # for (i in 1:120) {
+# 
+# str(gras)
+#   tsNDVI <- ts(data[,as.character(i)],start=c(2000,4),frequency=23)
+#   tsNDVI<- ts(gras$x,start=c(2000,4),frequency=23)
+# plot(tsNDVI)
   
   ## determine the percentage of NA's within a time series
   output$percNA[i] <- length(which(is.na(tsNDVI)))/length(tsNDVI)
@@ -143,8 +190,10 @@ output$historylmfit.adjr2[i] <- summary(test_lm)$adj.r.squared
   }
 names(test_tspp)  
 
-# savepng(paste("figsallplot/monitorwithbreak",i,sep=""), height=14)
-  title <- TRUE
+
+setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')
+saveeps(paste("shorthistoryperiod",sep=""), height=14)
+  title <- FALSE
   plot(ftsNDVI,type='n', main = if (title) {
       if (!is.na(tbp[1])) { 
           paste("Plot nr",i," Time of detected break is", format(tbp,digits=6))} else
@@ -165,7 +214,7 @@ names(test_tspp)
 #   lines(confint(fitbp))
   legend("bottomleft",c("History","Monitoring","Stable History","fit based on stable history")
   ,lty=c(1,2,NA,1),col=c(1,1,'blue','blue'),pch=c(NA,NA,19,NA))
-# dev.off()
+dev.off()
  
   ## output
 #   output$timebp[i] <- tbp
