@@ -16,7 +16,7 @@ tellerstop <- args[2]
 # getDoParWorkers() # double checks the number of cores!!!
 # This does not improve the speed of the simulations
 
-# library("bfast")
+library("bfast")
 #require(monash) # package for saving plots for publication
 
 source("ts_sim_seas_6x00.R")

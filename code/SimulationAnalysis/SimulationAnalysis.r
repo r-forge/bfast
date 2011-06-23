@@ -5,7 +5,7 @@ require(monash)
 
 #Analysis of Simulation Results
 getwd()
-setwd(c('../output'))
+setwd(c('../output1'))
 
 name <- c("outputsim_")
 iter <- 1000
@@ -23,12 +23,10 @@ for (p in 1:iter)
   }
 }
   
-#  names(total) <- c('a','sdnoisef','nrange','dip','adelta','c1delta','SimTSb','simdSOS','EstSOS','EstA','EstNrSb','EstTimeSb')
-#  names(total) <- c('teller','a','sdnoisef','nrange','dip','adelta','c1delta','SimNrSb','SimTSb','simdSOS','EstSOS','EstA','EstNrSb','EstTimeSb')
 dim(total)
 names(total)
-head(total)
-total$Tmon
+# head(total)
+# total$Tmon
   # amplitude
   # sd noise =0.1* a factor 1:6
   # adelta    difference in amplitude
@@ -107,7 +105,7 @@ tail(Agg$dT)[1]/(1/23)
 # for (am in c(0.1,0.3,0.5) ) {
 saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
   print(
-      xyplot((dT/(1/23)) ~ (nres) | dip , data=Agg, 
+      xyplot((dT/(1/23)) ~ (sigmares) | dip , data=Agg, 
              subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (a == paste("a = ",0.3,sep=""))), #) &(Group.3 >-4)
         groups=~Nr,
         as.table =TRUE,
@@ -128,7 +126,7 @@ dev.off()
 # getwd()
 saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
-    xyplot(Ndata/1000 ~ (nres) | dip , data=Agg, 
+    xyplot(Ndata/1000 ~ (sigmares) | dip , data=Agg, 
            subset= (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
@@ -147,27 +145,50 @@ print(
 )       
 dev.off()
 
+## CHECK OOK VOOR EFFECT VAN DE STABLE HISTORY PERIOD... OF COURSE THE LENGTH... DEPENDS ON THE RANDOM NOISE ETC.
+## SO THIS COULD NOT REALLY BE TESTED... IS THAT POSSIBLE?
+
+
 # the effect of the amplitude!!!!
 # This plot proves that there is no effect of the amplitude on the modelling!!!
 # therefore we need to express everything is noise levels - since the signal to noise ratio does not make sense!
-print(
-      xyplot((dT/(1/23)) ~ (nres) | dip , data=Agg, 
-             subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (Nr == 'n = 6')), #) &(Group.3 >-4) 
-        groups=~a,
-        as.table =TRUE,
-        aspect="1",
-        scales = list(relation="same", alternating=1, tck=c(T,F)),
-        #layout = c(2,2),
-        ylab='RMSE', xlab='noise',
-        panel = function(x, y, type, ...) {
-          panel.superpose(x, y, type=c("l"), ...)  
-        },
-        par.settings = sp,
-        auto.key = list(lines = T, points = FALSE, between.columns=0.4
-        )
-      )
-)
+# print(
+#       xyplot((dT/(1/23)) ~ (sigmares) | dip , data=Agg, 
+#              subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (Nr == 'n = 6')), #) &(Group.3 >-4) 
+#         groups=~a,
+#         as.table =TRUE,
+#         aspect="1",
+#         scales = list(relation="same", alternating=1, tck=c(T,F)),
+#         #layout = c(2,2),
+#         ylab='RMSE', xlab='noise',
+#         panel = function(x, y, type, ...) {
+#           panel.superpose(x, y, type=c("l"), ...)  
+#         },
+#         par.settings = sp,
+#         auto.key = list(lines = T, points = FALSE, between.columns=0.4
+#         )
+#       )
+# )
 
+# check stable history...
+print(
+    xyplot(Ndata/1000 ~ (LStablehistory) | dip , data=Agg, 
+           subset= (Ndata>iter/2) & (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
+      groups=~Nr,
+      aspect="1",
+      as.table =TRUE,
+      scales = list(relation="same", alternating=1, tck=c(T,F)),
+#       scales = list(relation="free",x=list(alternating=1),rot=0),
+      layout = c(2,2),
+      ylab='Probability of break detection',xlab='Noise',
+      panel = function(x, y, type, ...) {
+        panel.superpose(x, y, type=c("l"), ...)  
+      },
+      par.settings = sp,
+      auto.key = list(columns =6, lines = T, points = FALSE, between.columns=0.4
+      )
+    )
+)
 
 
 
