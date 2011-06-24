@@ -394,30 +394,30 @@ Fig.~\ref{fig:realmonitoring} and Fig.~\ref{fig:shorthistory} are examples for s
 
 \section{Discussion and further work}
 
-Results of the simulation experiment and application on 16-day MODIS NDVI time series illustrate a proof-of-concept development and properties of the proposed time series based real-time monitoring approach. The change detection approach is a generic, data driven approach based on statistical principles which applicable to different types of time series. 
+Results of the simulation experiment and application on 16-day MODIS NDVI time series illustrate a proof-of-concept development and properties of the proposed time series based real-time monitoring approach. The change detection approach is a generic, data driven approach based on statistical principles applicable to different types of time series (e.g. in-situ or satellite sensors). 
 
-The method can be applied on to time series with a higher temporal resolution (e.g. hourly, daily or 8-day time series) to enable rapid response to detected disturbances. Noise level, available data in the monitoring period, and the magnitude of the disturbance that need to be detected are the drivers of the break detection and can be applied to different types of time series. Application of the  proposed method on the MODIS rapid response data (e.g. \url{http://lance.nasa.gov/}) or data available for geostationary satellites (e.g. \url{http://www.cmsaf.eu/}) could enable fast and automated detection of disturbances). 
+The method can be applied on to time series with a higher temporal resolution (e.g. hourly, daily or 8-day time series) to enable rapid response to detected disturbances. Noise level, available data in the monitoring period, and the magnitude of the disturbances are the drivers of the break detection valid for different types of time series. Application of the  proposed method on the MODIS rapid response data (e.g. \url{http://lance.nasa.gov/}) or data available for geostationary satellites (e.g. \url{http://www.cmsaf.eu/}) could enable fast and automated detection of disturbances). While the data and methods used here are appropriate for proof-of-concept development \citep{White2006}, other applications (e.g. deforestation monitoring in tropical forests or oil spill detection) will mandate further calibration and validation, as discussed below;
 
- 
+\begin{enumerate}[(1)]
 
-% the length of the stable history period could be used the restrict analysis to specific regions.
+\item  Continuous modeling of the seasonality using the proposed real-time concept and seasonal-trend model also allows for relating remote sensing to a continual process of land surface phenology change instead of a single date extraction \citep{Verbesselt:2010wo,White2006}. Further testing, however, is required to assess the impact of phenological shifts (e.g. changes in the start/end-of-season) on the method. Here, we demonstrated the method for forested areas where seasonal NDVI amplitude and the impact of phenological shifts are relatively small when compared to grassland areas, for example. Further testing is required for areas with a dominant herbaceous vegetation layer (e.g. grasslands, agriculture, and savannah areas). The proposed concept however has the capacity to detect phenological shifts in near-real time based on similar simulation experiment as proposed by \citet{Verbesselt:2010wo}.
+%1. monitoring ~ noise, amplitude effect. Seasonal amplitude versus phenological changes
+%phenological change detection is also possible
 
-
-Similar principles as shown in the simulation experiment are applicable to 
-
-
-Firstly, for real time application
+\item the length of the stable history period could be used the restrict analysis to specific regions.
 
 
-can also be applied on different types of time series. for example time series with a higher temporal resolution and similar amount of data (n) in combination of a certain level of noise, and magnitude of a break. The method is a data-driven method based on statistical principles which can be applied on different types of time series (e.g. daily, or 8-daily time series). As such the real-time change detection is improved and a rapid response for disturbance can be enabled. 
+\end{enumerate}
 
-These results are illustrating when breaks are being detected within time series under different circumstances (i.e. $a,\sigma,n,m$) for a simulated 16-day time series. Further testing needs to be done for 8-day time series but
 
-While the data and methods used here are appropriate for proof-of-concept development, other applications (e.g. deforestation monitoring or oil spill detection) will mandate further calibration and validation and use-specific remote sensing platforms \citep{White2006}, as discussed below.
 
-1. monitoring ~ noise, amplitude effect. Seasonal amplitude versus phenological changes
-phenological change detection is also possible
-Continuous modelling of the seasonality using the proposed concept also allows for relating remote sensing to a continual process of land surface phenology change instead of a single date extraction \citep{Verbesselt:2010wo,White2006}
+ % 
+
+
+
+
+
+
 % refer to the data simulation method as an ideal tool for validation of change detection methods in different environments. Further works is needed e.g. to test the real time monitoring approach when large seasonal shift (e.g. phenological variation in start-of-season) occur in the time series.
 
 Further, many methods assume that a given mathematical function, such as piecewise logistic functions (Zhang et al., 2003), approximates true phenological development. In global, or even regional application this may be an untenable assumption, especially in cases of disturbance, defoliation, or NDVI curves with sharp peaks or broad plateaus (Potter et al., 2003).
