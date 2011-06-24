@@ -124,27 +124,28 @@ differentiate normal phenological cycle from abnormal change (e.g. drought stres
 
 Several change detection methods are available to detect disturbances within
 historical satellite image time series \citep{deBeurs:2005jq, Kennedy2007,Verbesselt2009a, Verbesselt:2010wo, White2006} but generic methods to detect changes in real-time within newly captured satellite images while using historical information are lacking. Two major challenges remain.
-%Achim: why do you add extra letters behind each reference? it that done with a certain purpose?
 
 An historical analysis using archived satellite data is needed to model normal, expected behaviour against which abnormal behaviour in the near-future can be described \citep{Hargrove2009}.
 
 % The major challenge in change detection methods is a) what is normal and what is abnormal, b) in real-time i.e. at the end of a time series...
-
-two challenges... a) normal abnormal - see BFAST, b) real-time see White maar nog ni threshold independent... 
+% two challenges... a) normal abnormal - see BFAST, b) real-time see White maar nog ni threshold independent... 
 
 First, change detection techniques need to be independent of region-specific thresholds or a change types while being robust against the inherent noise and seasonality captured within time series.
 Most change detection methods require user designation of a threshold or change type definition separating real change from spectral changes caused by variability in illumination, seasonality, or atmospheric scattering \citep{Lu2004}.  \citet{White2006} presented a method for real-time monitoring of land surface phenology that avoids problems related to phenological metrics for individual pixels in real-time but requires a region-specific threshold for detecting change. The determination of thresholds adds significant cost to efforts expanding change detection across regions or when regions are changing.
 Trajectory based change detection has been proposed to move towards a threshold independent change detection by characterising change by its temporal signature \citep{Hayes2007, Kennedy2007}. This approach requires the definition of the change trajectory specific for the type of change to be detected. Furthermore, the method will only function if the observed spectral trajectory matches one of the hypothesised trajectories. This illustrates that there is a critical need for methods that enable analysis of time series independent of region or data specific thresholds or change types to detect change in real-time.
 
 % missing data: avoid smoothing and interpolation
-Second, time series analysis is needed to differentiate normal from abnormal changes while being able to deal with missing data (e.g. cloud effects or sensor defects). 
-Most existing change detection methods smooth or interpolate data using one of many existing techniques \citep{Jonsson2002, Roerink2000} when dealing with extremely noisy times series of remotely sensed data. For a given date, these methods typically require looking both backwards and forwards in time, negating use in real-time or forecast applications \citep{White2006}.  Also, time series smoothing and interpolation techniques model data and fill gaps based on assumptions of normal data variation which inhibits the detection of abnormal changes (i.e. disturbances, deforestation). Methods able to analyse non-gap filled time series are required to to enable real-time change detection.
+Second, change detection methods need to deal with missing data (e.g. clouds or sensor defects) in time series.
+Most existing change detection methods smooth or interpolate data using one of many existing techniques (e.g. filtering, Fourier analysis)  \citep{Jonsson2002, Roerink2000} when dealing with noisy times series of remotely sensed data. For a given date, these methods typically require looking both backwards and forwards in time, negating use in real-time or forecast applications \citep{White2006}.  Also, time series smoothing and interpolation techniques model data and fill gaps based on assumptions of normal data variation which inhibits the detection of abnormal changes (i.e. disturbances, deforestation). Methods able to analyse non-gap filled time series are critical for real-time change detection.
+
+Therefore, we propose a generic approach for real-time change detection of abrupt changes using time series data that deals with missing data and is independent of thresholds or change types. The following major research questions are answered in this paper:
 
 
-We propose a generic real-time change detection of abrupt changes using time series data. The following major research questions are answered in this paper:
+(1)~Can a period, representing \emph{normal} historical data variation representing both seasonal and gradual changes, be identified within a time series?
 
-(1)~Can a period, representing \emph{normal} historical data variation representing both seasonal and gradual changes, be identified within a time series? \\
+
 (2)~Is the model representing the \emph{normal} historical data variation able to reliably and fast detect abrupt changes within newly incoming observations (i.e. real-time)?
+
 
 We assessed this approach for forested ecosystems by simulating Normalised
 Difference Vegetation Index (NDVI) time series with varying amounts of seasonal
@@ -361,7 +362,7 @@ The objective is to verify how much data ($n$) is required before the abrupt cha
   \label{fig:SimMonitor}
 \end{figure}
 
-\subsection{Application on real NDVI time series}\label{sec:RealData}
+\subsection{Spatial application on MODIS 16-day NDVI time series}\label{sec:RealData}
 The potential use of the real-time monitoring approach is demonstrated using real MODIS NDVI satellite image time series. To enable comparison with available in-situ forest inventory data, the period from 2000 until end of 2005 was considered as the history period and the year 2006 as the monitoring period. The timing of the detected abrupt changes in the monitoring period (i.e. 2006) revealed were discussed and interpreted using in-situ forest inventory data and expert knowledge \citep{Stone2008,Verbesselt2009}. The seasonal amplitude and noise level were also estimated to illustrate the performance of the method in relation to the obtained results from the simulation experiment. The noise level is estimated by deriving the standard deviation of the residuals from the fitted seasonal-trend model (Section~\ref{sec:seasontrendmodel}) of the stable history period, whereas the amplitude was estimated as the range of the seasonal component of the fitted model.
 
 We selected the 16-day MODIS NDVI composites with a 250m spatial resolution (MOD13Q1 collection~5), since this product provides frequent information at the spatial scale at which the majority of human-driven land cover changes occur \citep{Townshend1988}. The MOD13Q1 16-day composites were generated using a constrained view angle maximum NDVI value compositing technique \citep{Huete2002}. The MOD13Q1 images were acquired from 24 February 2000 to 14 September 2009 for a multi-purpose forested study area (\emph{Pinus radiata} plantation) in South Eastern Australia (Lat.~35.5$^\circ$~S, Lon.~148.0$^\circ$~E). The abrupt, gradual trend changes and phenological shifts occurring within the MODIS 16-day NDVI time series for this study area are described by \citet{Verbesselt2009a,Verbesselt:2010wo}. We used the binary MODIS Quality Assurance flags to select only cloud-free data of optimal quality. Moreover, a pixel time series was only selected for analysis when it lacked less than 10\% of the data \citep{Beurs2009}. 
@@ -373,76 +374,83 @@ We selected the 16-day MODIS NDVI composites with a 250m spatial resolution (MOD
 
 \subsection{Simulation experiment}
 
-Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within the monitoring period of a time series (i.e. the newly acquired data) while varying the noise level ($\sigma$), magnitude of simulated disturbance in the monitoring period ($m$) and the amount of data available in the monitoring period ($n$). The seasonal amplitude ($a$) did not influence the probability for break detection and results shown in Fig.~\ref{fig:SimNr}  are valid for the different simulated $a$'s (Table~\ref{table:simpar}). Fig.~\ref{fig:SimNr} furthermore shows that a break with $m = -0.2$ can be detected when noise level ($\sigma$) is smaller than 0.04 and $n = 4$ (i.e. 4 images available).  When the magnitude of the to be detected break is larger (e.g. $m = -0.3$), less data points ($n$) are required in the monitoring period for a similar amount of noise (e.g. $\sigma < 0.04$) in the history period.
+Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within the monitoring period of a time series (i.e. the newly acquired data) while varying the noise level ($\sigma$), magnitude of simulated disturbance in the monitoring period ($m$) and the amount of data available in the monitoring period ($n$). The seasonal amplitude ($a$) did not influence the probability for break detection and results shown in Fig.~\ref{fig:SimNr}  are valid for the different simulated $a$'s (Table~\ref{table:simpar}). The length of the identified stable history period also did not influence the probability for break detection (result not shown).
+
+Furthermore, Fig.~\ref{fig:SimNr} shows that a break with $m = -0.2$ can be detected when noise level ($\sigma$) is smaller than 0.04 and $n = 3$ (i.e. 4 images available).  When the magnitude of the to be detected break is larger (e.g. $m = -0.3$), less data points ($n<3$) are required in the monitoring period for a similar amount of noise (e.g. $\sigma < 0.04$) in the history period. 
 
 %Fig.~\ref{fig:SimRMSE} shows the accuracy of time-of-change estimation (16-day time steps) while varying $n$, $m$, and the noise level.
 %illustrate fig 1 and 2 of the simulation analysis. amplitude had no effect - no phenological change was simulated - we wanted to test and demonstrate the method for detecting change in forested ecosystems.
 
-\subsection{Spatial application on real data}
+\subsection{Spatial application on MODIS 16-day NDVI time series}
 
-The main purpose of applying the real-time monitoring approach onto real data is to demonstrate how the method can be used in a forested areas. Further testing is required to operationally implement the method for detection of other changes in other ecosystems.
+The main purpose of applying the real-time monitoring approach onto MODIS 16-day NDVI time series is to illustrate a proof-of-concept development and characteristics for forest areas. Fig.~\ref{fig:SpatNoise} shows the spatial variation of the noise level ($\sigma$) in the study area. The lower noise levels correspond to the forested area within the boundaries of the Pinus radiata plantation. Higher noise levels occur outside the plantation area and correspond to the different grassland types as shown in \citet{Verbesselt:2010wo}. Higher noise levels in grasslands are caused by a large seasonal NDVI amplitude and inter-annual phenological shifts (e.g. start and end of the growing season) due rainfall and temperature dynamics.
 
-Fig.~\ref{fig:SpatNoise} shows the spatial variation of the noise level ($\sigma$) in the study area. The lower noise levels correspond to the forested area within the boundaries of the Pinus radiata plantation. Higher noise levels occur outside the plantation area and correspond to different grassland types. Grassland are influenced more by rainfall and temperature dynamics which explain a high seasonal amplitude and large phenological shifts (e.g. start and end of the growing season) \citep{Verbesselt:2010wo}, which explains the higher noise levels. Therefore, results in Fig.~\ref{fig:SpatTimeofChange} and Fig.~\ref{fig:SpatLStableHist} are shown for the region within the boundaries of the forest plantation, which approximately corresponds to the lower noise levels in Fig.~\ref{fig:SpatNoise} and noise range used in the simulation experiment (Table~\ref{table:simpar} and Fig.~\ref{fig:SimNr}).
+Therefore, results in Fig.~\ref{fig:SpatTimeofChange} and Fig.~\ref{fig:SpatLStableHist} are shown for the region within the boundaries of the forest plantation, which approximately corresponds to the lower noise levels in Fig.~\ref{fig:SpatNoise} and the noise range used in the simulation experiment (Table~\ref{table:simpar}) illustrated in Fig.~\ref{fig:SimNr}.
+%Grassland are influenced more by rainfall and temperature dynamics causing a high seasonal amplitude and large phenological shifts (e.g. start and end of the growing season) \citep{Verbesselt:2010wo}, which explains the higher noise levels. 
+% remove data where the lenght of season is smaller then 1.5 years?
+Fig.~\ref{fig:SpatTimeofChange} illustrates the time of the detected changes in 2006. Many changes are detected in 2006 due to a drought that occurred around that time in combination with ongoing harvest operations. Fig.~\ref{fig:SpatLStableHist} shows the length of the stable history period and illustrates where and when changes occurred in the history period (e.g. a recent harvest operation). Results shown in Fig.~\ref{fig:SpatTimeofChange} and Fig.~\ref{fig:SpatLStableHist} are illustrated for three locations within the study area in Fig.~\ref{fig:realmonitoring} and Fig.~\ref{fig:shorthistory}.
 
-Fig.~\ref{fig:SpatTimeofChange} illustrates the time of the detected changes within 2006. Many changes are detected in 2006 due to a drought that occurred around that time in combination with harvest operations. Fig.~\ref{fig:SpatLStableHist} shows the length of the stable history period (years) and illustrates where recent changes occurred in the history period (e.g. a recent harvest operation). Fig.~\ref{fig:realmonitoring} and Fig.~\ref{fig:shorthistory} are examples for specific location in the study area illustrating what the length of the history period is, and when and how a change is detected in the history period. The drought stress is the main driver of the disturbance detected in the top graph of Fig.~\ref{fig:realmonitoring} whereas a harvest operations explain the change detected in the bottom graph of Fig.~\ref{fig:realmonitoring}. A different length of the automatically identified stable history is also visible. Another drought event in 2003 potentially can explain the shorter stable history identified in Fig.~\ref{fig:realmonitoring} (top) while the the full history period was considered as stable in Fig.~\ref{fig:realmonitoring} (bottom). Tthe noise level in the time series is a little higher combined with the fact that the drougth has smaller impact on the seasonal NDVI dynamics (Fig.~\ref{fig:realmonitoring} (bottom)).
-
-Fig.~\ref{fig:shorthistory} shows an example of harvests operation which is occurring in the history period and explain why a shorter history period is being detected. A change is still detected in 2006 because harvest operation was still occurring at that time.
-
-% the length of the stable history period could be used the restrict analysis to specific regions.
-
-% create a raster with gids and then export that rasters so that we can query pixels and look at the data to further understand the results.
-% WAT IS THE EFFECT OF THE STABLE HISTORY LENGTH ON THE PROBABILITY OF CHANCE DETECTION?
+Fig.~\ref{fig:realmonitoring} and Fig.~\ref{fig:shorthistory} are examples for specific locations in the study area illustrating the detected (1) disturbance and (2) the identified length of the stable history period. First, drought stress in 2006 is the main driver of the disturbance detected in the top graph of Fig.~\ref{fig:realmonitoring}, whereas a harvest operations explains the change detected in the bottom graph of Fig.~\ref{fig:realmonitoring}. Second, a different length of the automatically identified stable history is also visible in Fig.~\ref{fig:realmonitoring} (top versus bottom). A larger impact of a drought period in 2003 on the NDVI time series of a Pinus radiata plantation (top versus bottom graph) could potentially explain the shorter stable history period. Fig.~\ref{fig:shorthistory} illustrates an ongoing harvests operation during the history period which explain the shorter identified stable history period. Nonetheless a change is still detected in 2006 due the ongoing effects of the harvest operation.
 
 \section{Discussion and further work}
 
+Results of the simulation experiment and application on 16-day MODIS NDVI time series illustrate a proof-of-concept development and properties of the proposed time series based real-time monitoring approach. The change detection approach is a generic, data driven approach based on statistical principles which applicable to different types of time series. 
+
+The method can be applied on to time series with a higher temporal resolution (e.g. hourly, daily or 8-day time series) to enable rapid response to detected disturbances. Noise level, available data in the monitoring period, and the magnitude of the disturbance that need to be detected are the drivers of the break detection and can be applied to different types of time series. Application of the  proposed method on the MODIS rapid response data (e.g. \url{http://lance.nasa.gov/}) or data available for geostationary satellites (e.g. \url{http://www.cmsaf.eu/}) could enable fast and automated detection of disturbances). 
+
+ 
+
+% the length of the stable history period could be used the restrict analysis to specific regions.
+
+
+Similar principles as shown in the simulation experiment are applicable to 
+
+
+Firstly, for real time application
+
+
+can also be applied on different types of time series. for example time series with a higher temporal resolution and similar amount of data (n) in combination of a certain level of noise, and magnitude of a break. The method is a data-driven method based on statistical principles which can be applied on different types of time series (e.g. daily, or 8-daily time series). As such the real-time change detection is improved and a rapid response for disturbance can be enabled. 
+
+These results are illustrating when breaks are being detected within time series under different circumstances (i.e. $a,\sigma,n,m$) for a simulated 16-day time series. Further testing needs to be done for 8-day time series but
+
 While the data and methods used here are appropriate for proof-of-concept development, other applications (e.g. deforestation monitoring or oil spill detection) will mandate further calibration and validation and use-specific remote sensing platforms \citep{White2006}, as discussed below.
 
-1. data set selection - daily? - cloud effect discussion - sentinel or the dmc constellation - this analysis was done using 16-day data however in operational situation daily data could be used - further testing needs to be done to verify how this method can be optimized to handle daily data which potentially is more noise.
+1. monitoring ~ noise, amplitude effect. Seasonal amplitude versus phenological changes
+phenological change detection is also possible
+Continuous modelling of the seasonality using the proposed concept also allows for relating remote sensing to a continual process of land surface phenology change instead of a single date extraction \citep{Verbesselt:2010wo,White2006}
+% refer to the data simulation method as an ideal tool for validation of change detection methods in different environments. Further works is needed e.g. to test the real time monitoring approach when large seasonal shift (e.g. phenological variation in start-of-season) occur in the time series.
 
+Further, many methods assume that a given mathematical function, such as piecewise logistic functions (Zhang et al., 2003), approximates true phenological development. In global, or even regional application this may be an untenable assumption, especially in cases of disturbance, defoliation, or NDVI curves with sharp peaks or broad plateaus (Potter et al., 2003).
+
+Further testing is required to operationally implement the method for detection of other changes in other ecosystems.
+
+% for testing the method we will use 16-day MODIS time series for fit a normal seasonal change pattern (monitoring the stable period) and potentially use daily images to do the abrupt monitoring? or should we stick to the 16-day image at the end of the time series (easier!!! for programming purposes).
+data set selection - daily? - cloud effect discussion - sentinel or the dmc constellation - this analysis was done using 16-day data however in operational situation daily data could be used - further testing needs to be done to verify how this method can be optimized to handle daily data which potentially is more noise.
 % modis rapid response, meteosat geostationary satellites, etc.
 
-2. phenological change detection is also possible. 
-Continuous modelling of the seasonality using the proposed concept also allows for relateing remote sensing to a continual process of land surface phenology change instead of a single date extraction \citep{Verbesselt:2010wo,White2006}
+2. stable history period is a rough method for identification of a stable period - this needs to be used with care (e.g. in very noise time series -e.g. daily data) and further explored.
+Alternatively a fixed history period can be manually chosen or an average for a region can be used a representing normal data variation (e.g. see Lhermitte)
 
-Ideal prediction period discussion:
-(1) how much data is needed before a break can be detected? 
-(2) how much data can be used before the prediction of the model is not valid anymore?.  . See forecasting papers and also White et al. paper.
+%monitoring should be exported in an area where you now that the history period is more or less stable. e.g. if deforestation has happend in the year before the monitoring period than it should not be exported but been masked out from the analysis for example.
 
-3. Pro's and con's of data simulation. Data simulation enables testing of a method however with data simulation it is very difficult to reproduce similar behavior as in real time series e.g. measured by satellite sensors of vegetation dynamcis.
-Further work
+3. magnitude of change (how?) 
+also keep in mind that positive and negative change are being detected so we should in a further fase verify in which coefficients (beta) of the most of the changes occur.
 
-4. no decompositioning is done here - one model is being used.
+4. The real-time monitoring could be further improved by including other explanatory variables in the monitoring model (e.g. temperature, rainfall) which will contribute to model the data and determine what is normal versus what is abnormal. Furthermore, the monitoring model proposed here can also further improved to be used as a forecasting model. Similar to current real-time monitoring approach, forecasting requires a profound understanding of vegetation dynamics and vegetation interaction with the atmosphere, combined with proper data analysis techniques  \citep{LeiJi:2004kx}. % adding co-variates e.g. like temperature, precipitation might help differentiating a real change from seasonality.
 
-5. monitoring should be exported in an area where you now that the history period is more or less stable. e.g. if deforestation has happend in the year before the monitoring period than it should not be exported but been masked out from the analysis for example.
-
-6. also keep in mind that positive and negative change are being detected so we should in a further fase verify in which coefficients (beta) of the most of the changes occur.
-
-7. keep in mind that if there is a regrowth effect occurring and the ndvi is saturising we are detecting a change while in reality there is no real change.
-
-The real-time monitoring could be further improved by including other explanatory variables in the monitoring model (e.g. temperature, rainfall) which will contribute to model the data and determine what is normal versus what is abnormal. Furthermore, the monitoring model proposed here can also further improved to be used as a forecasting model. Similar to current real-time monitoring approach, forecasting requires a profound understanding of vegetation dynamics and vegetation interaction with the atmosphere, combined with proper data analysis techniques  \citep{LeiJi:2004kx}.
-
-
-8. no data gaps are filled - see e-mail of Achim!
+5. Further testing towards operational implementation as an alarm system in forest ecosystems
 %More info for other applications of this methodology:
 %\url{http://rapidfire.sci.gsfc.nasa.gov/} 
 % This might be an interesting link for real time change detection and application if we really want to detect changes fast
 % if we really want to detect changes in real-time we should use the MODIS rapid response option
 % this certainly needs to be mentioned in the discussion -- 
 
-
-% for testing the method we will use 16-day MODIS time series for fit a normal seasonal change pattern (monitoring the stable period) and potentially use daily images to do the abrupt monitoring? or should we stick to the 16-day image at the end of the time series (easier!!! for programming purposes).
-
-\readme{Deviations from ÒnormalÓ land surface phenologi- cal development can be the first indications of important changes in forest health, including disturbance and recovery (de Beurs and Henebry 2005, Liang and Schwartz 2009, Morisette et al. 2009), carbon status, and even climatic shifts (Cleland et al. 2007).}
-
-!!!!
-\readme{
-Further, many methods assume that a given mathematical func- tion, such as piecewise logistic functions (Zhang et al., 2003), approximates true phenological development. In global, or even regional application this may be an untenable assumption, es- pecially in cases of disturbance, defoliation, or NDVI curves with sharp peaks or broad plateaus (Potter et al., 2003).}
-
-
-\readme{adding co-variates e.g. like temperature, precipitation might help differentiating a real change from seasonality.}
-
+%keep in mind that if there is a regrowth effect occurring and the ndvi is saturising we are detecting a change while in reality there is no real change.
 
 \section{Conclusion}
+
+Deviations from ÒnormalÓ land surface phenological development can be the first indications of important changes in forest health, including disturbance and recovery, carbon status, and even climatic shifts.
+
 Currently, real-time satellite images and their derivatives are routinely produced and published on the World wide Web (e.g. \url{http://rapidfire.sci.gsfc.nasa.gov/} or \url{http://www.dmcii.com/index.html}) but methods for real-time monitoring and change detection are lacking. 
 
 the method can be used for meteorological satellites - which provide real-time data - e.g. monitoring of evapotranspiration or NEP, NPP, carbon dynamics in real-time.
@@ -452,6 +460,12 @@ The method is a fast, and simple method which easily can be applied onto other r
 
 This validation approach by combining tests with simulated and real data should be a standard practice when validating novel change detection approaches. Furthermore, methods being proposed should also be made available to other scientist enabling the reproducibility of the research and collaboration towards further improvement of the methods.
 
+1. no tresholds
+2. no gap filling
+3. full time series processing - a method that fully explores the potential of time series data.
+
+3. Pro's and con's of data simulation. Data simulation enables testing of a method however with data simulation it is very difficult to reproduce similar behavior as in real time series e.g. measured by satellite sensors of vegetation dynamcis.
+Further work
 
 %The approach is adaptable to different remote sensing technologies and provides a foundation for ascribing a sequence of ground conditions (e.g. snowmelt, vegetative growth, pollen production, insect phenology) to remotely sensed land surface phenology observations \citep{White2006}.
 
@@ -496,21 +510,21 @@ This work was undertaken using expertise and field data available via the progra
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/Noise.eps}
-  \caption{Spatial variation of the noise level (i.e. the standard deviation of the residuals of the stable history model) in the study area, a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which corresponds to the area with a lower noise level. The plantation is surrounded by grasslands.}
+  \caption{Spatial variation of the noise level (i.e. the standard deviation of the residuals of the stable history model) in the study area, a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which corresponds to the area with a lower noise level. The plantation is surrounded by grasslands. Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. }
   \label{fig:SpatNoise}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006_II.eps}
-  \caption{Time of detected changes within the study area in the monitoring period (i.e. 2006), where white indicates that no change is detected for a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation which is surrounded by grasslands.}
+  \caption{Time of detected changes within the study area in the monitoring period (i.e. 2006), where white indicates that no change is detected for a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation which is surrounded by grasslands. Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. }
   \label{fig:SpatTimeofChange}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/LengthStableHistory.eps}
-  \caption{Spatial variation of the length the stable history period (expressed in years, i.e. 23 16-day images) of a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which is surrounded by grasslands. The length of the history period indicates when in the history period a potential disturbance occurred (e.g. shorter length indicates a more recent disturbance). }
+  \caption{Spatial variation of the length the stable history period (expressed in years, i.e. 23 16-day images) of a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which is surrounded by grasslands. The length of the history period indicates when in the history period a potential disturbance occurred (e.g. shorter length indicates a more recent disturbance). Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}.}
   \label{fig:SpatLStableHist}
 \end{figure}
 
@@ -519,7 +533,7 @@ This work was undertaken using expertise and field data available via the progra
     \includegraphics[height=0.6\textwidth]{figs/realmonitoring.eps}
   \caption{
   %plot 120 and 8
-  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for two locations, i.e. $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}), situated within the Green Hills study area. In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analyzed and model fit based on the stable history period.}
+  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for two locations, i.e. $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}), situated within the Green Hills study area. In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
   \label{fig:realmonitoring}
 \end{figure}
 
@@ -527,7 +541,7 @@ This work was undertaken using expertise and field data available via the progra
 \centering
     \includegraphics[height=0.6\textwidth]{figs/shorthistoryperiod.eps}
   \caption{
-  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e. the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}) . A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analyzed and model fit based on the stable history period.}
+  Results of real-time monitoring approach applied onto 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e. the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}). A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e. 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation from 2005 onwards. The method is able to deal with time series with data gaps (e.g. after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
   \label{fig:shorthistory}
 \end{figure}
 
