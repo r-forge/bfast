@@ -411,54 +411,36 @@ The real-time monitoring approach is validated and tested for operational implem
 
 % search for extra real-time monitoring projects/add more references. GLASLITE
 
-\item The length of the identified stable history is identified here for modelling normal, stable data variation within the history period to enable differentiation from abnormal changes (i.e. disturbances) in the monitoring period. The method for identifying the stable history is based on the structural change detection methods \citep{Bai2003,Zeileis:2010tt} and is implemented to assess stability of the history period. The method is a basic and fast approach with the objective of verifying whether or not a structural change is occurring while stepwise going back in history. It is not implemented for determining the time of change but for testing whether of not a change is occurring in the history period. The BFAST approach is developed to detect and characterise time and magnitude of change within time series \citep{Verbesselt2009a}
+\item The length of the identified stable history is identified here for modelling normal, stable data variation within the history period to enable differentiation from abnormal changes (i.e. disturbances) in the monitoring period. The method for identifying the stable history is based on the structural change detection methods \citep{Bai2003,Zeileis:2010tt} and is implemented to assess stability of the history period. The method is a basic and fast approach with the objective of verifying whether or not a structural change is occurring while stepwise going back in history. It is not implemented to determine accurately the time of change but for testing whether of not a change is occurring in the history period \citep{Zeileis2002}. The BFAST approach is developed to detect and characterise accurately the time and magnitude of change within time series \citep{Verbesselt2009a}. However, current approach the asses stability of the history period can be used e.g. for identifying when and where in recent history disturbances occurred or to restrict detection of changes in the monitoring period to time series which have a stable history period e.g. longer than 2 years. The length of the stable history as such can be used to optimise the monitoring concept approach depending on the objectives of operational real-time disturbance system.
 
-it is a simple and fast method based on principles proposed and validated by Achim. It can furthermore be used to i.e. 1) restrict analysis to periods with a stable period longer than e.g. 2 years (we did not do this here), 2) identify when in recent history a disturbance occurred. However, one should keep in mind that the method to identify the stable history period is 
-
-
-the length of the stable history period could be used the restrict analysis to specific regions.
-
-% the capacity to deal with data gaps!!! no interpolation method is required.... AS SMOOTHING AND GAP FILLING TENDS TO MASK A	out disturbances and changes...
+\item The real-time monitoring could be further improved by; 1) including other explanatory variables in the monitoring model (e.g. temperature, rainfall) which will contribute to model the data and determine what is normal versus what is abnormal (GAM modelling references), 2) determining the magnitude of change from the fitted parameters of seasonal-trend model similar as implemented in the BFAST approach \citep{Verbesselt2009a} and 3) the monitoring model proposed here can also be used as a forecasting model. Similar to current real-time monitoring approach, forecasting requires a profound understanding of vegetation dynamics and vegetation interaction with the atmosphere, combined with proper data analysis techniques  \citep{LeiJi:2004kx}.
 
 \end{enumerate}
 
-2. stable history period is a rough method for identification of a stable period - this needs to be used with care (e.g. in very noise time series -e.g. daily data) and further explored.
-Alternatively a fixed history period can be manually chosen or an average for a region can be used a representing normal data variation (e.g. see Lhermitte)
-
-%monitoring should be exported in an area where you now that the history period is more or less stable. e.g. if deforestation has happend in the year before the monitoring period than it should not be exported but been masked out from the analysis for example.
-
-3. magnitude of change (how?) 
-also keep in mind that positive and negative change are being detected so we should in a further fase verify in which coefficients (beta) of the most of the changes occur.
-
-4. The real-time monitoring could be further improved by including other explanatory variables in the monitoring model (e.g. temperature, rainfall) which will contribute to model the data and determine what is normal versus what is abnormal. Furthermore, the monitoring model proposed here can also further improved to be used as a forecasting model. Similar to current real-time monitoring approach, forecasting requires a profound understanding of vegetation dynamics and vegetation interaction with the atmosphere, combined with proper data analysis techniques  \citep{LeiJi:2004kx}. % adding co-variates e.g. like temperature, precipitation might help differentiating a real change from seasonality.
-
 \section{Conclusion}
 
-Deviations from “normal” land surface phenological development can be the first indications of important changes in forest health, including disturbance and recovery, carbon status, and even climatic shifts.
+Currently, real-time satellite images and their derivatives are routinely produced and published on the World wide Web (e.g. \url{http://rapidfire.sci.gsfc.nasa.gov/} or \url{http://www.dmcii.com/index.html}) but methods for real-time monitoring and change detection are lacking. Here, we proposed a time series based real-time monitoring approach that enables the detection of changes within newly acquired images or data.
 
-Currently, real-time satellite images and their derivatives are routinely produced and published on the World wide Web (e.g. \url{http://rapidfire.sci.gsfc.nasa.gov/} or \url{http://www.dmcii.com/index.html}) but methods for real-time monitoring and change detection are lacking. 
+The real-time monitoring approach is a generic data driven approach that can be applied to any type of time series data. Results from the simulation experiment demonstrated that the noise level within the time series together with the amount of data available in the monitoring period are the main drivers of the capacity to detect disturbances within newly acquired images. Time series with a high temporal resolution (e.g. daily) will enable a fast response time to detect disturbances similarly driven by noise level and data availability.
+The simulation experiment and application on MODIS 16-day data was focussed on testing the method for detecting changes in forested areas. Results illustrated that seasonal amplitude did not influence the change detection performance but no phenological shifts were simulated in this study.  Further work is require to test and optimise the method for ecosystems with a dominant herbaceous cover (e.g. grassland, agriculture) .
 
-the method can be used for meteorological satellites - which provide real-time data - e.g. monitoring of evapotranspiration or NEP, NPP, carbon dynamics in real-time.
+%Land cover types with a dominant herbaceous cover have a high seasonal amplitude together with large inter-yearly phenological shifts.
 
-The method is a fast, and simple method which easily can be applied onto other remotely sensed data sets. Further testing is certainly to validate it in other ecosystems (e.g. grasslands or agricultural fields).
+The method has the following characteristics that make it appropriate for real-time change detection implementation at different spatial scales. The method 1)  is fast and require a minimum a mount of processing time (e.g. 0.04 seconds to analyse 6 year long 16-day time series  on a normal desktop computer), 2) does not require the definition of thresholds, change type or even minimum amount of data as required by the BFAST approach, 3) can analyse time series with data gaps (e.g. masked clouds or sensor defects) and does not require gap filling techniques, and 4) it analyses the full temporal detail of a time series and it not restricted to definition and time dependent phenological metrics. The real-time monitoring method is implement in open-source software environment and is freely available on \url{http://bfast.r-forge.r-project.org/} . The methods are available in the \emph{BFAST} package for \emph{R} \citep{R} from CRAN (\url{http://CRAN.R-project.org/package=bfast})
 
 
-This validation approach by combining tests with simulated and real data should be a standard practice when validating novel change detection approaches. Furthermore, methods being proposed should also be made available to other scientist enabling the reproducibility of the research and collaboration towards further improvement of the methods.
 
-1. no tresholds
-2. no gap filling
-3. full time series processing - a method that fully explores the potential of time series data.
+%This validation approach by combining tests with simulated and real data should be a standard practice when validating novel change detection approaches. Furthermore, methods being proposed should also be made available to other scientist enabling the reproducibility of the research and collaboration towards further improvement of the methods.
 
-3. Pro's and con's of data simulation. Data simulation enables testing of a method however with data simulation it is very difficult to reproduce similar behavior as in real time series e.g. measured by satellite sensors of vegetation dynamcis.
-Further work
+
 
 %The approach is adaptable to different remote sensing technologies and provides a foundation for ascribing a sequence of ground conditions (e.g. snowmelt, vegetative growth, pollen production, insect phenology) to remotely sensed land surface phenology observations \citep{White2006}.
 
+%Deviations from “normal” land surface phenological development can be the first indications of important changes in forest health, including disturbance and recovery, carbon status, and even climatic shifts.
+
 \section{Acknowledgements}
 
-This work was undertaken using expertise and field data available via the program of the Cooperative Research Center for Forestry: Monitoring and Measuring (\url{http://www.crcforestry.com.au}). Marie Curie !!! Number of my grant?
-
-%Thanks to xx whose comments greatly improved this paper. We greatly appreciate the constructive feedback we have received from the three reviewers.
+This work was undertaken using expertise and field data available via the program of the Cooperative Research Center for Forestry: Monitoring and Measuring (\url{http://www.crcforestry.com.au}). Marie Curie !!! Number of my grant?. Thanks to Darius Culvenor and Glenn Newnham whose comments greatly improved this paper. We greatly appreciate the constructive feedback we have received from the x reviewers.
 
 
 \bibliographystyle{model5-names}
