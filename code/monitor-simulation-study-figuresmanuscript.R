@@ -75,15 +75,15 @@ writefirst <- TRUE
           		averageNDVI = 0.7,
           		t2 = nrobs-dfend)
           
-          simul <- cbind(seasonal = sim$ts.sim.s, abrupt = sim$ts.sim.a+sim$ts.sim.t, noise = sim$ts.sim.n)
+          simul <- cbind(seasonal = sim$ts.sim.s, trend = sim$ts.sim.a+sim$ts.sim.t, noise = sim$ts.sim.n)
           simul <- list(time.series = createts(simul))
           class(simul) <- "stl"
         require(monash)
-#         saveeps("../papers/figs/Sim_Monitoringsetup",height=14)
+        saveeps("../papers/figs/Sim_Monitoringsetup",height=14)
           plot(simul)  
 #           abline(v=time(ts.sim.noise)[nrobs-dfend],col='red',lty=2)
 #           abline(v=2006,col='red',lty=2)
-#         dev.off()
+        dev.off()
           ## Determine how much data we have for the monitoring and for detecting a break
           (start <- cycle(ts.sim.noise)[nrobs-dfend]) # position of the simulated break point
           time(ts.sim.noise)[nrobs-dfend]
