@@ -25,7 +25,7 @@ title <- "BFAST analysis on modeled Time Series"
 library(doMC) # High Performance Computing
 registerDoMC(4)
 
-
+source('bfastfast.R')
 #-----------------------------------------------
 # Simulate time series (10 years)
 #-----------------------------------------------
