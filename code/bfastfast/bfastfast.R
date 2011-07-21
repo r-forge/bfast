@@ -256,6 +256,7 @@ main = NULL, range.bars = FALSE, ..., col.range = "light gray", fit = NULL)
         oldpar <- do.call("par", as.list(names(set.pars)))
         on.exit(par(oldpar))
         do.call("par", set.pars)
+#         print("set old par on exit")
     }
     ## ANOVA
     if (is.null(fit) == F) {
