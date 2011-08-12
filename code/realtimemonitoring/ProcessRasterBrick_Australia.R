@@ -9,11 +9,11 @@
 ## Required packages
 # library(doMC) # High Performance Computing
 # registerDoMC(2)
-library(raster)
-library(rgdal)
-library(zoo)
-library(ggplot2)
-library(sp)
+library("raster")
+library("rgdal")
+library("zoo")
+library("ggplot2")
+library("sp")
 
 ## defined functions
 timeser <- function(index,dt) {
@@ -52,10 +52,10 @@ i <- 11912
   ## a realtime monitor function would be handy for further development
   ## however there is a bug in the data
 
-  source('functions/monitorfunctions.R')
+  source("functions/monitorfunctions.R")
   out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
 
-## The section below is identical to the defined function however somehow the 'test_tspp'is not 
+## The section below is identical to the defined function however somehow the "test_tspp"is not 
 ## recognized by the monitor() function within the realtime() function.
 
 #     ## input
@@ -81,23 +81,23 @@ i <- 11912
 #     
 #     ## 4. plot 
 #     title = TRUE
-#     plot(tsndvi,type='n', main = if (title) {
+#     plot(tsndvi,type="n", main = if (title) {
 #       if (!is.na(tbp[1])) { 
 #           paste("Time of detected break is", format(tbp,digits=6))} else
 #           { "no breakpoint detected"}
-#       }, ylab = 'NDVI'
+#       }, ylab = "NDVI"
 #     )
 #     lines(tshistory) # history period
-#     lines(stableHistory,col='green',type="p",pch=19,cex=0.3)
+#     lines(stableHistory,col="green",type="p",pch=19,cex=0.3)
 #     test_pred <- predict(test_lm, newdata = test_tspp)
 #     test_pred <- as.ts(zoo(test_pred,test_tspp$time))
 #     lines(test_pred, col = 4,lwd=1.5)
-#     abline(v = tbp, lty = 2, col='red', lwd=2) # time of the breakpoint detected by the monitoring process!
-#     lines(window(tsndvi,start=end),col='red',type='l',pch=19, cex=0.5)
+#     abline(v = tbp, lty = 2, col="red", lwd=2) # time of the breakpoint detected by the monitoring process!
+#     lines(window(tsndvi,start=end),col="red",type="l",pch=19, cex=0.5)
 #     
 #     legend("bottomleft",
 #     c("History","Stable History","Monitoring","fit based on stable history", "Time of Detected Break")
-#       ,lty=c(1,NA,1,1,2),col=c(1,'green','red','blue','red'),pch=c(NA,19,NA,NA,NA))
+#       ,lty=c(1,NA,1,1,2),col=c(1,"green","red","blue","red"),pch=c(NA,19,NA,NA,NA))
     
 #     ## output as data.frame
 #     ## is there a break yes or no? When is the break  (maybe determine the type of break)
@@ -118,6 +118,6 @@ i <- 11912
       # 
       # disturb <- setValues(last,out$tbp)
       # lhist <- setValues(last,out$lstablehist)
-      # writeRaster(data/disturb,'disturb.grd',overwrite=TRUE)
-      # writeRaster(data/lhist,'lhist.grd',overwrite=TRUE)
+      # writeRaster(data/disturb,"disturb.grd",overwrite=TRUE)
+      # writeRaster(data/lhist,"lhist.grd",overwrite=TRUE)
 
