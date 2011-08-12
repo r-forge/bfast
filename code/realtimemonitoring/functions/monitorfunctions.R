@@ -11,7 +11,7 @@ require("zoo")
 
 bfastmonitor <- function(data, start,
   order = 3, history = c("ROC", "BP", "all"), period = 10, level = 0.05, hpc = "none",
-  verbose = TRUE, plot = TRUE)
+  verbose = FALSE, plot = FALSE)
 {
   ## PREPROCESSING
   ## two levels needed: 1. monitoring, 2. in ROC (if selected)
@@ -45,15 +45,14 @@ bfastmonitor <- function(data, start,
 
   ## compute subset
   stableHistory <- window(tshistory, start = history)
-  lstablehist <- length(stableHistory)/frequency(stableHistory)
 
   ## output information (if desired)
   if(verbose) {
-    cat("BFAST monitoring\n\n1. History period\n")
+    cat("\nBFAST monitoring\n\n1. History period\n")
     cat(sprintf("Stable period selected: %i(%i)--%i(%i)\n",
       start(stableHistory)[1], start(stableHistory)[2],
       end(stableHistory)[1], end(stableHistory)[2]))
-    cat(sprintf("Length (in years): %f\n", lstablehist))
+    cat(sprintf("Length (in years): %f\n", length(stableHistory)/frequency(stableHistory)))
   }
 
 
@@ -75,9 +74,9 @@ bfastmonitor <- function(data, start,
     cat("\n\n2. Monitoring period\n")
     cat(sprintf("Monitoring starts at: %i(%i)\n", floor(start2), round((start2 - floor(start2)) * frequency(data)) + 1))
     if(is.na(tbp)) {      
-        cat("Break detected at: -- (no break)\n")
+        cat("Break detected at: -- (no break)\n\n")
       } else {
-        cat(sprintf("Break detected at: %i(%i)\n", floor(tbp), round((tbp - floor(tbp)) * frequency(data)) + 1))
+        cat(sprintf("Break detected at: %i(%i)\n\n", floor(tbp), round((tbp - floor(tbp)) * frequency(data)) + 1))
     }
   }
 
@@ -98,6 +97,36 @@ bfastmonitor <- function(data, start,
   
   ## return object
   return(rval)
+}
+
+print.bfastmonitor <- function(x, ...)
+{
+  freq <- frequency(x$data)
+  cat("\nBFAST monitoring\n\n1. History period\n")
+  cat(sprintf("Stable period selected: %i(%i)--%i(%i)\n",
+    floor(x$history[1]),
+    round((x$history[1] - floor(x$history[1])) * freq) + 1,
+    floor(x$history[2]),
+    round((x$history[2] - floor(x$history[2])) * freq) + 1))
+  cat(sprintf("Length (in years): %f\n", diff(x$history)))
+
+  cat("Model fit:\n")
+  print(coef(x$model))
+
+  cat("\n\n2. Monitoring period\n")
+  cat(sprintf("Monitoring period assessed: %i(%i)--%i(%i)\n",
+    floor(x$monitor[1]),
+    round((x$monitor[1] - floor(x$monitor[1])) * freq) + 1,
+    floor(x$monitor[2]),
+    round((x$monitor[2] - floor(x$monitor[2])) * freq) + 1))
+  cat(sprintf("Length (in years): %f\n", diff(x$monitor)))
+  if(is.na(x$breakpoint)) {	
+      cat("Break detected at: -- (no break)\n\n")
+    } else {
+      cat(sprintf("Break detected at: %i(%i)\n\n", floor(x$breakpoint), round((x$breakpoint - floor(x$breakpoint)) * freq) + 1))
+  }
+
+  invisible(x)
 }
 
 plot.bfastmonitor <- function(x, main = TRUE, ylab = "Data", ...)
