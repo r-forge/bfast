@@ -75,7 +75,7 @@ harvest_mon
 ## internally this simply computes predictions from the
 ## history model for the monitoring period (and then a MOSUM
 ## of their residuals)
-plot(harvest_tspp$response)
+plot(ts(harvest_tspp$response , start = c(2000, 4), freq = 23))
 harvest_pred <- predict(harvest_lm, newdata = harvest_tspp)
 lines(ts(harvest_pred, start = c(2000, 4), freq = 23), col = 4)
 abline(v = 2004 + 11/23, lty = 2) 
