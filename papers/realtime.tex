@@ -65,7 +65,7 @@ Real-time monitoring of land cover disturbances are critical for addressing impa
 
 We propose a generic time series analysis approach to detect disturbances within newly acquired data by automatically identifying a stable history period to model normal expected behaviour and as such enable detection of abnormal change (i.e. disturbances like drought effects, fires or deforestation events).
 
-Time series of vegetation greenness provide evidence of terrestrial vegetation productivity over the last decades covering the whole world and therefore contain essential information related land cover dynamics and disturbances. Here, we assess and demonstrate the method by (1) simulating time series of vegetation greenness data from satellite data with different amount of noise, seasonality and disturbances, (2) applying it to real satellite greenness image time series between February 2000 and July 2011 of the Horn of Africa to automatically detect drought related anomalies. Here, the severe drought occurring in Somalia (2010-2011) is selected as a case study to demonstrated the characteristics of the method. However, the method is a generic approach to automatically detect disturbances at a global scale and is not specifically developed to detect drought. More specialised drought monitoring methods are available. 
+Time series of vegetation greenness provide evidence of terrestrial vegetation productivity over the last decades covering the whole world and therefore contain essential information related land cover dynamics and disturbances. Here, we assess and demonstrate the method by (1) simulating time series of vegetation greenness data from satellite data with different amount of noise, seasonality and disturbances, (2) applying it to real satellite greenness image time series between February 2000 and July 2011 of the Horn of Africa to  detect drought related vegetation disturbances.
 
 Simulation results illustrate the proof-of-concept of the proposed real-time monitoring method. Disturbances are successfully detected in real-time, i.e., at the end of a time series, while being robust for seasonality and noise. However, the noise level of the time series remains the most important driver of capacity and timeliness to detect changes. As such, data pre-processing in order to improve the quality and reliability of time series data remains essential to improve disturbance detection. 
 
@@ -108,44 +108,29 @@ Early warning \sep global change \sep land cover disturbance\sep drought \sep ND
 
 \section{Introduction}
 
-% forest disturbances and their importance - could we orient it more towards drought detection - so link it with the SMOS mission and a recent science paper.
-% the importance of detecting disturbances in real-time? Disaster monitoring/ fast detection of current forest cover changes/ etc.
-% MENTION REDD and it's importance - maybe also GLASLITE
+% forest disturbances and their importance - could we orient it more towards drought detection - so link it with the SMOS mission and a recent science paper. % the importance of detecting disturbances in real-time? Disaster monitoring/ fast detection of current forest cover changes/ etc.
+% mention drought related problems - NDVI - rainfall link
 
 Real-time land cover disturbance detecting is critical for tracking human-induced and natural disturbances promptly \citep{Asner:2011fa}. Such
-information is needed for signalling abnormal developments, quickly raising awareness, and allow for prompt actions to intervene, relief efforts and reduce
-negative impacts to natural resources, humans, and infrastructure. 
+information is needed for signalling abnormal developments, quickly raising awareness, and allow for prompt actions to intervene, relief efforts and reduce negative impacts to natural resources, humans, and infrastructure. 
 
 %Real-time remote sensing approaches are already performed for weather monitoring and
 %prediction \citep{Ebert:2007tj} (SMOS/MeteoSAT/ClimateDAta), and in case of after-disasters and relief efforts \citep{Tralli:2005ch}. 
 
-Key to approaches looking at forest and land cover
-disturbances is that many recent change events occur worldwide at unknown locations with unknown change magnitudes. In this sense, remote sensing tools can
-be in the first instance used to alert when things start to appear \emph{abnormal}. For example, deviations from \emph{normal} land surface phenology,
-defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes in forest health \citep{Stone2008,Morisette2009}, carbon status, regional drought effects and even climate change \citep{Cleland2007,Hargrove2009}.
+Key to approaches looking at land cover disturbances is that many recent change events occur worldwide at unknown locations with unknown change magnitudes. In this sense, remote sensing tools can be in the first instance used to alert when things start to appear \emph{abnormal}. For example, deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes in forest health \citep{Stone2008,Morisette2009}, carbon status, regional drought effects and even climate change \citep{Cleland2007,Hargrove2009}.
 
 % satellite data and vegetation indices
-Satellite sensors are well-suited to provide consistent and frequent
-measurements over large areas which is appropriate for capturing the effects
-of many processes that cause change, including natural (e.g., insect attacks, droughts, fires, floods) and
-anthropogenic (e.g., deforestation, urbanisation, farming) disturbances
-\citep{Jin2005}. A common way to derive indicators of environmental change is the use of spectral vegetation indices such as the Normalized Difference Vegetation Index (NDVI)\citep{Pettorelli:2005ed, Tucker1979}
+Satellite sensors are well-suited to provide consistent and frequent measurements over large areas which is appropriate for capturing the effects of many processes that cause disturbances, including physical (e.g. droughts, fires, floods), biogenic (e.g. herbivorous insects and pathogens) and anthropogenic (e.g. deforestation, urbanisation, farming) disturbances \citep{Jin2005, Potter2003}. A common way to derive indicators of environmental change is the use of spectral vegetation indices such as the Normalised Difference Vegetation Index (NDVI) that is strongly related to the photosynthetic capacity of vegetation canopies \citep{Myneni1995, Pettorelli:2005ed}. % fraction of photosynthetic active radiation (wavelength $0.4-0.7 \mu m$)
 
 % different change types in ecosystem dynamics
 Many types of ecosystem changes affecting the land surface range from diurnal cycles to long-term change in vegetation patterns. The ecosystem changes commonly observed with remote sensing approaches can be divided into three categories: (1)~\emph{seasonal or cyclic change}, driven by annual temperature and rainfall interactions impacting plant phenology resulting in distinct intra-annual patterns for different vegetation types; (2)~\emph{gradual trend change} such as trends in mean annual rainfall or gradual change in land management (e.g., forest regrowth after fire) that result in changes over several years; and (3)~\emph{abrupt trend change}, caused by events from human activities (e.g., deforestation) or natural causes (e.g., wind throw or an extreme drought event) that change land cover over short time frames (days or weeks) 
-\citep{deBeurs:2005jq,Beurs2005a,Verbesselt:2010wo}. 
+\citep{Beurs2005a,Verbesselt2009a,Verbesselt:2010wo}. 
 
 %These changes can also be associated with two categories of land cover changes: conversion or modification. Conversion refers to a change from one cover type to another and might correspond to an abrupt change, whereas modification involves maintenance of the broad cover type in the face of changes in its attributes which can correspond to a gradual change \citep{vanLier:2011ga}. %These different types of changes commonly operate in parallel and approaches to detect and map a particular change type have to include information about the other types to avoid confusion and wrong labelling of change. 
 
 % problem statement
-Detecting changes within time series is the first step towards understanding the acting processes and drivers (e.g. natural or anthropogenic). Estimating change from remotely sensed data series however is not straightforward, since time series contain a combination of seasonal, gradual and abrupt ecosystem changes occurring in parallel,
-in addition to noise that originates from the sensing environment (e.g., view
-angle), remnant geometric errors, atmospheric scatter and cloud effects
-\citep{Beurs2005a, Roy2002, Wolfe1998}. The ability of any system to detect change depends on its capacity to
-differentiate normal phenological cycle from abnormal change (e.g., drought anomalies, degradation, deforestation). 
-
-Several change detection methods are available to detect disturbances within
-historical satellite image time series \citep{deBeurs:2005jq, Verbesselt2009a, Verbesselt:2010wo, White2006} but generic methods to detect disturbances within newly captured satellite images are lacking. Three major challenges remain.
+Detecting changes within time series is the first step towards understanding the acting processes and drivers (e.g. natural or anthropogenic). Estimating change from remotely sensed data series however is not straightforward, since time series contain a combination of seasonal, gradual and abrupt ecosystem changes occurring in parallel, in addition to noise that originates from the sensing environment (e.g., view angle), remnant geometric errors, atmospheric scatter and cloud effects \citep{Beurs2005a, Roy2002, Wolfe1998}. The ability of any system to detect change depends on its capacity to differentiate normal phenological cycle from abnormal change (e.g., drought anomalies, degradation, deforestation). 
+Several change detection methods are available to detect disturbances within historical satellite image time series \citep{deBeurs:2005jq, Verbesselt2009a, Verbesselt:2010wo, White2006} but generic methods to detect disturbances within newly captured satellite images are lacking. Three major challenges remain.
 
 % changes at the end of a time series -(what is normal and what is abnormal can maybe be mentioned above?)
 First, it is crucial to be able to detect disturbances within newly capture satellite images, i.e. in near real time to enable a rapid response or early warning. In previous work, we proposed a generic and threshold independent approach,  BFAST i.e. Break detection For Additive Seasonal and Trend, for change detection within seasonal time series \citep{Verbesselt2009a,Verbesselt:2010wo}.
@@ -153,7 +138,7 @@ BFAST detects and characterises trend and seasonal changes within historical tim
 
 % threshold independent
 Second, change detection techniques for global disturbance monitoring need to be independent of vegetation-specific thresholds while being robust against the inherent noise and seasonality captured within time series.
-Most change detection methods require user designation of a threshold or change type definition separating real change from spectral changes caused by variability in illumination, seasonality, or atmospheric scattering \citep{Lu2004}.  \citet{White2006} presented a method for real-time monitoring of land surface phenology but requires a region-specific threshold for detecting change. The determination of thresholds adds significant cost to efforts expanding change detection across regions or becomes complex when the regions are changing. 
+Most change detection methods require user designation of a threshold or change type definition separating real change from spectral changes caused by variability in illumination, seasonality, or atmospheric scattering \citep{Lu2004, Potter2003}.  \citet{White2006} presented a method for real-time monitoring but requires a region-specific threshold for detecting change. The determination of thresholds adds significant cost to efforts expanding change detection across regions or becomes complex when the regions are changing. 
 Trajectory-based change detection has been proposed to move towards a threshold-independent change detection by characterising change by its temporal
 signature \citep{Hayes2007, Kennedy2007}. This approach requires the definition of the change trajectory specific to the type of change to be detected, is computing intensive, and will only function if the observed spectral trajectory matches one of the hypothesised trajectories. 
 A historical analysis using archived satellite data is needed to model normal, expected behaviour against which abnormal behaviour, i.e. disturbance, in the near
@@ -163,13 +148,12 @@ future can be described \citep{Hargrove2009}. This illustrates the critical need
 Third, change detection methods need to deal with missing data (e.g., clouds or sensor defects) in time series data.
 Most existing change detection methods smooth or interpolate data using one of many existing techniques (e.g., filtering, Fourier analysis)  \citep{Jonsson2002, Roerink2000, Julien2010} when dealing with noisy times series of remotely sensed data. For a given date, these methods typically require looking both backwards and forwards in time, negating use in real-time or forecast applications \citep{White2006}.  Also, time series smoothing and interpolation techniques model data and fill gaps based on assumptions of normal data variation which inhibits the detection of disturbances. Therefore, methods able to analyse non-gap-filled time series are critical for real-time change detection.
 
-We propose a generic approach for real-time change detection of disturbances using time series data that does not require specific thresholds and deals with missing data. The following major research questions are answered in this paper:
-
-(1)~Can a period, representing \emph{normal} historical data variation representing both seasonal and gradual changes, be identified within a time series?
+We propose a generic approach for real-time change detection of disturbances using time series data that does not require specific thresholds and deals with missing data. The following major research questions are answered in this paper: \\
+(1)~Can a period, representing \emph{normal} historical data variation representing both seasonal and gradual changes, be identified within a time series?\\
 (2)~Is the model representing the \emph{normal} historical data variation able to reliably and quickly differentiate between normal and abnormal changes (i.e. disturbances) within newly incoming observations (i.e., real-time)?
 
 We assessed this approach for different ecosystems by simulating NDVI time series with varying amounts of seasonal
-variation and noise, and by adding changes with different magnitudes.  We demonstrated the approach using the MODIS (Moderate Resolution Imaging Spectrometer) NDVI 16-day image composites from February 2000 until July 2011 for automated drought anomaly detection in Somalia and a fire disturbance monitoring in Victoria, Australia.
+variation and noise, and by adding changes with different magnitudes.  We demonstrated the approach using the MODIS (Moderate Resolution Imaging Spectrometer) NDVI 16-day image composites from February 2000 until July 2011 for automated drought disturbance detection in Somalia and a fire disturbance monitoring in Victoria, Australia. The severe drought occurring in Somalia (2010-2011) is selected as a case study to demonstrate the characteristics of the method. The method is a generic approach to automatically detect disturbances by analysing time series of biophysical indicators at a global scale. Here we opted for the NDVI, as a common measure of vegetation dynamics and disturbances \citep{Pettorelli:2005ed, Potter2003, Myneni:1997ur}. Whereas more region specific drought monitoring methods are available \citep[][]{Funk:2009vf, Verbesselt2006}, current method can also be applied on optimised drought related indices \citep{Ghulam:2007td}. 
 
 % the delay time for disturbance detection is important!!! (how fast can a change be detected?)
 % where does it work and what needs to be done to implement the method?
@@ -348,6 +332,8 @@ Fig.~\ref{fig:realmonitoring} and~\ref{fig:shorthistory} are examples for specif
 
 
 \section{Discussion and further work}
+
+% compare our method with the disturbance detection algorithm of Potter2003!!! Discuss. Have a look at Potters results.
 
 Results of the simulation experiment and application on 16-day MODIS NDVI time series illustrate a proof-of-concept of the proposed time series based
 real-time monitoring approach. The change detection approach is a generic, data driven approach based on statistical principles applicable to different
