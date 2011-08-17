@@ -79,11 +79,11 @@ writefirst <- TRUE
           simul <- list(time.series = createts(simul))
           class(simul) <- "stl"
         require(monash)
-        saveeps("../papers/figs/Sim_Monitoringsetup",height=14)
+#         saveeps("../papers/figs/Sim_Monitoringsetup",height=14)
           plot(simul)  
 #           abline(v=time(ts.sim.noise)[nrobs-dfend],col='red',lty=2)
 #           abline(v=2006,col='red',lty=2)
-        dev.off()
+#         dev.off()
           ## Determine how much data we have for the monitoring and for detecting a break
           (start <- cycle(ts.sim.noise)[nrobs-dfend]) # position of the simulated break point
           time(ts.sim.noise)[nrobs-dfend]
@@ -101,44 +101,40 @@ writefirst <- TRUE
             signal <- diff(range(stlfit$time.series[,"trend"]+stlfit$time.series[,"seasonal"]))
             noise <- diff(range(stlfit$time.series[,"remainder"]))
             sn <- signal/noise
-  
+  					
+					## GRAPH to illustrate the MOSUM plot
+
+						
+					## INSERT GRAPH here
+						
             subset_start <- roc(tshistory, order = 3, level = 0.05) # searching for a stable period 
             print(subset_start)
-          
+          	
+						
+
             stableHistory <- window(tshistory, start = subset_start)
             print(length(stableHistory)/frequency(stableHistory)) # 1.4 year available as a stable model
-            
-#             title <- FALSE
-#             plot(ftsNDVI,type='n', ylab='NDVI', 
-#               main= if(title) {paste("nr of data points in the monitoring period = ",nrdatamonitor,sep="")}) 
-#             abline(v=time(ftsNDVI)[nrobs-dfend],col='red',lty=2)
-# #             tshistory <- window(ftsNDVI, end = c(2006,start-1))
-#             lines(tshistory)
-#             lines(stableHistory,col='blue',type='p',pch=19, cex=0.6)
-# #             lines(window(ftsNDVI,start=c(2006,start)),col='red',type='p',pch=19, cex=0.5)
-#             legend("bottomleft",c("History","Stable History","Monitoring"),
-#               lty=c(1,NA,NA),pch=c(NA,19,19), col=c(1,'blue','red'))
 
-            test_tspp <- tspp(stableHistory, order = 3)
-            ## History model
+            
+            
+						## Stable History model
+						test_tspp <- tspp(stableHistory, order = 3)
             test_lm <- lm(response ~ trend + harmon, data = test_tspp)
             test_mefp <- mefp(response ~ trend + harmon, data = test_tspp,
-            		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)
-            ## monitor
-            # check
+            		type = "OLS-MOSUM", h = 0.25, alpha = 0.05)								
+
+						## monitor
             print(length(window(ftsNDVI, start = subset_start))-length(stableHistory)) # nr of observations after the change
             
             test_tspp <- tspp(window(ftsNDVI, start = subset_start),  order = 3)
             test_mon <- monitor(test_mefp)
             #plot(test_mon, functional = NULL)
             
-            if (is.na(test_mon$breakpoint)) { tbp <- NA} else {
-                tbp <- time(test_tspp$response)[test_mon$breakpoint]
-              }
-          
+            if (is.na(test_mon$breakpoint)) { tbp <- NA} else { tbp <- test_tspp$time[test_mon$breakpoint]}
+
             ## plot and visualise
 #             saveeps("../papers/figs/Sim_Monitoring",height=14)
-              title = FALSE
+              title = TRUE
               plot(ftsNDVI,type='n', main = if (title) {
                 if (!is.na(tbp[1])) { 
                     paste("Time of detected break is", format(tbp,digits=6))} else
@@ -146,29 +142,53 @@ writefirst <- TRUE
                 }, ylab = 'NDVI'
               )
               
-               lines(tshistory) # history period
+              lines(tshistory) # history period
               lines(window(ftsNDVI,start=c(2006,1)),lty=2) # monitoring period
               lines(stableHistory,col='blue',type="p",pch=19,cex=0.6)
-              test_pred <- predict(test_lm, newdata = test_tspp)
-              tsp(test_pred) <- tsp(test_tspp$response)
-              lines(as.ts(test_pred), col = 4)
-#               abline(v = tbp, lty = 2, col='red', lwd=2) # time of the breakpoint detected by the monitoring process!
+
+							
+  						test_pred <- predict(test_lm, newdata = test_tspp)
+  						test_pred <- as.ts(zoo(test_pred,test_tspp$time))
+  						lines(test_pred, col = 4,lwd=1.5)
+							
+              abline(v = tbp, lty = 2, col='red', lwd=2) # time of the breakpoint detected by the monitoring process!
 #               abline(v=time(sim$ts.sim.d)[nrobs-dfend],col='blue',lty=2,lwd=2) ## simulated breakpoint 
-              lines(window(ftsNDVI,start=c(2006,start)),col='red',type='p',pch=3, cex=0.7)
+              monitor <- window(ftsNDVI,start=c(2006,start))
+							lines(monitor,col='red',type='p',pch=3, cex=0.7)
               
               legend("bottomleft",
               c("History period","Monitoring period","n","Stable history","Stable history model")
                 ,lty=c(1,2,NA,NA,1),col=c(1,1,'red','blue','blue'),pch=c(NA,NA,3,19,NA))
 #             dev.off()
 
-#               legend("bottomleft",
+## ggplot version of the simulated data
+	require(ggplot2)
+	tsmon <- ts.union(test_pred,monitor,tshistory)
+	tsmon
+              			 
+df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon), model=tsmon[,'test_pred'], mon=tsmon[,'monitor'])
+p =	ggplot(df) + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
+		geom_line(aes(x=Time, y=model), colour="blue",alpha=0.8) +
+		geom_line(aes(x=Time, y=mon), colour="red") + xlab("") +
+		geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='pink', alpha=0.2)
+p
+
+p + geom_vline(xintercept = tbp, colour='red')              			 
+
+              			 #               legend("bottomleft",
 #               c("History","Stable History","Monitoring","fit based on stable history",
 #               "Time of Simulated Break", "Time of Detected Break")
 #                 ,lty=c(1,NA,NA,1,2,2),col=c(1,'blue','red','blue','blue','red'),pch=c(NA,19,19,NA,NA,NA))
 # #             #dev.off()   
 #             ## output for accuracy assessment
 #            ## simulation setting that are important to be saved to an output file
-           
+
+
+
+
+
+
+
           out <- data.frame(dip, noisef, nrange = round(n.range,digit=4),
             a, dfend, Lhistory = length(tshistory), LStablehistory = length(stableHistory),
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
