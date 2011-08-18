@@ -18,7 +18,7 @@
 \hypersetup{%
   pdftitle = {Real-time land cover disturbance detection using satellite image time series},
   pdfsubject = {remote sensing, monitoring},
-  pdfkeywords = {early warning, real-time, change detection, land cover and land use change, REDD, deforestation, disturbance, NDVI, time series, MODIS, vegetation dynamics, phenology},
+  pdfkeywords = {early warning, real-time, change detection, land cover change, REDD, deforestation, disturbance, NDVI, time series, MODIS, vegetation dynamics, phenology},
   pdfauthor = {Jan Verbesselt, Achim Zeileis, Martin Herold},
   %% change colorlinks to false for pretty printing
   colorlinks = {true},
@@ -174,9 +174,7 @@ A method is presented below that is able to detect disturbances within newly acq
 
 \subsection{Season-trend model}\label{sec:seasontrendmodel}
 
-The method proposed here is based on a similar additive season and trend
-model as employed by \citet{Verbesselt:2010wo} to account seasonal and trend changes typically occurring within climate driven biophysical parameters derived from satellite data  \citep{Beurs2005a}.
-For the observations $y_t$ at time $t$, a season-trend model is assumed with linear
+The method proposed here is based on a similar additive season and trend model as employed by \citet{Verbesselt:2010wo} to account seasonal and trend changes typically occurring within climate driven biophysical indicators derived from satellite data (e.g. NDVI)  \citep{Beurs2005a}. For the observations $y_t$ at time $t$, a season-trend model is assumed with linear
 trend and harmonic season:
 %
 \begin{align} \label{eq:lmod}
@@ -204,13 +202,8 @@ containing the $p = 2 + 2 k$ regression parameters $\beta$ which can be estimate
 \subsection{Monitoring structural change}\label{sec:MonStrucChange}
 
 Based on the season-trend model introduced above, the question raised in
-the introduction can be rephrased:
-\emph{Given that a stable season-trend model was estimated in an observed
-time period, does it remain stable for new
-observations?} A disturbance is detected when the model does not remain stable for new incoming observations.
-
-% If the model does not remain stable for real-time observations, it indicates an abnormal structural change in the process.
-
+the introduction can be rephrased: \emph{Given that a stable season-trend model was estimated in an observed
+time period, does it remain stable for new observations?} A disturbance is detected when the model does not remain stable for new incoming observations.
 As the season-trend model can be formulated as an OLS regression,
 we can leverage from the methods proposed in the structural change literature
 for linear regression models where this problem is known as \emph{monitoring}
@@ -249,27 +242,32 @@ season-trend model can be fitted.
 Here, we implement a technique proposed by \citet{Pesaran2002} that by moving backward in time for $t = n, n-1, n-2, \dots$ considers a cumulative prediction error until the season-trend model (Eq. \ref{eq:lmod}) breaks down. The method is also known as reversed-ordered-cumulative sum (CUSUM) of residuals, or ROC. The ROC method is based on similar ideas as the monitoring approach introduced
 above, but in reverse ordering \citep[see][for more details]{Zeileis2002}.
 
-In summary, when applying the real-time disturbance approach three steps are being performed: (1) verify which part of the history period is stable (Section \ref{sec:StableHist}), (2) fit the seasonal-trend model on the stable history period (Section \ref{sec:seasontrendmodel}) and (3) assess whether the stable history model is still valid for the new incoming data (Section \ref{sec:MonStrucChange}, i.e. disturbance detection).
+Fig. X provides an overview of the three steps that are being performed when applying the real-time disturbance detection approach. 
+Two periods are defined within a time series; (a) a \emph{history period} i.e., data that already has been acquired and which will be analysed for stability in order to model normal vegetation dynamics, and (b) a \emph{monitoring period} i.e., the period representing new data that recently has been captured that needs to be analysed for disturbances. The blue line illustrates the fit of the seasonal-trend model on the identified stable part of the history period of a example NDVI time series (Section \ref{sec:seasontrendmodel} and  \ref{sec:StableHist})). This seasonal-trend fit is used to model the normal expected behaviour in the \emph{history period} and as such detect abnormal data variations, disturbances, within the \emph{monitoring period} (Section \ref{sec:MonStrucChange}) . Here, a disturbance is detected.
+
+%Fig.
+%
+%
+%The monitoring period, i.e. the newly acquired data, is identified by the shaded (gray) background and shows that a disturbance is detected.
+%
+%In summary, when applying the real-time disturbance approach three steps are being performed: (1) verify which part of the history period is stable (Section \ref{sec:StableHist}), (2) fit the seasonal-trend model on the stable history period (Section \ref{sec:seasontrendmodel}) and (3) assess whether the stable history model is still valid for the new incoming data (Section \ref{sec:MonStrucChange}, i.e. disturbance detection).
 
 \section{Validation}\label{sec:Validation}
 
 We validated the real-time change detection approach by (1)~a simulation experiment and (2)~analysis of 16-day MODIS satellite NDVI time series. Validation of multi-temporal change-detection methods is often not straightforward, since independent reference sources for a broad range of potential changes must be available \citep{Kennedy2007}.
-We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change approach in a controlled environment. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. Therefore, applying the method to real remotely sensed data remains necessary. 
-A similar validation strategy was proposed by \citet{Verbesselt2009a, Verbesselt:2010wo} to validate the detection of phenological shifts, abrupt and gradual changes within time series. Here, we focus on the validation of detection of changes at the end of a time series, i.e., in real-time, when new images are recently captured. In the next two sections, the simulation of NDVI time series and application on real MODIS NDVI satellite image time series are explained. 
+We simulated 16-day NDVI time series with different noise levels, seasonality, and disturbances in order to robustly test the real-time change detection approach in a controlled environment. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. Therefore, applying the method to real remotely sensed data remains necessary. 
+A similar validation strategy was proposed by \citet{Verbesselt2009a, Verbesselt:2010wo} to validate the detection of phenological shifts, abrupt and gradual changes within time series. Here, we focus on the validation of disturbance detection at the end of a time series, i.e. in real-time. In the next two sections, the simulation of NDVI time series and application on real MODIS NDVI satellite image time series are explained. 
 
 \subsection{Simulation experiment}\label{sec:Valsim}
 
-The objective of the time series simulation experiment was to validate, how much new data is required to detect a disturbance, while varying the amount of noise, seasonal amplitude, and the magnitude of the disturbance in the simulated time series. NDVI time series were simulated using a similar approach as proposed by  \citet{Verbesselt:2010wo}. Simulated NDVI time series are generated by summing individually simulated seasonal, abrupt, and noise components (Fig.~\ref{fig:SimSetup}). First, the seasonal component is created using an asymmetric Gaussian function with a amplitude ($a$) for each season. Second, an abrupt change was added to the trend component to simulate an abrupt disturbance (e.g., fire, flood or harvest operation). This was simulated by combining a step function with a magnitude ($m$) and fixed gradient recovery phase. Third, the noise component was generated using a random number generator that follows a normal distribution N($\mu = 0$, $\sigma =x$). Vegetation index specific noise was generated by randomly replacing the white noise by noise with a value of $-0.1$, representing cloud contamination that often remains after atmospheric correction and cloud masking procedures. 
+The objective of the time series simulation experiment was to assess the \emph{detection delay}, i.e. how much new data is required to detect a disturbance, while varying the amount of noise, seasonal amplitude, and the magnitude of the disturbance in the simulated time series. NDVI time series were simulated using a similar approach as proposed by  \citet{Verbesselt:2010wo} representing a wide range ecosystem dynamics. Simulated NDVI time series are generated by summing individually simulated seasonal, trend, and noise components (Fig.~\ref{fig:SimMonitor}). 
 
- \begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/Sim_Monitoringsetup.eps}
-  \caption{Simulated 16-day MODIS NDVI time series (data) with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}). The simulated data series is the sum of the simulated seasonal, trend and noise series and is used as an input in real-time monitoring method and has a length of 7 years (i.e., 2000--2006) containing a simulated abrupt change in 2006. The solid bars on the right-hand side of the plot show the same data range, to aid comparisons.}
-  \label{fig:SimSetup}
-\end{figure}
+First, the seasonal component is created using an asymmetric Gaussian function with a amplitude ($a$) for each season. Second, an disturbance was added to the trend component (e.g., fire or drought) by combining a step function with a magnitude ($m$) and fixed gradient recovery phase. Third, the noise component was generated using a random number generator that follows a normal distribution N($\mu = 0$, $\sigma =x$). Vegetation index specific noise was generated by randomly replacing the white noise by noise with a value of $-0.1$, representing cloud contamination that often remains after atmospheric correction and cloud masking procedures \citep[see][for more details]{Verbesselt:2010wo}. Fig.~\ref{fig:SimMonitor} shows a simulated 16-day MODIS NDVI time series with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Table~\ref{table:simpar}).
+
+In the simulation experiment the \emph{history period} is defined as the period from 2000 until mid 2006 (i.e., the time step just before the simulated break), whereas the \emph{monitoring period} is defined as the period from the simulated break onwards of which the length is gradually increased during the experiment ($d$) (Fig.~\ref{fig:SimMonitor} and Table~\ref{table:simpar}). We selected a range of $a$, $\sigma$, and $m$ values for the simulation study to represent a large range of land cover types of different data quality while varying the amount of data, $d$, available in the monitoring period (Table~\ref{table:simpar}). An example of the set-up of the simulation experiment is shown in Fig.~\ref{fig:SimMonitor}. 1000 iterations of all the combinations of $\sigma$, $a$, $d$ and $m$ were performed to quantify the probability of detecting a disturbance in the monitoring period in relation to the amount of data available ($d$).
 
 \begin{table}[htb]
-\caption{Parameter values ($a$, $\sigma$ noise and $m$) for simulation of 16-day NDVI time series while varying the amount of data available in the monitoring period ($n$ i.e., 16-day time steps).}
+\caption{Parameter values ($a$, $\sigma$ noise and $m$) for simulation of 16-day NDVI time series while varying the amount of data available in the monitoring period ($d$, 16-day time steps units) to quantify the detection delay.}
 \centering
 \begin{tabular}{ll}
   \hline
@@ -278,41 +276,46 @@ The objective of the time series simulation experiment was to validate, how much
   $a$         & $0.1, 0.3, 0.5$ \\
   $\sigma$ noise    & $0.01,0.02,\dots,0.08$ \\
   $m$         & $0, -0.1, -0.2, \dots, -0.5$ \\
-  %$\Delta SOS$   & $0, 1.9, 3.2, 4.3$ \\ [.5ex]
-  $n$   & $1, 2, \dots, 8$ \\ [.5ex]
+  $d$   & $1, 2, \dots, 8$ \\ [.5ex]
   \hline
 \end{tabular}
 \label{table:simpar}
 \end{table}
 
-Two periods within the simulated time series are selected to validate the real-time monitoring approach; (a) a \emph{history period} i.e., data that already has been acquired and which will be analysed for stability in order to model normal vegetation dynamics, and (b) a \emph{monitoring period} i.e., the period representing new data that recently has been captured that needs to be analysed for disturbances. Here, the history is defined as the period from 2000 until mid 2006 (i.e., the time step just before the simulated break), whereas the monitoring period is defined as the period from the simulated break onwards of which the length is gradually increased during the experiment ($n$) (Fig.~\ref{fig:SimMonitor} and Table~\ref{table:simpar}). 
-
-The objective is to verify how much data ($n$) is required before the abrupt change in the monitoring period is detected while varying $\sigma$, $a$, and $m$ (Table~\ref{table:simpar}). The 16-day NDVI time series are simulated by extracting key characteristics from MODIS 16-day NDVI time series within the study area \citep{Verbesselt2009a}. We selected a range of $a$, $\sigma$, and $m$ values for the simulation study to represent a large range of land cover types of different data quality while varying the amount of data available in the monitoring period (Table~\ref{table:simpar}). An example of the set-up of the simulation experiment is shown in Fig.~\ref{fig:SimMonitor}. 1000 iterations of all the combinations of $\sigma$, $a$, $n$ and $m$ were performed to quantify the probability of detecting a disturbance in the monitoring period (i.e., recently acquired data).
-
-%and (2) accuracy of estimating the timing of the detected disturbance change within a time series expressed as Root Mean Square Error (RMSE). 
+%Two periods are defined within the simulated time series to validate the real-time monitoring approach; (a) a \emph{history period} i.e., data that already has been acquired and which will be analysed for stability in order to model normal vegetation dynamics, and (b) a \emph{monitoring period} i.e., the period representing new data that recently has been captured that needs to be analysed for disturbances. 
 
  \begin{figure}[htp]
 \centering
     \includegraphics[height=0.5\textwidth]{figs/Sim_Monitoring.eps}
-  \caption{Simulated 16-day MODIS NDVI time series with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3) (Fig.~\ref{fig:SimSetup}). During the simulation experiment the period from 2000 until mid 2006 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period}. In this example, $n$ = 6. The result of applying the monitoring approach on the  simulated NDVI series is also shown. A stable history period is identified within the history period and used to model the normal data variation (i.e., stable history model) and predict normal data variation during monitoring period to enable the change detection (Section~\ref{sec:MonStrucChange}). }
+  \caption{Simulated 16-day MODIS NDVI time series with $a$ = 0.2, $\sigma$ = 0.05, containing one simulated abrupt change with $m$ = $-$0.3). The period from 2000 until mid 2006 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period}. In this example, $d$ = 6. The result of applying the monitoring approach on the  simulated NDVI series is also shown. A stable history period is identified within the history period and used to model the normal data variation (i.e., stable history model) and predict normal data variation during monitoring period to enable disturbance detection (Section~\ref{sec:MonStrucChange}). }
   \label{fig:SimMonitor}
 \end{figure}
 
 \subsection{Spatial application on MODIS 16-day NDVI time series}\label{sec:RealData}
-The use of the real-time monitoring approach is demonstrated using real MODIS NDVI satellite image time series. To enable comparison with available in-situ forest inventory data, the period from 2000 until end of 2005 was considered as the history period and the year 2006 as the monitoring period. The timing of the detected abrupt changes in the monitoring period (i.e., 2006) revealed were discussed and interpreted using in-situ forest inventory data and expert knowledge \citep{Stone2008,Verbesselt2009}. The seasonal amplitude and noise level were also estimated to compare the performance of the method with the obtained results from the simulation experiment. The noise level is estimated by deriving the standard deviation of the residuals from the fitted seasonal-trend model (Section~\ref{sec:seasontrendmodel}) of the stable history period, whereas the amplitude was estimated as the range of the seasonal component of the fitted model.
 
-We selected the 16-day MODIS NDVI composites with a 250~m spatial resolution (MOD13Q1 collection~5), since this product provides frequent information at the spatial scale at which the majority of human-driven land cover changes occur \citep{Townshend1988}. The MOD13Q1 16-day composites were generated using a constrained view angle maximum NDVI value compositing technique \citep{Huete2002}. The MOD13Q1 images were acquired from 24 February 2000 to 14 September 2009 for a multi-purpose forested study area (\emph{Pinus radiata} plantation) in South Eastern Australia (Lat.~35.5$^\circ$~S, Lon.~148.0$^\circ$~E). The abrupt, gradual trend changes and phenological shifts occurring within the MODIS 16-day NDVI time series for this study area are described by \citet{Verbesselt2009a,Verbesselt:2010wo}. We used the binary MODIS Quality Assurance flags to select only cloud-free data of optimal quality. Moreover, a pixel time series was only selected for analysis when it lacked less than 10\% of the data \citep{Beurs2009}. 
+The use of the real-time monitoring approach is demonstrated using real MODIS NDVI satellite image time series. We selected the 16-day MODIS NDVI composites with a 5.6~km spatial resolution (MOD13QC1 collection~5), since this product provides frequent information at a global scale ideal to detect and study large scale physical, biogenic or anthropogenic disturbances. The MOD13C1 images were acquired from February 2000 to  July 2011 covering Somalia. We used the MODIS Quality Assurance flags to select only cloud-free data of optimal quality. Moreover, a pixel time series was only selected for analysis when it lacked less than 15\% of the data \citep{Beurs2009}.
+Furthermore, the seasonal amplitude and noise level were estimated to compare the performance of the method with the obtained results from the simulation experiment. The noise level is estimated by deriving the standard deviation of the residuals from the fitted seasonal-trend model (Eq. \ref{eq:lmod}) of the stable history period, whereas the amplitude was estimated as the range of the seasonal component of the fitted model.
 
+%(Lat.~35.5$^\circ$~S, Lon.~148.0$^\circ$~E)
+%To enable comparison with available in-situ forest inventory data, the period from 2000 until end of 2005 was considered as the history period and the year 2006 as the monitoring period. The timing of the detected abrupt changes in the monitoring period (i.e., 2006) revealed were discussed and interpreted using in-situ forest inventory data and expert knowledge \citep{Stone2008,Verbesselt2009}. 
 %Furthermore, the study area consists out of two very different land cover types, i.e., grasslands and plantations, providing time
 %series with a large difference in seasonal amplitudes (i.e., 0.05--0.7 NDVI), ideal for evaluating the effect of the seasonal amplitude on change detection method.
 
-\section{Results}
+\section{Results and Discussion}
 
 \subsection{Simulation experiment}
 
-Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within the monitoring period of a time series (i.e., the newly acquired data) while varying the noise level ($\sigma$), magnitude of simulated disturbance in the monitoring period ($m$) and the amount of data available in the monitoring period ($n$). The seasonal amplitude ($a$) did not influence the probability for break detection and results shown in Fig.~\ref{fig:SimNr}  are valid for the different simulated $a$'s (Table~\ref{table:simpar}). The length of the identified stable history period also did not influence the probability for break detection (results not shown).
+Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within the monitoring period of a time series while varying the noise level ($\sigma$), magnitude of simulated disturbance in the monitoring period ($m$) and the amount of data available in the monitoring period ($d$). The seasonal amplitude ($a$) did not influence the probability for break detection and results shown in Fig.~\ref{fig:SimNr}  are valid for the different simulated $a$'s (Table~\ref{table:simpar}). The length of the identified stable history period also did not influence the probability for break detection (results not shown).
 
-Furthermore, Fig.~\ref{fig:SimNr} shows that a break with $m = -0.2$ can be detected when noise level ($\sigma$) is smaller than 0.04 and $n = 3$ (i.e., 3 images available).  When the magnitude of the break is larger (e.g., $m = -0.3$), less data points ($n<3$) are required in the monitoring period for a similar amount of noise (e.g., $\sigma < 0.04$) in the history period. 
+% important to be discussed - here the seasonality has no influence since the seasonal-trend model is perfectly able to account for the simulated seasonal variation. However, in reality especially in ecosystems with a large inter-yearly variation in seasonality (e.g. late or early start of the growing season) these models have difficulties accounting for these phenological shifts. This, again, illustrates the importance of applying the method to real MODIS data in an area where there is a high probability of inter-yearly variation in seasonality due to unpredictable rainfall patterns (add reference). However, when applying the method in a forested environment we will illustrate that there is often is a small seasonal variation due the saturation of the NDVI signal and deeper rooting systems of forests which makes them more resistant to local climate variability. Here noise levels are smaller and therefore the method will be able to detect smaller disturbances faster (i.e. small detection delay)
+% length of the history period... is not been tested here... no disturbances have been simulated in the history period since the method is developed a rough method for stability estimation.
+
+% explain the noise level - which actually does simulate the effects of seasonal variability which often ends up beiing noise!!! (this also links to the phenological change detection proposed in previous remote sensing of environment paper.
+
+% to do search for a forest in Somalia - i.e. high median NDVI - in order to illustrate this concept - when can also illustrate this for a pixel modis MOD13C1 for a fire in Victoria (coordinates -> query from the database - and plot an example).
+
+
+Furthermore, Fig.~\ref{fig:SimNr} shows that a break with $m = -0.2$ can be detected when noise level ($\sigma$) is smaller than 0.04 and $n = 3$ (i.e., 3 images available).  When the magnitude of the break is larger (e.g., $m = -0.3$), less data points ($d<3$) are required in the monitoring period for a similar amount of noise (e.g., $\sigma < 0.04$) in the history period. 
 
 %Fig.~\ref{fig:SimRMSE} shows the accuracy of time-of-change estimation (16-day time steps) while varying $n$, $m$, and the noise level.
 %illustrate fig 1 and 2 of the simulation analysis. amplitude had no effect - no phenological change was simulated - we wanted to test and demonstrate the method for detecting change in forested ecosystems.
@@ -333,7 +336,10 @@ Fig.~\ref{fig:realmonitoring} and~\ref{fig:shorthistory} are examples for specif
 
 \section{Discussion and further work}
 
+% discuss the effect of the temporal resolution of the data 
 % compare our method with the disturbance detection algorithm of Potter2003!!! Discuss. Have a look at Potters results.
+% discuss that the stable history period detection is a rough measure for stability assessment - and can be further improved to be more sensitive to seasonal changes e.g. by combining different score based function instead of just one, the MOSUM criteria applied here. % the objective of the paper here is to propose, assess, and demonstrate a novel approach for global disturbance assessment. Further improvement is possibles and we recommend especially further field data based validation in case the method is applied to detect specific disturbances.
+
 
 Results of the simulation experiment and application on 16-day MODIS NDVI time series illustrate a proof-of-concept of the proposed time series based
 real-time monitoring approach. The change detection approach is a generic, data driven approach based on statistical principles applicable to different
