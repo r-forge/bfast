@@ -85,7 +85,7 @@ Agg$sna <- Agg$a/Agg$nrange
 
 Agg$a <- as.factor(paste("a =", Agg$a))
 Agg$dip <- as.factor(paste("m = -", Agg$dip))
-Agg$Nr <- as.factor(paste("n =", Agg$nrdatamonitor))
+Agg$Nr <- as.factor(paste("d =", Agg$nrdatamonitor))
 
 names(Agg);head(Agg)
 
@@ -97,13 +97,13 @@ sp <- list(superpose.symbol = list(pch =c(18), cex = 0.4, col=c(1,2,3,4,5,6)),  
              )
 
 require(monash)
-setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
+# setwd('/Users/janv/Documents/R/bfast/bfast/papers/figs')  # imac
 # setwd('/Users/janv/Documents/R/bfast/papers/figs')  # mac pro
-
+setwd('/home/verbe039/R/bfast/papers/figs')
 # remark one time step = 1/23 (which is a 16-day period) - 
 tail(Agg$dT)[1]/(1/23)
 # for (am in c(0.1,0.3,0.5) ) {
-saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
+# saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
   print(
       xyplot((dT/(1/23)) ~ (sigmares) | dip , data=Agg, 
              subset=((Ndata>iter/2) & (dip != "m = - 0.1") & (a == paste("a = ",0.3,sep=""))), #) &(Group.3 >-4)
@@ -121,7 +121,7 @@ saveeps(paste("RMSE_Time_",iter,sep=""), height=20)
         )
       )
   )       
-dev.off()
+# dev.off()
 # }
 # getwd()
 saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
