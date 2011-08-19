@@ -42,16 +42,18 @@ order <- 3
 ##   (rephrase this question) how much data is needed before a break can be detected in the monitoring period
 
 nrobs <- 159
+# nrobs <- 262
 sdnoise <- 0.01
 dip <- -0.3; # vary size of dip between 0 and 0.15 in steps of 0.01
 noisef <- 6 # vary noise factor by 1 - 3 by steps of 0.05
 a <- 0.2
+a <- 0.4
 dfend <- 12  # vary between 0 and 22 data points from the end
 # for(i in 1:100) {
 set.seed(48) # remove this - to access randomness.
 # print(i)
 teller <- 1
-
+averageNDVI <- 0.4 #ipv 0.7
 # for (teller in tellerstart:tellerstop) {
 writefirst <- TRUE
 
@@ -72,7 +74,7 @@ writefirst <- TRUE
           sim <- simulatets(nrobs = nrobs, a = a, adelta = 0, c1 = 5, c1delta = 0, c2 = 5,
           		dip = dip,
           		ts.sim.noise,
-          		averageNDVI = 0.7,
+          		averageNDVI = averageNDVI,
           		t2 = nrobs-dfend)
           
           simul <- cbind(seasonal = sim$ts.sim.s, trend = sim$ts.sim.a+sim$ts.sim.t, noise = sim$ts.sim.n)
@@ -167,13 +169,16 @@ writefirst <- TRUE
 	tsmon
               			 
 df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon), model=tsmon[,'test_pred'], mon=tsmon[,'monitor'])
-p =	ggplot(df) + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
-		geom_line(aes(x=Time, y=model), colour="blue",alpha=0.8) +
+p =	ggplot(df) + geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey') + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
+		geom_line(aes(x=Time, y=model,linetype=2), colour="blue",size=1.1) + 
+		geom_vline(xintercept = tbp, colour='green',size=1)+
 		geom_line(aes(x=Time, y=mon), colour="red") + xlab("") +
-		geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='pink', alpha=0.2)
+		geom_point(aes(x=Time, y=mon), colour="red") 
 p
 
-p + geom_vline(xintercept = tbp, colour='red')              			 
+saveeps("../papers/figs/Sim_Monitoring_ggplot",height=14)
+p 
+dev.off()
 
               			 #               legend("bottomleft",
 #               c("History","Stable History","Monitoring","fit based on stable history",
