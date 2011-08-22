@@ -5,7 +5,7 @@ require(monash)
 
 #Analysis of Simulation Results
 getwd()
-setwd(c('../output1'))
+setwd(c('../output2'))
 
 name <- c("outputsim_")
 iter <- 1000
@@ -127,7 +127,7 @@ tail(Agg$dT)[1]/(1/23)
 saveeps(paste("NrDetections_Time_",iter,sep=""), height=20)
 print(
     xyplot(Ndata/1000 ~ (sigmares) | dip , data=Agg, 
-           subset= (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
+           subset= (dip != "m = - 0.8") & (dip != "m = - 0.5") & (a == paste("a = ",0.4,sep="")), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
       as.table =TRUE,
@@ -173,7 +173,7 @@ dev.off()
 # check stable history...
 print(
     xyplot(Ndata/1000 ~ (LStablehistory) | dip , data=Agg, 
-           subset= (Ndata>iter/2) & (dip != "m = - 0.4") & (dip != "m = - 0.5") & (a == paste("a = ",0.3,sep="")), #) &(Group.3 >-4)
+           subset= (Ndata>iter/2) & (dip != "m = - 0.6") & (a == paste("a = ",0.4,sep="")), #) &(Group.3 >-4)
       groups=~Nr,
       aspect="1",
       as.table =TRUE,

@@ -45,7 +45,7 @@ nrobs <- 159
 sdnoise <- 0.01
 dip <- -0.5; # vary size of dip between 0 and 0.15 in steps of 0.01
 noisef <- 3 # vary noise factor by 1 - 3 by steps of 0.05
-a <- 0.3
+a <- 0.4
 dfend <- 12  # vary between 0 and 22 data points from the end
 #set.seed(3) # remove this - to access randomness.
 teller <- 1
@@ -55,7 +55,7 @@ writefirst <- TRUE
 
 #   for (a in c(0.1,0.3,0.5)) {  
    for (noisef in round(seq(0,15,by=1),2) ) {  
-     for (dip in round(-c(0.8,0.6,0.4,0.2,0),2) ) {
+     for (dip in round(-c(0.8,0.6,0.4,0.2,0),3) ) {
 ###       for (dfend in 1:22) { # this determine the distance of the added break from the end of the time series
           onoise <- rnorm(nrobs, mean=0, sd=sdnoise)
           noise <- onoise*noisef        # multiply the noise with a factor
@@ -168,7 +168,7 @@ writefirst <- TRUE
             nrdatamonitor, Tsim = nrobs-dfend, Tmon = test_mon$breakpoint, 
               Dsim = time(sim$ts.sim.d)[nrobs-dfend], Dmon = tbp, sstl,nstl,nres,sigmares)
             
-          fname <- paste("output1/outputsim_",teller,".csv",sep="")
+          fname <- paste("output2/outputsim_",teller,".csv",sep="")
           if (writefirst) {
                 write.table(out,fname, append=FALSE, sep=",", col.names= TRUE, row.names=FALSE)
                 writefirst <- FALSE
