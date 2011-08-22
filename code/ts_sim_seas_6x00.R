@@ -25,7 +25,7 @@ tspp <- function(y, order = 1) {
   rval$harmon <- harmon
 
   ## omit missing values
-  #rval <- na.omit(rval) # stopped because simulation does not contain NA's
+  rval <- na.omit(rval) # stopped because simulation does not contain NA's
 
   ## return everything
   return(rval)
