@@ -167,8 +167,11 @@ writefirst <- TRUE
 	require(ggplot2)
 	tsmon <- ts.union(test_pred,monitor,tshistory)
 	tsmon
-              			 
+                		 
 df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon), model=tsmon[,'test_pred'], mon=tsmon[,'monitor'])
+
+
+
 p =	ggplot(df) + geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey') + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
 		geom_line(aes(x=Time, y=model,linetype=2), colour="blue",size=1.1) + 
 		geom_vline(xintercept = tbp, colour='green',size=1)+
