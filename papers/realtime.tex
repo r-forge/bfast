@@ -30,7 +30,7 @@
 }
 
 
-\journal{Remote Sensing of Environment}
+\journal{Global Change Biology}
 
 \begin{document}
 %% \linenumbers
@@ -288,6 +288,8 @@ Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within th
 % importance of the simulation experiment
 \item Results confirm the importance of a simulation experiment when developing global change detection methods. Novel methods can be tested in a controlled environment while varying individual parameters. When detecting changes in real data at a global scale often accurate field data about disturbances and influencing factors (e.g. quality of the time series observations) are not available. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. For example, it is important to assess the effect of inter-yearly seasonal shifts in real satellite data (e.g. shifts in the growing season) as these can increase the $\sigma$ and reduce the probability of disturbance detection. The inter-yearly seasonal variation is especially high in grasslands, savannah regions with a high herbaceous cover and unpredictable rainfall. The effect of inter-yearly seasonal variations have been simulated in this experiment by introducing high $\sigma$ levels (i.e. up to 0.15, Table~\ref{table:simpar}). In previous work it was shown that seasonal amplitude and shifts are relatively small in forested areas when compared to grassland areas \citep{Verbesselt:2010wo}. Therefore, the generic disturbance detection approach has a higher accuracy, i.e. disturbances with a smaller magnitude can be detected faster as shown in Fig.~\ref{fig:SimNr}, in forest ecosystems. For example, the real-time monitoring approach can be implemented in an operational framework for deforestation monitoring to complement existing systems such as the Brazilian deforestation monitoring system \citep[DETER,][]{Shimabukuro:2006vb} or \citep[CLASLITE,][]{Asner:2009wa} or as an independent alert system in other regions in the world (e.g., Indonesia, Vietnam) where real-time monitoring systems are not implemented yet\citep{Asner:2011fa}. An the other hand, drought related anomalies often cause major disturbances (e.g. magnitudes $> 0.4$ NDVI) in herbaceous ecosystems (i.e. large variations in NDVI) which enable disturbance detection in highly variable ecosystems (see Section \ref{sec:DiscReal}).
 
+%% warning: the seasonal amplitude has not effect but this is partly because we did not simulate seasonal shifts - seasonal shifts were partly accounted for by the extreme high simulated noise levels.
+
 %% the very high noise levels in the simulation experiment also simulate partly the effect of seasonal shift - that 's why the simulation results also apply for real world application as the one shown here in this study (application on East Africa, Somalia).
 
 %Grasslands, for example, demonstrate large inter-yearly seasonal variation caused by a early or late start/end of the growing season which is more difficult to be fitted within multi-year time series data. This is illustrated by the higher noise levels (i.e., standard deviation of the residuals of the season-trend model used in this study) in the grasslands surrounding the forest plantations. 
@@ -407,7 +409,7 @@ significant disturbances occur.
 This work was undertaken using expertise and field data available via the program of the Cooperative Research Center for Forestry: Monitoring and Measuring (\url{http://www.crcforestry.com.au}). This work was funded by a Marie-Curie IRG fellowship within the European Community's Seventh Framework Program to Jan Verbesselt (grant agreement $268423$). Thanks to Darius Culvenor and Glenn Newnham whose comments greatly improved this paper. We greatly appreciate the constructive feedback we have received from the x reviewers.
 
 
-\bibliographystyle{model5-names}
+\bibliographystyle{gcb}
 \bibliography{refs}
 
 \newpage
