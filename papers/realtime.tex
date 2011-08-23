@@ -16,7 +16,7 @@
 \definecolor{Red}{rgb}{0.5,0,0}
 \definecolor{Blue}{rgb}{0,0,0.5}
 \hypersetup{%
-  pdftitle = {Real-time land cover disturbance detection using satellite image time series},
+  pdftitle = {Real-time terrestrial ecosystem disturbance detection using satellite image time series},
   pdfsubject = {remote sensing, monitoring},
   pdfkeywords = {early warning, real-time, change detection, land cover change, REDD, deforestation, disturbance, NDVI, time series, MODIS, vegetation dynamics, phenology},
   pdfauthor = {Jan Verbesselt, Achim Zeileis, Martin Herold},
@@ -38,7 +38,7 @@
 
     \title
     {
-    Real-time land cover disturbance detection \\ using satellite image time series \\
+    Real-time disturbance detection in terrestrial ecosystems \\ using satellite image time series \\
 %    A case study for early warning of Drought in the Horn of Africa
     %real-time change detection using satellite image time series:
     %Early warning for forest disturbances
@@ -101,7 +101,7 @@ The method is publicly available within the \emph{BFAST} package for {R}. This m
 \end{abstract}
 
 \begin{keyword}
-Early warning \sep global change \sep land cover disturbance\sep drought \sep NDVI \sep time series \sep MODIS \sep vegetation phenology \sep dynamics
+Early warning \sep global change \sep disturbance \sep time series \sep remote sensing \sep vegetation phenology \sep climate dynamics
 \end{keyword}
 
 \end{frontmatter} 
@@ -110,14 +110,13 @@ Early warning \sep global change \sep land cover disturbance\sep drought \sep ND
 
 % could we orient it more towards drought detection - so link it with the SMOS mission and a recent science paper. % the importance of detecting disturbances in real-time? 
 % mention drought related problems - NDVI - rainfall link
-
-Real-time land cover disturbance detecting is critical for tracking human-induced and natural disturbances promptly \citep{Asner:2011fa}. Such
-information is needed for signalling abnormal developments, quickly raising awareness, and allow for prompt actions to intervene, relief efforts and reduce negative impacts to natural resources, humans, and infrastructure. 
-
 %Real-time remote sensing approaches are already performed for weather monitoring and
 %prediction \citep{Ebert:2007tj} (SMOS/MeteoSAT/ClimateDAta), and in case of after-disasters and relief efforts \citep{Tralli:2005ch}. 
 
-Key to approaches looking at land cover disturbances is that many recent change events occur worldwide at unknown locations with unknown change magnitudes. In this sense, remote sensing tools can be in the first instance used to alert when things start to appear \emph{abnormal}. For example, deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes in forest health \citep{Stone2008,Morisette2009}, carbon status, regional drought effects and even climate change \citep{Cleland2007,Hargrove2009}.
+
+Real-time ecosystem disturbance detecting is critical for tracking human-induced and natural disturbances promptly \citep{Asner:2011fa}. Such
+information is needed for signalling abnormal developments, quickly raising awareness, and allow for prompt actions to intervene, relief efforts and reduce negative impacts to natural resources, humans, and infrastructure. Ecosystem disturbances can also contribute to the current rise of carbon dioxide ($CO_2$) levels in the atmosphere due to the emission of $CO_2$ from terrestrial biomass loss \citep{Potter2003,Schimel:2001vi}. 
+Key to approaches looking at disturbances is that many recent change events occur worldwide at unknown locations. In this sense, remote sensing tools can be in the first instance used to alert when things start to appear \emph{abnormal}. For example, deviations from \emph{normal} land surface phenology, defined as the seasonal variation in vegetated land surface from remote sensing \citep{White2009}, can indicate important changes in forest health \citep{Stone2008,Verbesselt2009}, carbon status, regional drought effects and even climate change \citep{Cleland2007,Hargrove2009}.
 
 % satellite data and vegetation indices
 Satellite sensors are well-suited to provide consistent and frequent measurements over large areas which is appropriate for capturing the effects of many processes that cause disturbances, including physical (e.g. droughts, fires, floods), biogenic (e.g. herbivorous insects and pathogens) and anthropogenic (e.g. deforestation, urbanisation, farming) disturbances \citep{Jin2005, Potter2003}. A common way to derive indicators of environmental change is the use of spectral vegetation indices such as the Normalised Difference Vegetation Index (NDVI) that is strongly related to the photosynthetic capacity of vegetation canopies \citep{Myneni1995, Pettorelli:2005ed}. % fraction of photosynthetic active radiation (wavelength $0.4-0.7 \mu m$)
@@ -134,7 +133,7 @@ Several change detection methods are available to detect disturbances within his
 
 % changes at the end of a time series -(what is normal and what is abnormal can maybe be mentioned above?)
 First, it is crucial to be able to detect disturbances within newly captured satellite images, i.e. in near real time to enable a rapid response or early warning. In previous work, we proposed a generic and threshold independent approach,  BFAST i.e. Break detection For Additive Seasonal and Trend, for change detection within seasonal time series \citep{Verbesselt2009a,Verbesselt:2010wo}.
-BFAST detects and characterises trend and seasonal changes within historical time series but the method is not developed to detect disturbances at the end of a time series. Methods to detect changes in near real time, also referred to as monitoring techniques, have been suggested in the econometrics literature to assess the stability of linear regression models \citep{Chu1996}, e.g., for investigating exchange rate dynamics \citep{Zeileis:2010tt}. These method have not been optimised for real-time disturbance detection of climate driven seasonal biophysical remotely sensed time series data.
+BFAST detects and characterises trend and seasonal changes within historical time series but the method is not developed to detect disturbances in recently acquired data. Methods to detect changes in near real-time, also referred to as monitoring techniques, have been suggested in the econometrics literature to assess the stability of linear regression models \citep{Chu1996}, e.g., for investigating exchange rate dynamics \citep{Zeileis:2010tt}. These method have not been optimised for real-time disturbance detection of terrestrial ecosystems using remotely sensed time series data.
 
 % threshold independent
 Second, change detection techniques for global disturbance monitoring need to be independent of vegetation-specific thresholds while being robust against the inherent noise and seasonality captured within time series.
@@ -263,8 +262,8 @@ In the simulation experiment the \emph{history period} is defined as the period 
   Parameters & Values \\ [0.5ex]
   \hline
   $a$         & $0.1, 0.3, 0.5$ \\
-  $\sigma$ noise    & $0.01,0.02,\dots,0.08$ \\
-  $m$         & $0, -0.1, -0.2, \dots, -0.5$ \\
+  $\sigma$ noise    & $0.01,0.02,\dots,0.15$ \\
+  $m$         & $0, -0.2, -0.4, \dots, -0.8$ \\
   $d$   & $1, 2, \dots, 6$ \\ [.5ex]
   \hline
 \end{tabular}
@@ -301,6 +300,8 @@ Fig.~\ref{fig:SimNr} illustrates the probability for detecting a break within th
 % noise level noise levels as a driver of disturbance detection probability
 % importance of the simulation experiment
 \item Results confirm the importance of a simulation experiment when developing global change detection methods. Novel methods can be tested in a controlled environment while varying individual parameters. When detecting changes in real data at a global scale often accurate field data about disturbances and influencing factors (e.g. quality of the time series observations) are not available. However, it is challenging to create simulated time series that approximate remotely sensed time series, because these contain combined information on vegetation phenology, inter-annual climate variability, disturbance events, sensor conditions (e.g., viewing angle), and signal contamination (e.g., clouds) \citep{Zhang2009}. For example, it is important to assess the effect of inter-yearly seasonal shifts in real satellite data (e.g. shifts in the growing season) as these can influence $\sigma$ after the seasonal model fit and reduce the probability of disturbance detection. The inter-yearly seasonal variation is especially high in grassland, savannah regions with a high herbaceous cover and unpredictable rainfall. These inter-yearly seasonal variation are difficult to reproduce in a simulation experiment and therefore it is important to take the effect of higher $\sigma$ levels into account when analysing time series observations. In previous work it was shown that seasonal amplitude and shifts are relatively small in forested areas when compared to grassland areas \citep{Verbesselt:2010wo}. Therefore, the generic disturbance detection approach has a high potential, i.e. smaller disturbance can be detected faster as shown in Fig.~\ref{fig:SimNr}, to be applied in forested regions. For example, the real-time monitoring approach can be implemented in an operational framework for deforestation monitoring to complement existing systems such as the Brazilian deforestation monitoring system \citep[DETER,][]{Shimabukuro:2006vb} or \citep[CLASLITE,][]{Asner:2009wa} or as an independent alert system in other regions in the world (e.g., Indonesia, Vietnam) where real-time monitoring systems are not implemented yet\citep{Asner:2011fa}. 
+
+%% the very high noise levels in the simulation experiment also simulate partly the effect of seasonal shift - that 's why the simulation results also apply for real world application as the one shown here in this study (application on East Africa, Somalia).
 
 % the aim of this method - generic disturbance detection
 \item The method propose here is developed as a fast, generic and globally applicable alert system for disturbances within newly acquired data of available time series derived from in-situ and satellite sensors. We therefore did not assess the accuracy of estimating the time of disturbance in the simulation experiment. In previous work, the BFAST method was proposed to determine the number, type, and timing of changes within historical time series \citep{Verbesselt2009a} whereas, here, we focussed on disturbance detection in newly acquired observations. A possible operation workflow for disturbance monitoring could as such be to (a) verify whether or not a disturbance is occurring and then (b) if a disturbance is detected and more data is acquired the timing, magnitude and direction of change can be determined. In this context, we also did not access the accuracy the length of the stable history determination. The validated ROC approach \citep{Pesaran2002, Zeileis2002} was used here as an automated approach to identify a history period without disturbances and it not developed for accurate time of disturbance estimation in the history period. Alternatively, the stable history period can manually be set when expert knowledge is available. This option is available in the real-time monitoring function available via the \emph{BFAST} package for {R} \citep{R}. Furthermore, we recommend limiting the disturbance detection to time series which have stable history length longer than 2 years (i.e. 46 16-day observations in this study) to enable OLS estimation of the 8 seasonal-trend model parameters (Eq. \ref{eq:lmod}).
@@ -425,7 +426,7 @@ This work was undertaken using expertise and field data available via the progra
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
-  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($n$). The units of the x and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted seasonal-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section \ref{sec:Valsim}). }
+  \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($d$). The units of the x and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted seasonal-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section \ref{sec:Valsim}). }
   \label{fig:SimNr}
 \end{figure}
 
@@ -443,34 +444,38 @@ This work was undertaken using expertise and field data available via the progra
 %  \label{fig:SpatSignalNoise}
 %\end{figure}
 
+% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/MedianNDVI_Somalia.eps}
-  \caption{Spatial variation of the median NDVI derived a 16-day MODIS NDVI image time series from February 2000 until July 2011}
+    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
+  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000-2011 period .}
   \label{fig:MedianNDVI}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/Noise.eps}
-  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) in the study area, a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which corresponds to the area with a lower noise level. The plantation is surrounded by grasslands. Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. }
+    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
+  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000-2011 period as shown in Fig.~\ref{fig:MedianNDVI}}
   \label{fig:SpatNoise}
 \end{figure}
 
+ %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/TimeofChangein2006_II.eps}
-  \caption{Time of detected changes within the study area in the monitoring period (i.e., 2006), where white indicates that no change is detected for a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation which is surrounded by grasslands. Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. }
+    \includegraphics[height=0.7\textwidth]{figs/TimeofAbnormalBreak_2010_EA}
+  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
   \label{fig:SpatTimeofChange}
 \end{figure}
+%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/LengthStableHistory.eps}
-  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) of a forested area in south eastern Australia. The black line indicates the boundary of the Pinus radiata plantation, which is surrounded by grasslands. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}.}
+    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
+  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
   \label{fig:SpatLStableHist}
 \end{figure}
 
+%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}.
 \begin{figure}[htp]
 \centering
     \includegraphics[height=0.6\textwidth]{figs/realmonitoring.eps}
