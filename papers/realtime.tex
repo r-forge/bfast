@@ -8,6 +8,7 @@
 \usepackage[letterpaper,text={15cm,23cm}]{geometry}
 \usepackage{natbib}
 \usepackage{hyperref}
+\usepackage{subfig}
 
 %% for internal use
 \newcommand{\fixme}[1]{\emph{\marginpar{FIXME} (#1)}}
@@ -388,36 +389,61 @@ This work was undertaken using expertise and field data available via the progra
   \label{fig:SimNr}
 \end{figure}
 
-% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
-\begin{figure}[htp]
+\begin{figure}
 \centering
-    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
-  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000-2011 period .}
-  \label{fig:MedianNDVI}
+ \subfloat[][] {\includegraphics[height=0.5\textwidth]{figs/MedianNDVI_Somalia.png} } %
+ \subfloat[][] {\includegraphics[height=0.5\textwidth]{figs/LengthHistoryPeriod_EA.png} } \\
+ \subfloat[][] {\includegraphics[height=0.5\textwidth]{figs/Noise_EA.png} } %
+ \subfloat[][] {\includegraphics[height=0.5\textwidth]{figs/MagnAbnormalBreak_201012_EA.png} }
+ \caption{test}
+ \label{fig:spatial}
 \end{figure}
 
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
-  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
-  \label{fig:SpatLStableHist}
-\end{figure}
+%\begin{figure}
+%\centering
+%\begin{tabular}{cc}
+% \includegraphics[height=0.5\textwidth,clip=]{figs/MedianNDVI_Somalia.png} &
+% \includegraphics[height=0.5\textwidth,clip=]{figs/LengthHistoryPeriod_EA.png} \\
+% \includegraphics[height=0.5\textwidth,clip=]{figs/Noise_EA.png} &
+% \includegraphics[height=0.5\textwidth,clip=]{figs/TimeofAbnormalBreak_2010_EA} 
+%%\epsfig{file=figure1.eps,width=0.5\linewidth,clip=} & 
+%%\epsfig{file=figure2.eps,width=0.5\linewidth,clip=} \\
+%%\epsfig{file=figure3.eps,width=0.5\linewidth,clip=} &
+%%\epsfig{file=figure4.eps,width=0.5\linewidth,clip=}
+% \label{fig:spatial}
+%\end{tabular}
+%\end{figure}
 
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
-  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000-2011 period as shown in Fig.~\ref{fig:MedianNDVI} refer to simulation results}
-  \label{fig:SpatNoise}
-\end{figure}
+%% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
+%  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000-2011 period .}
+%  \label{fig:MedianNDVI}
+%\end{figure}
 
- %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/TimeofAbnormalBreak_2010_EA}
-  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
-  \label{fig:SpatTimeofChange}
-\end{figure}
-%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
+%  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
+%  \label{fig:SpatLStableHist}
+%\end{figure}
+%
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
+%  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000-2011 period as shown in Fig.~\ref{fig:MedianNDVI} refer to simulation results}
+%  \label{fig:SpatNoise}
+%\end{figure}
+%
+% %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.7\textwidth]{figs/TimeofAbnormalBreak_2010_EA}
+%  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
+%  \label{fig:SpatTimeofChange}
+%\end{figure}
+%%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
 
 %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}.
 \begin{figure}[htp]
