@@ -172,7 +172,9 @@ df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon)+4, model=tsmon[,'tes
 
 # + geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey')
 
-p =	ggplot(df)  + geom_rect(aes(xmin=(time(monitor)[1]-1/23)+4, xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey',alpha=0.4) + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
+p =	ggplot(df)  + 
+	geom_rect(aes(xmin=(time(monitor)[1]-1/23)+4, xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey',alpha=0.5) + 
+	geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
 		geom_line(aes(x=Time, y=model,linetype=2), colour="blue",size=0.8) + 
 		geom_vline(xintercept = tbp+4, colour='darkgreen',size=1,alpha=0.4) +
 		geom_line(aes(x=Time, y=mon), colour="red", size=0.5) + xlab("") +
