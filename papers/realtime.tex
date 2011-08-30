@@ -384,15 +384,75 @@ This work was undertaken using expertise and field data available via the progra
   \label{fig:SimNr}
 \end{figure}
 
-%\begin{figure}
+\begin{figure}
+\centering
+ \subfloat[][] {\includegraphics[width=0.55\textwidth]{figs/MedianNDVI_Somalia.eps} } %
+ \subfloat[][] {\includegraphics[width=0.55\textwidth]{figs/LengthHistoryPeriod_EA.eps} }  \\
+ \subfloat[][] {\includegraphics[width=0.55\textwidth]{figs/Noise_EA.eps} } %
+\subfloat[][] {\includegraphics[width=0.55\textwidth]{figs/MagnAbnormalBreak_201012_EA.eps} }
+ \caption{Results from the analysis of 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia; (a) median of all NDVI images as a proxy for vegetation cover during the 2000--2011 period, (b) length of the stable history period expressed in years where a shorter length is an indication of a more recent disturbance, (c) spatial variation of the noise level i.e. the standard deviation of the residuals of the stable history model, (d) the magnitude of the detected disturbances in the monitoring period (mid 2010 onwards) where white indicates that no disturbance is detected.  The analysis of (d) was restricted to areas with minimum vegetation cover i.e. median NDVI  2000--2011$> 0.2$ and length of the history period $> 2$ years. Examples for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmon}.}
+ \label{fig:spatial}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
+  \caption{
+ Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c, which correspond to symbols $+,~\triangle$~and~$\diamondsuit$, respectively shown in Fig.~\ref{fig:spatial}}.
+ 
+% In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.
+
+  \label{fig:realmon}
+\end{figure}
+
+
+%% explain the monitoring period
+%% the model
+%% break
+%% etc.
+%%, i.e., $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}), situated within the Green Hills study area
+%
+
+%%\begin{figure}[htp]
+%%\centering
+%%    \includegraphics[height=0.6\textwidth]{figs/shorthistoryperiod.eps}
+%%  \caption{
+%%  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e., the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}). A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation from 2005 onwards. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
+%%  \label{fig:shorthistory}
+%%\end{figure}
+
+\end{document}
+
+% %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
+%\begin{figure}[htp]
 %\centering
-% \subfloat[][] {\includegraphics[width=0.5\textwidth]{figs/MedianNDVI_Somalia.eps} } %
-% \subfloat[][] {\includegraphics[width=0.5\textwidth]{figs/LengthHistoryPeriod_EA.png} } 
-% \subfloat[][] {\includegraphics[width=0.5\textwidth]{figs/Noise_EA.png} } %
-% \subfloat[][] {\includegraphics[width=0.5\textwidth]{figs/MagnAbnormalBreak_201012_EA.png} }
-% \caption{test}
-% \label{fig:spatial}
+%    \includegraphics[height=0.7\textwidth]{figs/MagnAbnormalBreak_201012_EA.png}
+%  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
+%  \label{fig:SpatTimeofChange}
 %\end{figure}
+
+%% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
+%\begin{figure}[htp]
+%\centering
+%    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
+%  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000-2011 period .}
+%  \label{fig:MedianNDVI}
+%\end{figure}
+
+%%\begin{figure}[htp]
+%%\centering
+%%    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
+%%  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
+%%  \label{fig:SpatLStableHist}
+%%\end{figure}
+%%
+%%\begin{figure}[htp]
+%%\centering
+%%    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
+%%  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000-2011 period as shown in Fig.~\ref{fig:MedianNDVI} refer to simulation results}
+%%  \label{fig:SpatNoise}
+%%\end{figure}
+%%
 
 %\begin{figure}
 %\centering
@@ -416,61 +476,4 @@ This work was undertaken using expertise and field data available via the progra
 % \label{fig:spatial}
 %\end{tabular}
 %\end{figure}
-
-%% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
-  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000-2011 period .}
-  \label{fig:MedianNDVI}
-\end{figure}
-
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
-%  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
-%  \label{fig:SpatLStableHist}
-%\end{figure}
-%
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
-%  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000-2011 period as shown in Fig.~\ref{fig:MedianNDVI} refer to simulation results}
-%  \label{fig:SpatNoise}
-%\end{figure}
-%
- %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.7\textwidth]{figs/MagnAbnormalBreak_201012_EA.png}
-  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
-  \label{fig:SpatTimeofChange}
-\end{figure}
-%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}. 
-
-%Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and \ref{fig:shorthistory}.
-\begin{figure}[htp]
-\centering
-    \includegraphics[height=0.8\textwidth]{figs/tsexampleSOM.eps}
-  \caption{
- Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations (a),(b), and (c). 
- In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
-  \label{fig:realmon}
-\end{figure}
-
-% explain the monitoring period
-% the model
-% break
-% etc.
-%, i.e., $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}), situated within the Green Hills study area
-
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.6\textwidth]{figs/shorthistoryperiod.eps}
-%  \caption{
-%  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e., the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and \ref{fig:SpatLStableHist}). A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation from 2005 onwards. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
-%  \label{fig:shorthistory}
-%\end{figure}
-
-\end{document}
 
