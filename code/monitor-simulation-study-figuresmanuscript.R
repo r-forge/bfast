@@ -168,18 +168,20 @@ writefirst <- TRUE
 	tsmon <- ts.union(test_pred,monitor,tshistory)
 	tsmon
                 		 
-df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon), model=tsmon[,'test_pred'], mon=tsmon[,'monitor'])
+df <- data.frame(NDVI=tsmon[,'tshistory'], Time=time(tsmon)+4, model=tsmon[,'test_pred'], mon=tsmon[,'monitor'])
 
+# + geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey')
 
-
-p =	ggplot(df) + geom_rect(aes(xmin=(time(monitor)[1]-1/23), xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey') + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
-		geom_line(aes(x=Time, y=model,linetype=2), colour="blue",size=1.1) + 
-		geom_vline(xintercept = tbp, colour='green',size=1)+
-		geom_line(aes(x=Time, y=mon), colour="red") + xlab("") +
-		geom_point(aes(x=Time, y=mon), colour="red") 
+p =	ggplot(df)  + geom_rect(aes(xmin=(time(monitor)[1]-1/23)+4, xmax=max(Time), ymin=-Inf, ymax=+Inf), fill='lightgrey',alpha=0.4) + geom_line(aes(x=Time, y=NDVI)) + theme_bw() +
+		geom_line(aes(x=Time, y=model,linetype=2), colour="blue",size=0.8) + 
+		geom_vline(xintercept = tbp+4, colour='darkgreen',size=1,alpha=0.4) +
+		geom_line(aes(x=Time, y=mon), colour="red", size=0.5) + xlab("") +
+		geom_point(aes(x=Time, y=mon), colour="red", size=1.5) 
 p
 
-saveeps("../papers/figs/Sim_Monitoring_ggplot",height=14)
+# saveeps("../papers/figs/Sim_Monitoring_ggplot",height=14)
+height = 5; width = (1 + sqrt(5))/2 * height
+cairo_ps("../papers/figs/Sim_Monitoring_ggplot.eps", height=height, width=width, pointsize = 10)
 p 
 dev.off()
 
