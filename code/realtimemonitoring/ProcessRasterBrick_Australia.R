@@ -27,7 +27,7 @@ timeser <- function(index,dt) {
 }
 
 ## read in raster Brick
-modis <- stack("data/modis.grd")
+modis <- brick("data/modis.grd")
 dim(modis)
 prj <- projection(modis)
 
@@ -53,7 +53,13 @@ i <- 11912
   ## however there is a bug in the data
 
   source("functions/monitorfunctions.R")
-  out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
+#   out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
+out <- bfastmonitor(tsndvi, start= c(2009,1), history = c("ROC"), verbose = TRUE, plot = TRUE)
+
+##
+?calc
+## it would be great if we could run the bfast monitor function on a raster object but a bit of work needs to be done...
+
 
 ## The section below is identical to the defined function however somehow the "test_tspp"is not 
 ## recognized by the monitor() function within the realtime() function.
