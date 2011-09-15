@@ -22,9 +22,9 @@
 \definecolor{Red}{rgb}{0.5,0,0}
 \definecolor{Blue}{rgb}{0,0,0.5}
 \hypersetup{%
-  pdftitle = {Real-time terrestrial ecosystem disturbance detection using satellite image time series},
+  pdftitle = {Real-time disturbance detection in terrestrial ecosystems using satellite image time series -- Drought monitoring in Somalia as a proof-of-concept},
   pdfsubject = {remote sensing, monitoring},
-  pdfkeywords = {early warning, real-time, change detection, land cover change, deforestation, disturbance, NDVI, time series, MODIS, vegetation dynamics, phenology},
+  pdfkeywords = {early warning, real-time monitoring, global change, disturbance, time series, remote sensing, vegetation and climate dynamics},
   pdfauthor = {Jan Verbesselt, Achim Zeileis, Martin Herold},
   %% change colorlinks to false for pretty printing
   colorlinks = {true},
@@ -180,9 +180,9 @@ A method is presented below that is able to detect disturbances within newly acq
 
 The method proposed here is based on a similar additive season and trend model as employed by \citet{Verbesselt:2010wo} to account seasonal and trend changes typically occurring within climate driven biophysical indicators derived from satellite data (e.g. NDVI)  \citep{Beurs2005a}. For the observations $y_t$ at time $t$, a season-trend model is assumed with linear trend and harmonic season:
 %
-\begin{align} \label{eq:lmod}
-  y_t & = \alpha_1 + \alpha_2 t + \sum_{j = 1}^k \gamma_{j} \sin \left(\frac{2\pi j t}{f} + \delta_{j} \right) ~+~ \varepsilon_t,
-\end{align}
+\begin{eqnarray} \label{eq:lmod}
+  y_t & = & \alpha_1 + \alpha_2 t + \sum_{j = 1}^k \gamma_{j} \sin \left(\frac{2\pi j t}{f} + \delta_{j} \right) ~+~ \varepsilon_t,
+\end{eqnarray}
 %
 where the intercept $\alpha_1$, slope $\alpha_2$ (i.e., trend), amplitudes $\gamma_1, \dots, \gamma_k$,
 and phases $\delta_1, \dots, \delta_k$ (i.e., season) are the unknown parameters,
@@ -191,13 +191,13 @@ and $\varepsilon_t$ is the unobservable error term at time $t$. In the applicati
 below, we employ three harmonic terms (i.e., $k = 3$) to robustly detect disturbances within MODIS NDVI time series, as components four and higher represent variations
 that occur on a three-month cycle or less \citep{Geerken2009,Julien2010}. The model (Eq. \ref{eq:lmod}) can be written as standard a linear regression model \citep[see e.g.,][Chapter~3.3]{Cryer2008}:
 %
-\begin{align*} \label{eq:OLSlmod}
-  y_t   & = x_t^\top \beta ~+~ \varepsilon_t, \\
-  x_t   & = \left\{1, t, \sin(2 \pi 1 t / f), \cos(2 \pi 1 t / f),
+\begin{eqnarray*} \label{eq:OLSlmod}
+  y_t   & = & x_t^\top \beta ~+~ \varepsilon_t, \\
+  x_t   & = & \left\{1, t, \sin(2 \pi 1 t / f), \cos(2 \pi 1 t / f),
               \dots, \sin(2 \pi k t / f), \sin(2 \pi k t / f)\right\}^\top, \\
-  \beta & = \left\{\alpha_1, \alpha_2, \gamma_1 \cos(\delta_1), \gamma_1 \sin(\delta_1),
+  \beta & = & \left\{\alpha_1, \alpha_2, \gamma_1 \cos(\delta_1), \gamma_1 \sin(\delta_1),
               \dots, \gamma_k \cos(\delta_k), \gamma_k \sin(\delta_k)\right\}^\top,
-\end{align*}
+\end{eqnarray*}
 %
 containing the $p = 2 + 2 k$ regression parameters $\beta$ which can be estimated and tested using ordinary least squares (OLS) techniques. The seasonal-trend model takes an underlying trend, and seasonal variation into account within a time series. In a way this corresponds to approaches where in multiple steps a time series is 'detrended' and 'deseasonalized' \citep{Potter2003} but which is done here at once by OLS-fitting of the seasonal-trend model.
 
@@ -216,9 +216,9 @@ period $t = 1, \dots, n$, we want to check whether $\hat \beta$ still fits
 the data $y_t$ for $t > n$ (i.e. for new data). To do so, some measure of discrepancy is needed \citep[][]{Chu1996, Leisch2000, Zeileis2005a}. Here, we use moving sums (MOSUMs) of the residuals in the monitoring
 period $t = n + 1, \dots, N$:
 %
-\begin{align}
-  m_t & = \frac{1}{\hat \sigma \sqrt{n}} \sum_{s = t - h + 1}^t (y_s - x_s^\top \hat \beta),
-\end{align}
+\begin{eqnarray}
+  m_t & = & \frac{1}{\hat \sigma \sqrt{n}} \sum_{s = t - h + 1}^t (y_s - x_s^\top \hat \beta),
+\end{eqnarray}
 %
 where $h$ is the bandwidth of the MOSUM and is typically chosen relative to
 the size of the history sample, e.g., $h = n/4$ or $h = n$ \citep{Zeileis2005a, Zeileis:2010tt}.
