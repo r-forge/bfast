@@ -1,15 +1,12 @@
-TEX_SOURCES=realtime realtime_gcb
+TEX_SOURCES=realtime_gcb
 
-all: $(TEX_SOURCES:=.dvi) clean
+all: $(TEX_SOURCES:=.pdf) clean
 
-%.dvi: %.tex		
-	texi2dvi $<
+%.pdf: %.tex		
+	texi2dvi --pdf $<
 
-%.pdf: %.dvi
-	dvipdfm $<
-
-%.ps: %.dvi
-	dvips $<
+%.ps: %.pdf
+	ps2pdf $<
 
 .PHONY: clean distclean
 
@@ -22,3 +19,4 @@ clean:
 distclean: clean
 	rm -f $(TEX_SOURCES:=.dvi)
 	rm -f $(TEX_SOURCES:=.pdf)
+	rm -f $(TEX_SOURCES:=.ps)
