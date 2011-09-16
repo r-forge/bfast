@@ -276,17 +276,17 @@ We demonstrate the proof-of-concept of a multi-purpose near real-time disturbanc
 
 \begin{enumerate}[(1)]
 
-\item Fig.~\ref{fig:spatiala} illustrates the median of an NDVI image time series (2000--2011) as a proxy for vegetation cover during the period of
+\item Fig.~\ref{fig:spatial}a illustrates the median of an NDVI image time series (2000--2011) as a proxy for vegetation cover during the period of
 analysis. Areas with no or very low vegetation cover are occurring in the North East of Somalia whereas areas with higher vegetation cover are situated in
 the South of Somalia. Similar approaches have been used by \citet{Brown:2010fq} and \citet{Vrieling:2011da} to study response of African land surface
 phenology. The NDVI time series with no or very low NDVI values do not show any seasonal climate related vegetation dynamics and are mainly influenced by
 irregular variations of the soil background. The areas with NDVI values above 0.2 correspond to the areas where below normal rainfall and above normal land
 surface temperature is occurring (Fig.~\ref{fig:RF_LSTSomalia}) which illustrates that a severe drought is impacting areas with a minimum amount of vegetation cover (NDVI~$> 0.2$). 
 
-\item Fig.~\ref{fig:spatialb} illustrates the spatial variation of the length of the stable history period and is used to restrict the analysis to regions
+\item Fig.~\ref{fig:spatial}b illustrates the spatial variation of the length of the stable history period and is used to restrict the analysis to regions
 with a stable history longer than 2 years. The stable history is identified for modelling normal variation within the history period to enable
 differentiation from abnormal changes, i.e.\ disturbances, in the monitoring period (i.e.\ mid 2010 onwards). The ROC approach (Section~\ref{sec:StableHist})
-verifies whether or not a structural change is occurring while stepwise going back in history. The length of the stable history (Fig.~\ref{fig:spatialb})
+verifies whether or not a structural change is occurring while stepwise going back in history. The length of the stable history (Fig.~\ref{fig:spatial}b)
 can be used as an approximation of the occurrence of the most recent large (enough) disturbance in the history period. (If a more precise estimate of the
 timing of this last major disturbance if of interest, more appropriate methods are available, e.g.\ \citealp{Bai2003}, or \citealp{Verbesselt2009a}.) Analysed NDVI time series for specific locations are shown in Fig.~\ref{fig:realmon} where for time series in Fig.~\ref{fig:realmon}a and c the whole history period and in Fig.~\ref{fig:realmon}b a shorter stable history period is identified as stable. The short history period in Fig.~\ref{fig:realmon}b can be explained by a lack of rainfall at the beginning of 2008 \citep{Funk:2009vf}. 
 
@@ -296,20 +296,20 @@ timing of this last major disturbance if of interest, more appropriate methods a
 
 \end{enumerate}
 
-Fig.~\ref{fig:spatialc} shows the spatial variation of the noise level (i.e.\ $\hat \sigma$ of the residuals of the season-trend model) where low $\hat
+Fig.~\ref{fig:spatial}c shows the spatial variation of the noise level (i.e.\ $\hat \sigma$ of the residuals of the season-trend model) where low $\hat
 \sigma$ correspond to the low vegetated areas and the high $\hat \sigma$ correspond to the semi-arid ecosystems (e.g.\ woodland and savannah) (see
-Fig.~\ref{fig:spatiala}). High $\hat \sigma$  in the semi-arid ecosystems can be explained by large inter-annual phenological shifts (e.g.\ shifts in the
+Fig.~\ref{fig:spatial}a). High $\hat \sigma$  in the semi-arid ecosystems can be explained by large inter-annual phenological shifts (e.g.\ shifts in the
 start and end of the growing season) and double growing seasons when compared to areas with low vegetation cover or forested areas \citep{Verbesselt:2010wo,
 Brown:2010fq}. Forest ecosystems when compared to semi-arid ecosystems (herbaceous land cover types) are more resistant to seasonal climate variations in
 rainfall and temperature due to the deeper rooting system \citep{Verbesselt2006}. Furthermore, \citet{Vrieling:2011da} illustrated that vulnerability to
 food insecurity tends to increase when cumulated NDVI -- used as a proxy for net primary productivity -- shows high temporal variability. 
 
-Fig.~\ref{fig:spatialc} also illustrates that the noise range, 0--0.15, corresponds to the noise range of the simulation experiment (Fig.~\ref{fig:SimNr}) which confirms that the range of terrestrial ecosystem NDVI dynamics occurring in the study area were appropriately simulated for testing the proposed method in a controlled environment. 
-The noise range shown in Fig.~\ref{fig:spatialc} can be used when interpreting Fig.~\ref{fig:spatiald}, since the simulation experiment 
-(Fig.~\ref{fig:SimNr}) illustrated that $\sigma$ is one of the main drivers of the probability to detect disturbance. Fig.~\ref{fig:spatiald} shows the
+Fig.~\ref{fig:spatial}c also illustrates that the noise range, 0--0.15, corresponds to the noise range of the simulation experiment (Fig.~\ref{fig:SimNr}) which confirms that the range of terrestrial ecosystem NDVI dynamics occurring in the study area were appropriately simulated for testing the proposed method in a controlled environment. 
+The noise range shown in Fig.~\ref{fig:spatial}c can be used when interpreting Fig.~\ref{fig:spatial}d, since the simulation experiment 
+(Fig.~\ref{fig:SimNr}) illustrated that $\sigma$ is one of the main drivers of the probability to detect disturbance. Fig.~\ref{fig:spatial}d shows the
 magnitude of the disturbance when detected in the monitoring period. Only disturbances with large negative magnitudes are detected and illustrate the effect
 of the 2010--2011 drought on vegetation photosynthetic capacity as measured by the NDVI in Somalia and surrounding countries \citep{Funk:2011fg}. Due to the
-high seasonal variability (i.e.\ high $\sigma$ levels) only severe disturbances with large magnitude can be detected with the method, as illustrated in the simulation experiment (Fig.~\ref{fig:SimNr}) and in Fig.~\ref{fig:spatiald}. Again, these findings confirm the severity of the ongoing drought and corresponds with the regions in South Somalia showing most intense drought anomaly (Fig.~\ref{fig:RF_LSTSomalia}).
+high seasonal variability (i.e.\ high $\sigma$ levels) only severe disturbances with large magnitude can be detected with the method, as illustrated in the simulation experiment (Fig.~\ref{fig:SimNr}) and in Fig.~\ref{fig:spatial}d. Again, these findings confirm the severity of the ongoing drought and corresponds with the regions in South Somalia showing most intense drought anomaly (Fig.~\ref{fig:RF_LSTSomalia}).
 
 Fig.~\ref{fig:realmon}a and b illustrate to examples of NVDVI time series where a disturbance with a negative magnitude is detected in the monitoring period. The negative magnitude is clearly shown by the lack of seasonality and major decrease in NDVI from mid 2010 onwards. Statistical significant disturbances are detected early 2011 and confirm the early warning capacity of the proposed multi-purpose disturbance detection method. Hence, the method can contribute to existing early warning systems and be integrated in operational monitoring systems to automatically confirm abnormal events at the end of a time series (i.e.\ in near real-time). 
 
@@ -424,7 +424,7 @@ We also acknowledge the MODIS mission scientists and associated NASA and USGS pe
 
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/Sim_Monitoring_ggplot.pdf}
+%    \includegraphics[width=1\textwidth]{figs/Fig1Sim_Monitoring_ggplot.eps}
   \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$). The period from
   2004 until mid 2010 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated
   break is the \emph{monitoring period} (grey background). The monitoring period contains 6 observations  ($d = 6$, \textcolor{red} {red} line). The
@@ -436,15 +436,15 @@ We also acknowledge the MODIS mission scientists and associated NASA and USGS pe
 
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=0.8\textwidth]{figs/RainfallAnomaly.pdf}
+%    \includegraphics[width=0.8\textwidth]{figs/RainfallAnomaly.eps}
   \caption{Monthly rainfall anomaly (mm/hr) for the period 1998--2011 measured by the tropical rainfall measuring satellite mission (TRMM) for an area in South Somalia (2\degree~Lat. and 43\degree~Long.). The time series was derived from the TRMM 3B43 climatology (version 6) data set using the online visualisation and analysis system (TOVAS). Anomalies are computed as the difference between the measured precipitation and the average climatology for the selected region \citep{Acker:2007vk}.}
   \label{fig:RF}
 \end{figure}
 
 \begin{figure} [htp]
 \centering
- \subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.png} } %
- \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.png} } 
+% \subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.eps} } %
+% \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.eps} } 
  \caption{Two-monthly rainfall estimates (RFE2) (a)~and land surface temperature (LST) (b)~anomaly are shown for Somalia illustrating the below normal
  rainfall and above normal land surface temperature during the February-March period in 2011. The RFE2 data is a merged satellite-gauge rainfall product
  produced by NOAA's Climate Prediction Centre at a 0.1\degree spatial resolution. The LST product is the land surface temperature measured by the MODIS
@@ -455,17 +455,17 @@ We also acknowledge the MODIS mission scientists and associated NASA and USGS pe
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.pdf}
+%    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
   \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($d$). The units of the x and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted season-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section~\ref{sec:Valsim}). }
   \label{fig:SimNr}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htp]
 \centering
- \subfloat[][] {\label{fig:spatiala} \includegraphics[height=0.55\textwidth]{figs/MedianNDVI_Somalia.png} } %
- \subfloat[][] {\label{fig:spatialb} \includegraphics[width=0.55\textwidth]{figs/LengthHistoryPeriod_EA.png} }  \\
- \subfloat[][] {\label{fig:spatialc} \includegraphics[width=0.55\textwidth]{figs/Noise_EA.png} } %
-\subfloat[][] {\label{fig:spatiald} \includegraphics[width=0.55\textwidth]{figs/MagnAbnormalBreak_201012_EA.png} }
+% \subfloat[][] {\label{fig:spatiala} \includegraphics[height=0.55\textwidth]{figs/MedianNDVI_Somalia.eps} } %
+% \subfloat[][] {\label{fig:spatialb} \includegraphics[width=0.55\textwidth]{figs/LengthHistoryPeriod_EA.eps} }  \\
+% \subfloat[][] {\label{fig:spatialc} \includegraphics[width=0.55\textwidth]{figs/Noise_EA.eps} } %
+%\subfloat[][] {\label{fig:spatiald} \includegraphics[width=0.55\textwidth]{figs/MagnAbnormalBreak_201012_EA.eps} }
  \caption{Results from the analysis of 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia; (a)~median of all NDVI
  images as a proxy for vegetation cover during the 2000--2011 period, (b)~length of the stable history period expressed in years where a shorter length is
  an indication of a more recent disturbance, (c)~spatial variation of the noise level i.e.\ the standard deviation of the residuals of the stable history
@@ -477,88 +477,18 @@ We also acknowledge the MODIS mission scientists and associated NASA and USGS pe
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.pdf}
+%    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
   \caption{
  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c, corresponding to symbols
  $+,~\triangle$~and~$\diamondsuit$ shown in Fig.~\ref{fig:spatial}. The period from 2000 until mid 2010, is considered the \emph{history period} and the
  period after the simulated break is the \emph{monitoring period} (grey background, \textcolor{red} {red} line). The stable history period within the
  history period (\textcolor{blue} {blue} dashed line) is used to model and predict the normal data variation and enable disturbance detection in the
- monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected (\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:spatiala} and~\ref{fig:spatialb}.}
+ monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected (\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:spatial}a and~\ref{fig:spatial}b.}
+  \label{fig:realmon}
+\end{figure}
  
 % In both time series a break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A stable history period (blue dots) is automatically detected with the history period. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.
 
-  \label{fig:realmon}
-\end{figure}
-
-
-%% explain the monitoring period
-%% the model
-%% break
-%% etc.
-%%, i.e., $\diamondsuit$ (top) and $\triangle$ (bottom) on Fig.~\ref{fig:SpatNoise},~\ref{fig:SpatTimeofChange} and~\ref{fig:SpatLStableHist}), situated within the Green Hills study area
-%
-
-%%\begin{figure}[htp]
-%%\centering
-%%    \includegraphics[height=0.6\textwidth]{figs/shorthistoryperiod.eps}
-%%  \caption{
-%%  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for a location situated within the Green Hills study area (i.e., the $+$ symbol on Fig.~\ref{fig:SpatNoise}, \ref{fig:SpatTimeofChange} and~\ref{fig:SpatLStableHist}). A break (vertical red dashed line in 2006) is detected in the monitoring period (i.e., 2006) while using 2000 until end of 2005 as a history period. A short stable history period (blue dots) is detected within the history period due to an ongoing harvest operation from 2005 onwards. The method is able to deal with time series with data gaps (e.g., after cloud removal) which is illustrated by data gaps within the data analysed and model fit based on the stable history period.}
-%%  \label{fig:shorthistory}
-%%\end{figure}
 
 \end{document}
-
-% %Examples of real-time change analysis for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmonitoring} and~\ref{fig:shorthistory}. 
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.7\textwidth]{figs/MagnAbnormalBreak_201012_EA.png}
-%  \caption{Time of detected changes within the Eastern Africa during the monitoring period (2010--2011), where white indicates that no change is detected.  }
-%  \label{fig:SpatTimeofChange}
-%\end{figure}
-
-%% I included png format figures - to reduce the filesize - but will submit .eps figures to global change biology!
-%\begin{figure}[htp]
-%\centering
-%    \includegraphics[height=0.7\textwidth]{figs/MedianNDVI_Somalia.png}
-%  \caption{Spatial variation of the median 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia as an indicator of average vegetation fractional cover during 2000--2011 period .}
-%  \label{fig:MedianNDVI}
-%\end{figure}
-
-%%\begin{figure}[htp]
-%%\centering
-%%    \includegraphics[height=0.7\textwidth]{figs/LengthHistoryPeriod_EA.png}
-%%  \caption{Spatial variation of the length the stable history period (expressed in years, i.e., 23 16-day images) within the study area. The length of the history period indicates when in the history period a potential disturbance occurred (e.g., shorter length indicates a more recent disturbance). }
-%%  \label{fig:SpatLStableHist}
-%%\end{figure}
-%%
-%%\begin{figure}[htp]
-%%\centering
-%%    \includegraphics[height=0.7\textwidth]{figs/Noise_EA.png}
-%%  \caption{Spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model) of Somalia, Eastern Africa. The higher noise levels correspond to the regions with a higher average vegetation cover during the 2000--2011 period as shown in Fig.~\ref{fig:MedianNDVI} refer to simulation results}
-%%  \label{fig:SpatNoise}
-%%\end{figure}
-%%
-
-%\begin{figure}
-%\centering
-%\includegraphics[width=0.5\textwidth]{figs/MedianNDVI_Somalia.png}
-% \includegraphics[width=0.5\textwidth]{figs/LengthHistoryPeriod_EA.png}
-% \caption{test}
-% \label{fig:spatial}
-%\end{figure}
-
-%\begin{figure}
-%\centering
-%\begin{tabular}{cc}
-% \includegraphics[height=0.5\textwidth,clip=]{figs/MedianNDVI_Somalia.png} &
-% \includegraphics[height=0.5\textwidth,clip=]{figs/LengthHistoryPeriod_EA.png} \\
-% \includegraphics[height=0.5\textwidth,clip=]{figs/Noise_EA.png} &
-% \includegraphics[height=0.5\textwidth,clip=]{figs/TimeofAbnormalBreak_2010_EA} 
-%%\epsfig{file=figure1.eps,width=0.5\linewidth,clip=} & 
-%%\epsfig{file=figure2.eps,width=0.5\linewidth,clip=} \\
-%%\epsfig{file=figure3.eps,width=0.5\linewidth,clip=} &
-%%\epsfig{file=figure4.eps,width=0.5\linewidth,clip=}
-% \label{fig:spatial}
-%\end{tabular}
-%\end{figure}
 
