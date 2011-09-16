@@ -8,6 +8,9 @@ all: $(TEX_SOURCES:=.ps) clean
 %.ps: %.dvi
 	dvips $<
 
+%.pdf: %.dvi
+	dvipdfm $<
+
 .PHONY: clean distclean
 
 clean:
