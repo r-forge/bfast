@@ -35,12 +35,12 @@ bfastmonitor <- function(data, start,
   } else if(all(is.character(history))) {
     history <- match.arg(history)
     history <- switch(history,    
-      "none" = start(x),      
-      "ROC" = roc(x, order = order, level = level[2]),
-      "BP" = bplast(x, order = order, hpc = hpc)
+      "none" = start(data),      
+      "ROC" = roc(data, order = order, level = level[2]),
+      "BP" = bplast(data, order = order, hpc = hpc)
     )
   } else if(all(is.function(history))) {
-    history <- history(x)
+    history <- history(data)
   }
 
   ## compute subset
