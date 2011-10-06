@@ -52,12 +52,22 @@ i <- 11912
   ## a realtime monitor function would be handy for further development
   ## however there is a bug in the data
 
-  source("functions/monitorfunctions.R")
+source("functions/monitorfunctions.R")
 #   out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
 out <- bfastmonitor(tsndvi, start= c(2009,1), history = c("ROC"), verbose = TRUE, plot = TRUE)
 
 ##
 ?calc
+## more info
+# http://127.0.0.1:24667/help/library/raster/doc/index.html
+## we could use the calc function if we adjust the bfastmonitor to output just one value
+## a) the magnitude of the disturbance if the is a break
+## b) the length of the history period
+## c) the standard deviation of the residuals of the model 
+
+## you can even implement regression analysis on a rasterbrick or stack
+
+
 ## it would be great if we could run the bfast monitor function on a raster object but a bit of work needs to be done...
 
 
