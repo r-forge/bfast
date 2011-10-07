@@ -183,7 +183,9 @@ p
 
 # saveeps("../papers/figs/Sim_Monitoring_ggplot",height=14)
 height = 5; width = (1 + sqrt(5))/2 * height
-cairo_ps("../papers/figs/Sim_Monitoring_ggplot.eps", height=height, width=width, pointsize = 10)
+width
+width <- 9
+cairo_ps("../papers/figs/Fig1Sim_Monitoring_ggplot.eps", height=height, width=width, pointsize = 10)
 p 
 dev.off()
 
