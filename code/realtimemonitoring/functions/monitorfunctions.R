@@ -1,7 +1,7 @@
 # bfast code folder
 ## convenience function for time series pre-processing
 ## to response plus regressors (linear time trend, season
-## dummies, and harmonic season by default with order 1)
+## dummies, and harmonic season by default with order 3)
 require("strucchange")
 require("zoo")
 #   data <- tsndvi
@@ -10,73 +10,81 @@ require("zoo")
 #   title <- TRUE
 
 bfastmonitor <- function(data, start,
-  order = 3, history = c("ROC", "BP", "all"), period = 10, level = 0.05, hpc = "none",
-  verbose = FALSE, plot = FALSE)
+  formula = response ~ trend + harmon,
+  order = 3, lag = NULL, slag = NULL,
+  history = c("ROC", "BP", "all"),
+  end = 10, level = 0.05,
+  hpc = "none", verbose = FALSE, plot = FALSE)
 {
   ## PREPROCESSING
   ## two levels needed: 1. monitoring, 2. in ROC (if selected)
   level <- rep(level, length.out = 2)
-  ## start on natural scale (if necessary)
-  start2 <- if(length(start) > 1) start[1] + (start[2] - 1)/frequency(data) else start
   ## data needs to be ts
   if(!is.ts(data)) data <- as.ts(data)
+  ## frequency of data
+  freq <- frequency(data)
+  ## start on natural scale (if necessary)
+  time2num <- function(x) if(length(x) > 1L) x[1L] + (x[2L] - 1)/freq else x
+  start <- time2num(start)
 
+  ## full data
+  data_tspp <- bfastpp(data, order = order, lag = lag, slag = slag)
+    
   
   ## SELECT STABLE HISTORY  
-  ## define start of history period
-  ## (last observation before start of monitoring)
-  tshistory <- window(data, end = start)
-  tshistory <- window(tshistory, end = time(tshistory)[length(tshistory) - 1])
+  ## full history period
+  history_tspp <- subset(data_tspp, time < start)
 
   ## find start of history period
   ## (may be specified via character, function, or time index directly)
   if(is.null(history)) {
-    history <- start(data)
+    history <- start(history_tspp$response)
   } else if(all(is.character(history))) {
     history <- match.arg(history)
     history <- switch(history,    
-      "none" = start(data),      
-      "ROC" = roc(data, order = order, level = level[2]),
-      "BP" = bplast(data, order = order, hpc = hpc)
+      "none" = start(history_tspp$response),      
+      "ROC" = history_roc(formula, data = history_tspp, level = level[2]),
+      "BP" = history_break(formula, data = history_tspp, hpc = hpc)
     )
   } else if(all(is.function(history))) {
-    history <- history(data)
+    history <- history(formula, data = history_tspp)
   }
+  history <- time2num(history)
 
   ## compute subset
-  stableHistory <- window(tshistory, start = history)
+  history_tspp <- subset(history_tspp, time >= history)
 
   ## output information (if desired)
   if(verbose) {
     cat("\nBFAST monitoring\n\n1. History period\n")
     cat(sprintf("Stable period selected: %i(%i)--%i(%i)\n",
-      start(stableHistory)[1], start(stableHistory)[2],
-      end(stableHistory)[1], end(stableHistory)[2]))
-    cat(sprintf("Length (in years): %f\n", length(stableHistory)/frequency(stableHistory)))
+      start(history_tspp$response)[1], start(history_tspp$response)[2],
+      end(history_tspp$response)[1], end(history_tspp$response)[2]))
+    cat(sprintf("Length (in years): %f\n", NROW(history_tspp)/freq))
   }
 
 
   ## MODEL HISTORY PERIOD
-  test_tspp <- tspp(stableHistory, order = order)
-  test_mefp <- mefp(response ~ trend + harmon, data = test_tspp, 
-    type = "OLS-MOSUM", period = period, h = 0.25, alpha = level[1])
-  test_lm <- lm(response ~ trend + harmon, data = test_tspp)
+  test_tspp <- history_tspp
+  test_mefp <- mefp(formula, data = test_tspp, 
+    type = "OLS-MOSUM", period = end, h = 0.25, alpha = level[1])
+  test_lm <- lm(formula, data = test_tspp)
   if(verbose) {
     cat("Model fit:\n")
     print(coef(test_lm))
   }
 
   ## MONITOR CHANGES IN THE MONITORING PERIOD
-  test_tspp <- tspp(window(data, start = history), order = order)
+  test_tspp <- subset(data_tspp, time >= history)
   test_mon <- monitor(test_mefp, data = test_tspp, verbose = FALSE)
   tbp <- if(is.na(test_mon$breakpoint)) NA else test_tspp$time[test_mon$breakpoint]
   if(verbose) {
     cat("\n\n2. Monitoring period\n")
-    cat(sprintf("Monitoring starts at: %i(%i)\n", floor(start2), round((start2 - floor(start2)) * frequency(data)) + 1))
+    cat(sprintf("Monitoring starts at: %i(%i)\n", floor(start), round((start - floor(start)) * freq) + 1))
     if(is.na(tbp)) {      
         cat("Break detected at: -- (no break)\n\n")
       } else {
-        cat(sprintf("Break detected at: %i(%i)\n\n", floor(tbp), round((tbp - floor(tbp)) * frequency(data)) + 1))
+        cat(sprintf("Break detected at: %i(%i)\n\n", floor(tbp), round((tbp - floor(tbp)) * freq) + 1))
     }
   }
 
@@ -86,8 +94,8 @@ bfastmonitor <- function(data, start,
     tspp = test_tspp,
     model = test_lm,
     mefp = test_mon,
-    history = c(head(time(stableHistory), 1), tail(time(stableHistory), 1)),
-    monitor = c(start2, tail(test_tspp$time, 1)),
+    history = c(head(history_tspp$time, 1), tail(history_tspp$time, 1)),
+    monitor = c(start, tail(test_tspp$time, 1)),
     breakpoint = tbp
   )
   class(rval) <- "bfastmonitor"
@@ -112,6 +120,7 @@ print.bfastmonitor <- function(x, ...)
 
   cat("Model fit:\n")
   print(coef(x$model))
+  cat(sprintf("R-squared: %f\n", summary(x$model)$r.squared))
 
   cat("\n\n2. Monitoring period\n")
   cat(sprintf("Monitoring period assessed: %i(%i)--%i(%i)\n",
@@ -165,14 +174,24 @@ plot.bfastmonitor <- function(x, main = TRUE, ylab = "Data", ...)
 ## Auxiliary functions ##
 #########################
     
-tspp <- function(y, order = 1) {
+bfastpp <- function(y, order = 3, lag = NULL, slag = NULL, na.action = na.omit)
+{
+  ## check for covariates
+  if(NCOL(y) > 1L) {
+    x <- coredata(y)[, -1L]
+    y <- y[, 1L]
+  } else {
+    x <- NULL
+  }
+
   ## data with trend and season factor
   rval <- data.frame(
     time = as.numeric(time(y)),
     response = y,
-    trend = 1:length(y),
+    trend = 1:NROW(y),
     season = factor(cycle(y))
   )
+  
   ## set up harmonic trend matrix as well
   freq <- frequency(y)
   harmon <- outer(2 * pi * as.vector(time(y)), 1:order)
@@ -184,57 +203,62 @@ tspp <- function(y, order = 1) {
   }
   if((2 * order) == freq) harmon <- harmon[, -(2 * order)]
   rval$harmon <- harmon
+
+  ## add lags
+  nalag <- function(x, k) c(rep(NA, k), head(x, -k))
+  if(!is.null(lag)) {
+    rval$lag <- sapply(lag, function(k) nalag(as.vector(y), k))
+    colnames(rval$lag) <- lag
+  }
+  if(!is.null(slag)) {
+    rval$slag <- sapply(slag * freq, function(k) nalag(as.vector(y), k))
+    colnames(rval$slag) <- slag
+  }
+  
+  ## add regressors
+  rval$xreg <- x
+
   ## omit missing values
-  rval <- na.omit(rval)
+  rval <- na.action(rval)
+  
   ## return everything
   return(rval)
-}
-
-########## Set parameters for simulation
-createts <- function(datats) {
-  return(ts(datats, f=23, s=c(2000,4)))
 }
 
 ########################################
 ## Reversely Ordered CUSUM (ROC) test ##
 ########################################
 
-## JV A technique to verify whether or not the historical period is stable or not
+## A technique to verify whether or not the historical period is stable or not
 ## reversely order sample and perform
 ## recursive CUSUM test
-roc <- function(y, order = 3, level = 0.05) {
-  y_orig <- tspp(y, order = order)
-  n      <- nrow(y_orig)
-  y_rev  <- y_orig[n:1,]
-  y_rev$response <- ts(y_rev$response) ## , start = -tail(time(y), 1), frequency = frequency(y))
-  y_rcus <- efp(response ~ trend + harmon, data = y_rev, type = "Rec-CUSUM")
+history_roc <- function(formula, data, level = 0.05) {
+  n <- nrow(data)
+  data_rev <- data[n:1,]
+  data_rev$response <- ts(data_rev$response)
+  y_rcus <- efp(formula, data = data_rev, type = "Rec-CUSUM")
 
   y_start <- if(sctest(y_rcus)$p.value < level) {
     length(y_rcus$process) - min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
   } else {
     1    
   }
-
-  rval <- y_orig$time[y_start]
-  c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
+  data$time[y_start]
 }
 
 ##################################
 ## Bai & Perron last breakpoint ##
 ##################################
 
-bplast <- function(y, order = 3, h = NULL, hpc = "none") {
-  y_orig <- tspp(y, order = order)
-  n <- nrow(y_orig)
+history_break <- function(formula, data, h = NULL, hpc = "none") {
+  n <- nrow(data)
   ## rule of thumb for minimal segment size
-  if(is.null(h)) h <- 2 * (order + 1) * 6
+  if(is.null(h)) h <- 6 * NCOL(model.matrix(formula, data = data[0,]))
 
   ## conduct breakpoints estimation
-  bp <- breakpoints(response ~ trend + harmon, data = y_orig, h = h, hpc = hpc)
+  bp <- breakpoints(formula, data = data, h = h, hpc = hpc)
 
   y_start <- tail(breakpoints(bp)$breakpoints, 1)
   y_start <- if(is.na(y_start)) 1 else y_start + 1
-
-  rval <- y_orig$time[y_start]
-  c(floor(rval), round((rval - floor(rval)) * frequency(y)) + 1)
+  data$time[y_start]
 }
