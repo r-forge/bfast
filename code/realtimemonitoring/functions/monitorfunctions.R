@@ -147,11 +147,12 @@ plot.bfastmonitor <- function(x, main = TRUE, ylab = "Data", ...)
       round((x$breakpoint - floor(x$breakpoint)) * frequency(x$data)) + 1)
   }
 
-  plot(x$data, type = "n", main = main, ylab = ylab, ...)
-  lines(window(x$data, end = x$history[2]), col = "black")
-  lines(window(x$data, start = x$history[1], end = x$history[2]),
+  y <- x$data[,1L]
+  plot(y, type = "n", main = main, ylab = ylab, ...)
+  lines(window(y, end = x$history[2]), col = "black")
+  lines(window(y, start = x$history[1], end = x$history[2]),
     col = "green", type = "p", pch = 19, cex = 1)
-  lines(window(x$data, start = x$monitor[1]), col = "red")
+  lines(window(y, start = x$monitor[1]), col = "red")
 
   test_pred <- predict(x$model, newdata = x$tspp)
   test_pred <- as.ts(zoo(test_pred, x$tspp$time))
