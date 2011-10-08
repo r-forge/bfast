@@ -175,8 +175,21 @@ plot.bfastmonitor <- function(x, main = TRUE, ylab = "Data", ...)
 ## Auxiliary functions ##
 #########################
     
-bfastpp <- function(y, order = 3, lag = NULL, slag = NULL, na.action = na.omit)
+bfastpp <- function(y, order = 3,
+  lag = NULL, slag = NULL, na.action = na.omit,
+  stl = c("none", "trend", "seasonal"))
 {
+  ## STL pre-processing to try to adjust for trend or season
+  stl <- match.arg(stl)
+  if(stl != "none") {
+    stl_adjust <- function(x) x - stats::stl(x, s.window = "periodic")$time.series[, stl]
+    if(NCOL(y) > 1L) {
+      for(i in 1:NCOL(y)) y[,i] <- stl_adjust(y[,i])
+    } else {
+      y <- stl_adjust(y)
+    }
+  }
+
   ## check for covariates
   if(NCOL(y) > 1L) {
     x <- coredata(y)[, -1L]
