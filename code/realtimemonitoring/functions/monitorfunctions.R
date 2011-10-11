@@ -147,7 +147,7 @@ plot.bfastmonitor <- function(x, main = TRUE, ylab = "Data", ...)
       round((x$breakpoint - floor(x$breakpoint)) * frequency(x$data)) + 1)
   }
 
-  y <- x$data[,1L]
+  y <- if(is.null(dim(x$data))) x$data else x$data[,1L]
   plot(y, type = "n", main = main, ylab = ylab, ...)
   lines(window(y, end = x$history[2]), col = "black")
   lines(window(y, start = x$history[1], end = x$history[2]),
