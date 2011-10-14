@@ -13,7 +13,7 @@ bfastmonitor <- function(data, start,
   formula = response ~ trend + harmon,
   order = 3, lag = NULL, slag = NULL,
   history = c("ROC", "BP", "all"),
-  end = 10, level = 0.05,
+  h = 0.25, end = 10, level = 0.05,
   hpc = "none", verbose = FALSE, plot = FALSE)
 {
   ## PREPROCESSING
@@ -67,7 +67,7 @@ bfastmonitor <- function(data, start,
   ## MODEL HISTORY PERIOD
   test_tspp <- history_tspp
   test_mefp <- mefp(formula, data = test_tspp, 
-    type = "OLS-MOSUM", period = end, h = 0.25, alpha = level[1])
+    type = "OLS-MOSUM", period = end, h = h, alpha = level[1])
   test_lm <- lm(formula, data = test_tspp)
   if(verbose) {
     cat("Model fit:\n")
