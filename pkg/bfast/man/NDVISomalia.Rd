@@ -1,13 +1,12 @@
-\name{simts}
+\name{NDVISomalia}
 \Rdversion{1.4}
-\alias{simts}
+\alias{NDVISomalia}
 \docType{data}
 \title{
-Simulated seasonal 16-day NDVI time series
+16-day NDVI time series from the south of Somalia
 }
 \description{
-\code{simts} is an object of class "stl" and consists of seasonal, trend (equal to 0) and noise components. The
-simulated noise is typical for remotely sensed satellite data.
+\code{b} is a dataframe containing time and two NDVI time series to illlustrate how the monitoring approach works.
 }
 
 \usage{data(simts)}
@@ -16,12 +15,14 @@ simulated noise is typical for remotely sensed satellite data.
 Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (2009). 
 Detecting trend and seasonal changes in satellite image time series. 
 \emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}. 
-Or see \url{http://robjhyndman.com/papers/bfast1}.
 }
 
 \examples{
-plot(simts)
-# References
+## first define the data as a regular time series (i.e. ts object)
+NDVI <- as.ts(zoo(b$NDVI.b,b$Time))
+plot(NDVI)
+
+## References
 citation("bfast")
 }
 \keyword{datasets}
