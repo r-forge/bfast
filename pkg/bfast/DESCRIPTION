@@ -1,8 +1,8 @@
 Package: bfast
-Version: 1.3
+Version: 1.4
 Date: 2011-04-29
 Title: BFAST: Breaks For Additive Seasonal and Trend
-Author: Jan Verbesselt, with contributions from Rob Hyndman <Rob.Hyndman@buseco.monash.edu.au> and Rogier De Jong
+Author: Jan Verbesselt, Achim Zeileis, with contributions from Rob Hyndman <Rob.Hyndman@buseco.monash.edu.au> and Rogier De Jong
 Maintainer: Jan Verbesselt <Jan.Verbesselt@wur.nl>
 Depends: R (>= 2.0.0), strucchange, MASS, forecast
 Description: BFAST integrates the decomposition of time series into trend,
@@ -13,7 +13,7 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     dealing with seasonal or non-seasonal time series, such as hydrology,
 	     climatology, and econometrics. The algorithm can be extended to
 	     label detected changes with information on the parameters of the
-	     fitted piecewise linear models.
+	     fitted piecewise linear models. BFASTmonitoring functionality is added based on a paper that has been submitted to Remote Sensing of Environment
 License: GPL (>= 2)
 URL: http://bfast.R-Forge.R-project.org/
 LazyLoad: yes
