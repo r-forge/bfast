@@ -6,10 +6,10 @@
 16-day NDVI time series from the south of Somalia
 }
 \description{
-\code{b} is a dataframe containing time and two NDVI time series to illlustrate how the monitoring approach works.
+\code{NDVISomalia} is a dataframe containing time and two NDVI time series to illlustrate how the monitoring approach works.
 }
 
-\usage{data(simts)}
+\usage{data(NDVISomalia)}
 
 \source{
 Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (2009). 
@@ -19,7 +19,7 @@ Detecting trend and seasonal changes in satellite image time series.
 
 \examples{
 ## first define the data as a regular time series (i.e. ts object)
-NDVI <- as.ts(zoo(b$NDVI.b,b$Time))
+NDVI <- as.ts(zoo(NDVISomalia$NDVI.b,NDVISomalia$Time))
 plot(NDVI)
 
 ## References
