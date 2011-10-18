@@ -7,12 +7,7 @@ Near real-time disturbance detection within time-series data
 \description{ A generic time series based disturbance detection approach by modelling stable historical behaviour to enable detection of abnormal changes within newly acquired data. Different models can be use to model the stable historical behavior. A harmonic seasonic season trend model is used as a default in the regresssion modelling.
 }
 \usage{
-bfastmonitor <- function(data, start,
-  formula = response ~ trend + harmon,
-  order = 3, lag = NULL, slag = NULL,
-  history = c("ROC", "BP", "all"),
-  h = 0.25, end = 10, level = 0.05,
-  hpc = "none", verbose = FALSE, plot = FALSE)
+bfastmonitor <- function(data, start, formula = response ~ trend + harmon, order = 3, lag = NULL, slag = NULL, history = c("ROC", "BP", "all"), h = 0.25, end = 10, level = 0.05, hpc = "none", verbose = FALSE, plot = FALSE)
 }
 \arguments{
   \item{data}{ A univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one.
@@ -56,7 +51,6 @@ Achim Zeileis, Jan Verbesselt
 }
 
 \seealso{
-\code{\link[bfast]{plot.bfastmonitor}} for plotting of bfast() results. \cr
 \code{\link[strucchange]{breakpoints}} for more examples and background information about estimation of breakpoints in time series.
 }
 \examples{
