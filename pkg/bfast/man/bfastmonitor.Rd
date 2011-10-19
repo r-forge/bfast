@@ -60,11 +60,11 @@ plot(NDVI)
 ## apply the bfast monitor function on the data 
 ## start of the monitoring period is c(2010,13) 
 ## and the ROC method is used as a method to automatically identify a stable history
-#fit <- bfastmonitor(NDVI,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
+bfastmonitor(NDVI,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
 
 ## Another example with a different time series object
-#NDVI <- as.ts(zoo(b$NDVI.a,b$Time))
-#plot(NDVI)
+NDVI <- as.ts(zoo(b$NDVI.a,b$Time))
+plot(NDVI)
 ## apply the bfast monitor function on the data 
 ## start of the monitoring period is c(2010,13) 
 ## and the ROC method is used as a method to automatically identify a stable history
