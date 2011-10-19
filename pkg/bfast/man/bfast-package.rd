@@ -19,12 +19,12 @@ BFASTmonitor function is added to the package to monitor for disturbance at the 
 \itemize{
 \item \code{\link[bfast]{bfast}}: the main function that does the iterative decomposition and break detection as described 
     in Verbesselt et al (2010);
-\item \code{\link[bfastmonitor]{bfast}}: the monitoring approach to provides functionality to detect disturbances in near real-time.
+\item \code{\link[bfast]{bfastmonitor}}: the monitoring approach to provides functionality to detect disturbances in near real-time.
     in Verbesselt et al (Review);
 \item functions for plotting and printing  \code{\link[bfast]{bfast}};
 \item \code{\link[bfast]{simts}}: an example data set;
 \item \code{\link[bfast]{harvest}}: an NDVI time series of a P. radiata plantation that is harvested.
-\item \code{\link[bfast]{NDVISomalia}}: two NDVI time series of a location in the south of Somalia to illustrate the near real-time disturbance approach
+\item \code{\link[bfast]{b}}: two NDVI time series of a location in the south of Somalia to illustrate the near real-time disturbance approach
 }
 }
 

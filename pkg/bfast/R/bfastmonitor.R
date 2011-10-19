@@ -2,13 +2,8 @@
 ## convenience function for time series pre-processing
 ## to response plus regressors (linear time trend, season
 ## dummies, and harmonic season by default with order 3)
-require("strucchange")
-require("zoo")
-#   data <- tsndvi
-#   startmonitor <- c(2009,1)
-#   order <- 3
-#   title <- TRUE
-
+# require("strucchange")
+# require("zoo")
 bfastmonitor <- function(data, start,
   formula = response ~ trend + harmon,
   order = 3, lag = NULL, slag = NULL,
@@ -30,7 +25,6 @@ bfastmonitor <- function(data, start,
   ## full data
   data_tspp <- bfastpp(data, order = order, lag = lag, slag = slag)
     
-  
   ## SELECT STABLE HISTORY  
   ## full history period
   history_tspp <- subset(data_tspp, time < start)
@@ -105,110 +99,4 @@ bfastmonitor <- function(data, start,
   
   ## return object
   return(rval)
-}
-
-#########################
-## Auxiliary functions ##
-#########################
-    
-bfastpp <- function(y, order = 3,
-  lag = NULL, slag = NULL, na.action = na.omit,
-  stl = c("none", "trend", "seasonal"))
-{
-  ## STL pre-processing to try to adjust for trend or season
-  stl <- match.arg(stl)
-  if(stl != "none") {
-    stl_adjust <- function(x) x - stats::stl(x, s.window = "periodic")$time.series[, stl]
-    if(NCOL(y) > 1L) {
-      for(i in 1:NCOL(y)) y[,i] <- stl_adjust(y[,i])
-    } else {
-      y <- stl_adjust(y)
-    }
-  }
-
-  ## check for covariates
-  if(NCOL(y) > 1L) {
-    x <- coredata(y)[, -1L]
-    y <- y[, 1L]
-  } else {
-    x <- NULL
-  }
-
-  ## data with trend and season factor
-  rval <- data.frame(
-    time = as.numeric(time(y)),
-    response = y,
-    trend = 1:NROW(y),
-    season = factor(cycle(y))
-  )
-  
-  ## set up harmonic trend matrix as well
-  freq <- frequency(y)
-  harmon <- outer(2 * pi * as.vector(time(y)), 1:order)
-  harmon <- cbind(apply(harmon, 2, cos), apply(harmon, 2, sin))
-  colnames(harmon) <- if(order == 1) {
-    c("cos", "sin")
-  } else {
-    c(paste("cos", 1:order, sep = ""), paste("sin", 1:order, sep = ""))
-  }
-  if((2 * order) == freq) harmon <- harmon[, -(2 * order)]
-  rval$harmon <- harmon
-
-  ## add lags
-  nalag <- function(x, k) c(rep(NA, k), head(x, -k))
-  if(!is.null(lag)) {
-    rval$lag <- sapply(lag, function(k) nalag(as.vector(y), k))
-    colnames(rval$lag) <- lag
-  }
-  if(!is.null(slag)) {
-    rval$slag <- sapply(slag * freq, function(k) nalag(as.vector(y), k))
-    colnames(rval$slag) <- slag
-  }
-  
-  ## add regressors
-  rval$xreg <- x
-
-  ## omit missing values
-  rval <- na.action(rval)
-  
-  ## return everything
-  return(rval)
-}
-
-########################################
-## Reversely Ordered CUSUM (ROC) test ##
-########################################
-
-## A technique to verify whether or not the historical period is stable or not
-## reversely order sample and perform
-## recursive CUSUM test
-history_roc <- function(formula, data, level = 0.05) {
-  n <- nrow(data)
-  data_rev <- data[n:1,]
-  data_rev$response <- ts(data_rev$response)
-  y_rcus <- efp(formula, data = data_rev, type = "Rec-CUSUM")
-
-  y_start <- if(sctest(y_rcus)$p.value < level) {
-    length(y_rcus$process) - min(which(abs(y_rcus$process)[-1] > boundary(y_rcus)[-1])) + 1
-  } else {
-    1    
-  }
-  data$time[y_start]
-}
-
-##################################
-## Bai & Perron last breakpoint ##
-##################################
-
-history_break <- function(formula, data, h = NULL, hpc = "none") {
-  n <- nrow(data)
-  ## rule of thumb for minimal segment size
-  if(is.null(h)) h <- 6 * NCOL(model.matrix(formula, data = data[0,]))
-
-  ## conduct breakpoints estimation
-  bp <- breakpoints(formula, data = data, h = h, hpc = hpc)
-
-  y_start <- tail(breakpoints(bp)$breakpoints, 1)
-  y_start <- if(is.na(y_start)) 1 else y_start + 1
-  data$time[y_start]
 }
