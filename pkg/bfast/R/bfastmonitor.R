@@ -1,9 +1,3 @@
-# bfast code folder
-## convenience function for time series pre-processing
-## to response plus regressors (linear time trend, season
-## dummies, and harmonic season by default with order 3)
-# require("strucchange")
-# require("zoo")
 bfastmonitor <- function(data, start,
   formula = response ~ trend + harmon,
   order = 3, lag = NULL, slag = NULL,
