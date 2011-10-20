@@ -11,7 +11,7 @@
 # registerDoMC(2)
 library("raster")
 library("rgdal")
-library("zoo")
+# library("zoo")
 library("ggplot2")
 library("sp")
 
@@ -52,12 +52,25 @@ i <- 11912
   ## a realtime monitor function would be handy for further development
   ## however there is a bug in the data
 
-source("functions/monitorfunctions.R")
-#   out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
-out <- bfastmonitor(tsndvi, start= c(2009,1), history = c("ROC"), verbose = TRUE, plot = TRUE)
+# source("functions/monitorfunctions.R")
+require(bfast) # bfast 1.4 now contains a monitoring function
+
+# out <-realtime(tsdata = tsndvi, startmonitor = c(2009,1), order= 3, title=TRUE) ## 
+bfastmonitor(tsndvi, start= c(2009,1), history = c("ROC"), verbose = TRUE, plot = TRUE)$breakpoint
 
 ##
-?calc
+plot(modis,1)
+dim(modis)
+
+## this does not work
+# test <- calc(modis, sum)
+
+## Applying bfastmonitor function via the calc() function on a modis raster stack would be very nice
+## but it is not feasible yet
+## but is not working at this stage as
+## querying data out for even one pixel is difficult
+# result <- calc(modis,fun=bfastmonitor(tsndvi, start= c(2009,1), history = c("ROC"), verbose = FALSE, plot = FALSE)$breakpoint)
+
 ## more info
 # http://127.0.0.1:24667/help/library/raster/doc/index.html
 ## we could use the calc function if we adjust the bfastmonitor to output just one value
