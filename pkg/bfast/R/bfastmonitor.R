@@ -75,7 +75,9 @@ bfastmonitor <- function(data, start,
         cat(sprintf("Break detected at: %i(%i)\n\n", floor(tbp), round((tbp - floor(tbp)) * freq) + 1))
     }
   }
-
+  
+  ## extra to be added is the magnitude of change - in case it is significant
+  
   ## set up return object
   rval <- list(
     data = data,
