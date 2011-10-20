@@ -24,7 +24,7 @@ BFASTmonitor function is added to the package to monitor for disturbance at the 
 \item functions for plotting and printing  \code{\link[bfast]{bfast}};
 \item \code{\link[bfast]{simts}}: an example data set;
 \item \code{\link[bfast]{harvest}}: an NDVI time series of a P. radiata plantation that is harvested.
-\item \code{\link[bfast]{b}}: two NDVI time series of a location in the south of Somalia to illustrate the near real-time disturbance approach
+\item \code{\link[bfast]{som}}: two NDVI time series of a location in the south of Somalia to illustrate the near real-time disturbance approach
 }
 }
 
@@ -33,11 +33,8 @@ Jan Verbesselt, Achim Zeileis and Rob Hyndman
 }
 
 \references{
-Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (2009). 
-Detecting trend and seasonal changes in satellite image time series. 
-\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}. 
-Or see \url{http://robjhyndman.com/papers/bfast1}.
-Or see \url{http://eeecon.uibk.ac.at/wopec2/repec/inn/wpaper/2011-18.pdf}.
+See \url{http://eeecon.uibk.ac.at/wopec2/repec/inn/wpaper/2011-18.pdf} for the working paper which in review with 
+Remote Sensing of Environment.
 }
 
 \keyword{ts}
