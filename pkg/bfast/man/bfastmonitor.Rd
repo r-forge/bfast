@@ -12,29 +12,29 @@ bfastmonitor(data, start, formula = response ~ trend + harmon, order = 3, lag = 
 \arguments{
   \item{data}{ A univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one.
 }
-  \item{start}{
+  \item{start}{ The start data of the monitoring period.
 }
-  \item{formula}{
+  \item{formula}{ The formula of the model to be used to fit the 'stable history period'. The default model is 'trend+harmon' where the order of the harmonic model is defined by the order variable below. Other models that could be used are e.g. response ~ 1 (just an intercept) or response ~ trend (just a linear trend).
 }
-  \item{order}{ The order of the harmonic model
+  \item{order}{ The order of the harmonic model if used in the model formula.
 }
   \item{lag}{
 }
   \item{slag}{
 }
-  \item{history}{
+  \item{history}{ The method to be used for automatically defining the stable history period. "ROC" is used our working paper. The start of the stable history period can also be set manually by e.g. history = c(2000, 1). See example below.
 }
-  \item{h}{
+  \item{h}{ The minimal segment size between potentially detected breaks in the trend model given as fraction relative to the sample size.
 }
-  \item{end}{
+  \item{end}{ (only used for MOSUM/ME processes). Maximum time (relative to the history period) that will be monitored. Default is 10 times the history period.
 }
-  \item{level}{
+  \item{level}{ Significance level of the test, i.e., probability of type I error.
 }
   \item{hpc}{A character specifying the high performance computing support. Default is "none", can be set to "foreach". Install the "foreach" package for hpc support.
 }	
-  \item{verbose}{
+  \item{verbose}{ If TRUE, signal breaks by text output.
 }
-  \item{plot}{
+  \item{plot}{ If TRUE, plot results.
 }
 }
 \details{To be completed.
@@ -53,6 +53,8 @@ Achim Zeileis, Jan Verbesselt
 }
 \examples{
 
+## See Fig. 6 a and b in our \url{http://eeecon.uibk.ac.at/wopec2/repec/inn/wpaper/2011-18.pdf}
+## for more information about the data time series and acknowledgements
 
 NDVIa <- as.ts(zoo(som$NDVI.a,som$Time))
 plot(NDVIa)
@@ -79,19 +81,19 @@ summary(monb$model)
 ## and the significance of the detected break.
 plot(monb$mefp, functional = NULL)
 
-## More example will follow here
-## e.g. manually set the history period
+## set the stable history period manually and use a 4th order harmonic model
+bfastmonitor(NDVIb, start = c(2010,13), history = c(2008,7), order= 4, plot=TRUE)
 
-## Using rainfall data
-
-## etc.
-
+## just use a 6th order harmonic model
+mon <- bfastmonitor(NDVIb , formula = response ~ harmon, 
+    start = c(2010,13), order= 6, plot=TRUE)
+summary(mon$model)
 
 ## References
 citation("bfast")
 
 ## For more info
-#?bfastmonitor
+?bfastmonitor
 
 }
 \keyword{ts}
