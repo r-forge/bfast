@@ -52,23 +52,32 @@ Achim Zeileis, Jan Verbesselt
 \code{\link[strucchange]{breakpoints}} for more examples and background information about estimation of breakpoints in time series.
 }
 \examples{
-require(zoo)
-data(b)
-## create a time series object from the data and plot
-NDVI <- as.ts(zoo(b$NDVI.b,b$Time))
-plot(NDVI)
-## apply the bfast monitor function on the data 
-## start of the monitoring period is c(2010,13) 
-## and the ROC method is used as a method to automatically identify a stable history
-bfastmonitor(NDVI,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
 
-## Another example with a different time series object
-NDVI <- as.ts(zoo(b$NDVI.a,b$Time))
-plot(NDVI)
+
+NDVIa <- as.ts(zoo(som$NDVI.a,som$Time))
+plot(NDVIa)
 ## apply the bfast monitor function on the data 
 ## start of the monitoring period is c(2010,13) 
 ## and the ROC method is used as a method to automatically identify a stable history
-#bfastmonitor(NDVI,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
+mona <- bfastmonitor(NDVIa,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
+
+## Summary of the fitted seasonal trend model
+summary(mona$model)
+
+## the pattern in the running mean of residuals
+## this illustrates the empirical fluctuation process
+## and the significance of the detected break.
+plot(mona$mefp, functional = NULL)
+
+NDVIb <- as.ts(zoo(som$NDVI.b,som$Time))
+plot(NDVIb)
+monb <- bfastmonitor(NDVIb,start=c(2010,13),verbose=TRUE,plot=TRUE, history='ROC')
+## Summary of the fitted seasonal trend model
+summary(monb$model)
+## the pattern in the running mean of residuals
+## this illustrates the empirical fluctuation process
+## and the significance of the detected break.
+plot(monb$mefp, functional = NULL)
 
 ## More example will follow here
 ## e.g. manually set the history period
