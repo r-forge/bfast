@@ -1,10 +1,13 @@
 Package: bfast
 Version: 1.4
-Date: 2011-04-29
-Title: BFAST: Breaks For Additive Seasonal and Trend
-Author: Jan Verbesselt, Achim Zeileis, with contributions from Rob Hyndman <Rob.Hyndman@buseco.monash.edu.au> and Rogier De Jong
+Date: 2011-10-21
+Title: Breaks For Additive Season and Trend (BFAST)
+Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
+             person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
+             person(given = "Rob", family = "Hyndman", role = "ctb", email = "Rob.Hyndman@buseco.monash.edu.au"),
+             person(given = "Rogier", family = "De Jong", role = "ctb"))
+Author: Jan Verbesselt [aut, cre], Achim Zeileis [aut], Rob Hyndman [ctb], Rogier De Jong [ctb]
 Maintainer: Jan Verbesselt <Jan.Verbesselt@wur.nl>
-Depends: R (>= 2.0.0), strucchange, MASS, forecast, zoo
 Description: BFAST integrates the decomposition of time series into trend,
              seasonal, and remainder components with methods for detecting
 	     and characterizing abrupt changes within the trend and seasonal
@@ -13,7 +16,10 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     dealing with seasonal or non-seasonal time series, such as hydrology,
 	     climatology, and econometrics. The algorithm can be extended to
 	     label detected changes with information on the parameters of the
-	     fitted piecewise linear models. BFASTmonitoring functionality is added based on a paper that has been submitted to Remote Sensing of Environment
+	     fitted piecewise linear models. BFAST monitoring functionality is added
+	     based on a paper that has been submitted to Remote Sensing of Environment
+Depends: R (>= 2.0.0), graphics, stats, strucchange, MASS, forecast, zoo
+Imports: graphics, stats, strucchange, zoo
 License: GPL (>= 2)
 URL: http://bfast.R-Forge.R-project.org/
 LazyLoad: yes
