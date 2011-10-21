@@ -1,18 +1,19 @@
 \name{bfast}
-\Rdversion{1.4}
 \alias{bfast}
-\title{
-Break detection in the seasonal and trend component of a univariate time series
-}
+\title{Break Detection in the Seasonal and Trend Component of a Univariate Time Series}
+
 \description{
 Iterative break detection in seasonal and trend component of a time series. 
 Seasonal breaks is a function that combines the iterative decomposition of 
 time series into trend, seasonal and remainder components with significant 
 break detection in the decomposed components of the time series.
 }
+
 \usage{
-bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, breaks = NULL, hpc ="none")
+bfast(Yt, h = 0.15, season = c("dummy", "harmonic", "none"),
+  max.iter = NULL, breaks = NULL, hpc = "none")
 }
+
 \arguments{
   \item{Yt}{univariate time series to be analyzed. This should be an object of class "ts" with a frequency greater than one without NA's.
 }
@@ -33,8 +34,9 @@ bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, bre
   \item{hpc}{A character specifying the high performance computing support. Default is "none", can be set to "foreach". Install the "foreach" package for hpc support.
 }	
 }
-\details{To be completed.
-}
+
+\details{To be completed.}
+
 \value{
     An object of the class "bfast" is a list with the following elements:
     \item{Yt}{ equals the Yt used as input.}
@@ -58,14 +60,17 @@ bfast(Yt, h = 0.15, season = c("dummy","harmonic","none"),  max.iter = NULL, bre
     \item{magnitude}{ magnitude of the biggest change detected in the trend component}
     \item{Time}{ timing of the biggest change detected in the trend component}
 }
+
 \references{
-Verbesselt, J., R. Hyndman, G. Newnham, and D. Culvenor (2009). 
-Detecting trend and seasonal changes in satellite image time series. 
-\emph{Remote Sensing of Environment}. \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}.
-Verbesselt, J., Hyndman, R., Zeileis, A., & Culvenor, D. (2010).
-Phenological change detection while accounting for abrupt and gradual trends in satellite image time series.
-\emph{Remote Sensing of Environment}, 114, 2970-2980. \url{http://dx.doi.org/10.1016/j.rse.2010.08.003}.
-Or see \url{http://bfast.r-forge.r-project.org/}.
+Verbesselt J, Hyndman R, Newnham G, Culvenor D (2010).
+  Detecting Trend and Seasonal Changes in Satellite Image Time Series.
+  \emph{Remote Sensing of Environment}, \bold{114}(1), 106--115.
+  \url{http://dx.doi.org/10.1016/j.rse.2009.08.014}
+
+Verbesselt J, Hyndman R, Zeileis A, Culvenor D (2010).
+  Phenological Change Detection while Accounting for Abrupt and Gradual Trends in Satellite Image Time Series.
+  \emph{Remote Sensing of Environment}, \bold{114}(12), 2970--2980.
+  \url{http://dx.doi.org/10.1016/j.rse.2010.08.003}
 }
 
 \author{
@@ -76,6 +81,7 @@ Jan Verbesselt
 \code{\link[bfast]{plot.bfast}} for plotting of bfast() results. \cr
 \code{\link[strucchange]{breakpoints}} for more examples and background information about estimation of breakpoints in time series.
 }
+
 \examples{
 ## Simulated Data
 plot(simts) # stl object containing simulated NDVI time series
@@ -115,7 +121,6 @@ citation("bfast")
 
 ## For more info
 ?bfast
-
 }
-\keyword{ts}
 
+\keyword{ts}
