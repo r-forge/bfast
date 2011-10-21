@@ -1,0 +1,9 @@
+Changes in Version 1.4-0
+
+  o Added bfastmonitor() for near-realtime detection of breaks in BFAST-type
+    model. Data pre-processing is handled by a new function bfastpp() whose
+    results can easily be plugged into strucchange (or other modeling/testing
+    functions).
+    
+  o New data set "som" with NDVI series from Somalia.
+
