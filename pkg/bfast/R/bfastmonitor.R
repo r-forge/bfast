@@ -76,7 +76,10 @@ bfastmonitor <- function(data, start,
     }
   }
   
-  ## extra to be added is the magnitude of change - in case it is significant
+  ## the magnitude of change
+	test_tspp$prediction <- predict(test_lm, newdata = test_tspp)
+	new_data <- subset(test_tspp, time>=start) ## only data from the monitoring period
+	magnitude <- median(new_data$response - new_data$prediction,na.rm=TRUE)
   
   ## set up return object
   rval <- list(
@@ -86,7 +89,8 @@ bfastmonitor <- function(data, start,
     mefp = test_mon,
     history = c(head(history_tspp$time, 1), tail(history_tspp$time, 1)),
     monitor = c(start, tail(test_tspp$time, 1)),
-    breakpoint = tbp
+    breakpoint = tbp,
+    magnitude = magnitude
   )
   class(rval) <- "bfastmonitor"
   

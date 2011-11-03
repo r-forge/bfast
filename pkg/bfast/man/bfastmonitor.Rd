@@ -99,6 +99,7 @@ bfastmonitor(data, start,
   \item{history}{start and end time of history period,}
   \item{monitor}{start and end time of monitoring period,}
   \item{breakpoint}{breakpoint detected (if any).}
+  \item{magnitude}{median of the difference between the data and the model prediction in the monitoring period.}
 }
 
 \references{
