@@ -3,7 +3,8 @@ import("graphics", "stats", "strucchange", "zoo")
 export(
   "bfast",
   "bfastmonitor",
-  "bfastpp"
+  "bfastpp",
+  "converttodailyzooreg"
 )
 
 S3method("plot", "bfast")
