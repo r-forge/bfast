@@ -63,7 +63,7 @@ Near real-time disturbance detection in terrestrial ecosystems using satellite i
 Near real-time monitoring of ecosystem disturbances is critical for addressing impacts on carbon dynamics, biodiversity, and socio-ecological processes. Satellite remote sensing enables cost-effective and accurate monitoring at frequent time steps over large areas. Yet, generic methods to detect disturbances within newly captured satellite images are lacking. 
 We propose a generic time series based disturbance detection approach by modelling \emph{stable} historical behaviour to enable detection of \emph{abnormal} changes within newly acquired data.
 Time series of vegetation greenness provide a measure for terrestrial vegetation productivity over the last decades covering the whole world and contain essential information related land cover dynamics and disturbances. Here, we assess and demonstrate the method by (1)~simulating time series of vegetation greenness data from satellite data with different amount of noise, seasonality and disturbances representing a wide range of terrestrial ecosystems, (2)~applying it to real satellite greenness image time series between February 2000 and July 2011 covering Somalia to  detect drought related vegetation disturbances.
-First, simulation results illustrate that disturbances are successfully detected in near real-time while being robust for seasonality and noise. Second, major drought related disturbance corresponding with most drought stressed regions in Somalia are detected from mid 2010 onwards and confirm proof-of-concept of the method. The method can analyse in-situ or satellite data time series of biophysical indicators from local to global scale since it is fast, does not depend on thresholds or definitions and does not require time series gap filling. While the data and methods used are appropriate for proof-of-concept development for global scale disturbance monitoring, specific operational applications (e.g., drought or deforestation monitoring) mandates integration within an early warning framework (e.g.\ \url{www.fews.net}).
+First, simulation results illustrate that disturbances are successfully detected in near real-time while being robust for seasonality and noise. Second, major drought related disturbance corresponding with most drought stressed regions in Somalia are detected from mid 2010 onwards and confirm proof-of-concept of the method. The method can analyse in-situ or satellite data time series of biophysical indicators from local to global scale since it is fast, does not depend on thresholds or definitions and does not require time series gap filling. While the data and methods used are appropriate for proof-of-concept development for global scale disturbance monitoring, specific operational applications (e.g., drought or deforestation monitoring) mandates integration within an early warning framework (e.g.\ \url{www.fews.net} or \url{http://mars.jrc.ec.europa.eu/}).
 \end{abstract}
 
 \begin{keyword}
@@ -105,7 +105,7 @@ We propose a multi-purpose approach for near real-time disturbance detection usi
 (1)~Can a period, representing stable (i.e.\ normal) historical data variation representing both seasonal and gradual changes, be identified within a time series?\\
 (2)~Is the model representing the \emph{normal} historical data variation able to reliably and quickly differentiate between normal and \emph{abnormal} changes (i.e.\ disturbances) within newly incoming observations (i.e. near real-time)?
 
-We assess this approach for different ecosystems by simulating NDVI time series with varying amounts of seasonal variation and noise, and by adding changes with different magnitudes representing a wide variety of terrestrial ecosystems.  We demonstrate the proof-of-concept using the MODIS (Moderate Resolution Imaging Spectrometer) NDVI 16-day image composites from February 2000 until July 2011 for drought disturbance detection in Somalia. NDVI time series are also used by organisations like the Joint Research Centre (JRC), the United States Famine Early Warning System Network (FEWS-NET), and the United Nations Food and Agricultural Organisation (FAO) as an early warning of potential food production problems in African countries \citep{Rojas:2005bz}.
+We assess this approach for different ecosystems by simulating NDVI time series with varying amounts of seasonal variation and noise, and by adding changes with different magnitudes representing a wide variety of terrestrial ecosystems.  We demonstrate the proof-of-concept using the MODIS (Moderate Resolution Imaging Spectrometer) NDVI 16-day image composites from February 2000 until July 2011 for drought disturbance detection in Somalia. NDVI time series are also used by organisations like the Monitoring Agricultural Resources (MARS) unit at Joint Research Centre (JRC), the United States Famine Early Warning System Network (FEWS-NET), and the United Nations Food and Agricultural Organisation (FAO) as an early warning of potential food production problems in African countries \citep{Rojas:2005bz}.
  
 \section{Material and methods}
 
@@ -312,7 +312,7 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/Fig1Sim_Monitoring_ggplot.eps}
+%    \includegraphics[width=1\textwidth]{figs/Fig1Sim_Monitoring_ggplot.eps}
   \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$). The period from
   2004 until mid 2010 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated
   break is the \emph{monitoring period} (grey background). The monitoring period contains 6 observations  ($d = 6$, \textcolor{red} {red} line). The
@@ -324,15 +324,15 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=0.8\textwidth]{figs/RainfallAnomaly.eps}
+%    \includegraphics[width=0.8\textwidth]{figs/RainfallAnomaly.eps}
   \caption{Monthly rainfall anomaly (mm/hr) for the period 1998--2011 measured by the tropical rainfall measuring satellite mission (TRMM) for an area in South Somalia (2\degree~Lat. and 43\degree~Long.). The time series was derived from the TRMM 3B43 climatology (version 6) data set using the online visualisation and analysis system (TOVAS). Anomalies are computed as the difference between the measured precipitation and the average climatology for the selected region \citep{Acker:2007vk}.}
   \label{fig:RF}
 \end{figure}
 
 \begin{figure} [htp]
 \centering
-\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.eps} } %
- \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.eps} } 
+%\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.eps} } %
+% \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.eps} } 
  \caption{Two-monthly rainfall estimates (mm, RFE2) (a)~and land surface temperature (\degree C, LST) (b)~anomaly are shown for Somalia illustrating the below normal rainfall and above normal land surface temperature during the February-March period in 2011. The RFE2 data is a merged satellite-gauge rainfall product produced by NOAA's Climate Prediction Centre at a 0.1\degree~spatial resolution. The LST product is the land surface temperature measured by the MODIS
  satellite and is provided at a 0.05\degree~spatial resolution. Individual observations are subtracted from the time series mean to produce anomaly data. MODIS
  NDVI time series (2000--2011) for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmon}. The data was obtained using the Early Warning Explorer software tool available at \url{earlywarning.usgs.gov}. }
@@ -341,7 +341,7 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
+%    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
   \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($d$). The units of the x and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted season-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section~\ref{sec:Valsim}). }
   \label{fig:SimNr}
 \end{figure}
@@ -359,7 +359,7 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
+%    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
   \caption{
  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c, corresponding to symbols
  $+,~\triangle$~and~$\diamondsuit$ shown in Fig.~\ref{fig:spatial}. The period from 2000 until mid 2010, is considered the \emph{history period} and the
