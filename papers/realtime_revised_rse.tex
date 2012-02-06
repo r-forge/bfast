@@ -328,11 +328,12 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/Fig1Sim_Monitoring_ggplot.eps}
+    \includegraphics[width=0.8\textwidth]{figs/Fig1Sim_Monitoring_ggplot.eps}
   \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$). The period from 2004 until mid 2010 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period} (grey background). The monitoring period contains 6 observations  ($d = 6$, \textcolor{red} {red} line). The result of the monitoring approach are shown. A stable history period is identified within the history period (i.e.\ 2007 until mid 2010) and used to model and predict the normal data variation (\textcolor{blue} {blue} dashed line) to enable disturbance detection (Section~\ref{sec:MonStrucChange}).  Here, a disturbance is detected (\textcolor{OliveGreen} {green} vertical line).}
   \label{fig:SimMonitor}
 \end{figure}
 
+% See ClimateData_EA.R script - MOD13C1 folder
  \begin{figure}[htp]
 \centering
     \includegraphics[width=0.8\textwidth]{figs/RainfallAnomaly.eps}
@@ -342,15 +343,15 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
 \begin{figure} [htp]
 \centering
-\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.eps} } %
- \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.eps} } 
+%\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Rainfall_Somalia.eps} } %
+% \subfloat[][] {\label{fig:LST} \includegraphics[width=0.55\textwidth]{figs/LSTMarchApril_Somalia.eps} } 
  \caption{Two-monthly rainfall estimates (mm, RFE2) (a)~and land surface temperature (\degree C, LST) (b)~anomaly are shown for Somalia illustrating the below normal rainfall and above normal land surface temperature during the February-March period in 2011. The RFE2 data is a merged satellite-gauge rainfall product produced by NOAA's Climate Prediction Centre at a 0.1\degree~spatial resolution. The LST product is the land surface temperature measured by the MODIS satellite and is provided at a 0.05\degree~spatial resolution. Individual observations are subtracted from the time series mean to produce anomaly data. MODIS NDVI time series (2000--2011) for three locations ($\triangle,+$~and~$\diamondsuit$) are shown in Fig.~\ref{fig:realmon}. The data were obtained using the Early Warning Explorer software tool available at \url{earlywarning.usgs.gov}. }
  \label{fig:RF_LSTSomalia}
 \end{figure}
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
+%    \includegraphics[height=0.9\textwidth]{figs/NrDetections_Time_1000.eps}
   \caption{Results from the simulation experiment (1000 iterations) illustrating the probability for break detection in the monitoring period while varying the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($d$). The units of the x and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted season-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section~\ref{sec:Valsim}). }
   \label{fig:SimNr}
 \end{figure}
@@ -368,7 +369,7 @@ This work was funded by a Marie-Curie IRG grant within the European Community's 
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
+%    \includegraphics[width=1\textwidth]{figs/tsexampleSOM.eps}
   \caption{
  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c, corresponding to symbols $+,~\triangle$~and~$\diamondsuit$ shown in Fig.~\ref{fig:spatial}. The period from 2000 until mid 2010, is considered the \emph{history period} and the period from 2010 onwards is the \emph{monitoring period} (grey background, \textcolor{red} {red} line). The stable history period within the history period (\textcolor{blue} {blue} dashed line) is used to model and predict the normal data variation and enable disturbance detection in the monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected (\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:realmon}a and~\ref{fig:realmon}b.}
   \label{fig:realmon}
