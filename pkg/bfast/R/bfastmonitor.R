@@ -30,7 +30,7 @@ bfastmonitor <- function(data, start,
   } else if(all(is.character(history))) {
     history <- match.arg(history)
     history <- switch(history,    
-      "none" = start(history_tspp$response),      
+      "all" = start(history_tspp$response),      
       "ROC" = history_roc(formula, data = history_tspp, level = level[2]),
       "BP" = history_break(formula, data = history_tspp, hpc = hpc)
     )
@@ -57,6 +57,9 @@ bfastmonitor <- function(data, start,
   test_mefp <- mefp(formula, data = test_tspp, 
     type = type, period = end, h = h, alpha = level[1])
   test_lm <- lm(formula, data = test_tspp)
+  if(floor(h * NROW(test_tspp)) <= 1 | NROW(test_tspp) <= length(coef(test_lm))) {
+    stop("too few observations in selected history period")
+  }
   if(verbose) {
     cat("Model fit:\n")
     print(coef(test_lm))
