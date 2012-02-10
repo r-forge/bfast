@@ -2,8 +2,10 @@ bfastpp <- function(data, order = 3,
   lag = NULL, slag = NULL, na.action = na.omit,
   stl = c("none", "trend", "seasonal", "both"))
 {
-  ## data needs to be ts
-  if(!is.ts(data)) data <- as.ts(data)
+	## double check what happens with 29-02 if that happens...
+	## we should keep it simple an remove the datum if that happens
+	
+	if(!is.ts(data)) data <- as.ts(data)
 
   ## STL pre-processing to try to adjust for trend or season
   stl <- match.arg(stl)
