@@ -81,7 +81,14 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 <p> <strong> Applications: </strong> Deforestation, forest health monitoring and phenological change detection within time series of spatio-temporal data sets (satellite images).
 </p>
 
-<p> Contact: Jan.Verbesselt'@'wur.nl. The current BFAST package version is 1.3 on R-Forge and 1.2-1 on R CRAN  (May 17, 2011). To install the most recent version directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
+<p> <strong> News (1): </strong> Near real-time disturbance monitoring is now possible using the BFASTmonitor() function. For more information see 
+<a href="http://eeecon.uibk.ac.at/wopec2/repec/inn/wpaper/2011-18.pdf">Working paper</a> that is in review @ Remote Sensing of Environment (September 2011).
+</p>
+<p> <strong> News (2) : </strong> Examples illustrating how BFASTmonitor() can be applied on satellite image time series (i.e. raster bricks) will be provided soon in the example section of the bfastmonitor function. All question and comments are welcome. Please see the 
+<a href="http://r-forge.r-project.org/projects/modis/">MODIS package </a> and the great <a href="http://r-forge.r-project.org/projects/raster/">raster package </a> for more information for raster data reading, writing, and processing. R is becoming a full force GIS and Remote Sensing environment thanks to the joint forces of many people contributing.
+</p>
+
+<p> Contact: Jan.Verbesselt'@'wur.nl. To install the most recent version directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
 
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
