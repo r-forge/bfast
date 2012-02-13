@@ -1,3 +1,7 @@
+Changes in Version 1.4-3
+
+  o Example for applying bfastmonitor onto a rasterbrick is added to the bfastmonitor example section
+
 Changes in Version 1.4-1
 
   o Plotting functionality is improved for bfastmonitor() output (i.e. when dealing with daily data and lot's of missing data points)
