@@ -1,10 +1,9 @@
-import("graphics", "stats", "strucchange", "zoo")
+import("graphics", "stats", "strucchange", "zoo", "raster")
 
 export(
   "bfast",
   "bfastmonitor",
-  "bfastpp",
-  "converttodailyzooreg"
+  "bfastpp"
 )
 
 S3method("plot", "bfast")

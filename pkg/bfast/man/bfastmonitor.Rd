@@ -12,7 +12,7 @@
 }
 
 \usage{
-bfastmonitor(data, start,
+bfastmonitor(data, dates, start,
   formula = response ~ trend + harmon, order = 3, lag = NULL, slag = NULL,
   history = c("ROC", "BP", "all"),
   type = "OLS-MOSUM", h = 0.25, end = 10, level = 0.05,
@@ -23,6 +23,14 @@ bfastmonitor(data, start,
   \item{data}{A time series of class \code{\link[stats]{ts}}, or another object that
     can be coerced to such. For seasonal components, a frequency greater than 1 is
     required.}
+  \item{dates}{Optional input of dates for each measurement in the 'data' variable. In 
+    case the data is a irregular time series, a vector with 'dates' for 
+  	each measurement can be supplied using this 'dates' variable. The irregular data will be linked
+  	with the dates vector to create daily regular time series with a frequency = 365. Extra days
+  	in leap years might cause problems. Please be carefull using this option as it is 
+  	experimental. Feedback is welcome. 
+  	When dealing with irregular time seris use the na.rm = TRUE for plotting to remove days
+  	for which no measurements are available}
   \item{start}{numeric. The starting date of the monitoring period. Can either be
     given as a float (e.g., \code{2000.5}) or a vector giving period/cycle
     (e.g., \code{c(2000, 7)}).}
