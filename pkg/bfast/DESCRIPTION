@@ -1,6 +1,6 @@
 Package: bfast
-Version: 1.4.2
-Date: 2012-02-10
+Version: 1.4.3
+Date: 2012-02-13
 Title: Breaks For Additive Season and Trend (BFAST)
 Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
@@ -19,8 +19,8 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     fitted piecewise linear models. BFAST monitoring functionality is added
 	     based on a paper that has been submitted to Remote Sensing of Environment. 
 	     BFAST monitor provides functionality to detect disturbance in near real-time based on BFAST-type models.
-Depends: R (>= 2.0.0), graphics, stats, strucchange, MASS, forecast, zoo
-Imports: graphics, stats, strucchange, zoo
+Depends: R (>= 2.0.0), graphics, stats, strucchange, MASS, forecast, zoo, raster, sp
+Imports: graphics, stats, strucchange, zoo, raster
 License: GPL (>= 2)
 URL: http://bfast.R-Forge.R-project.org/
 LazyLoad: yes
