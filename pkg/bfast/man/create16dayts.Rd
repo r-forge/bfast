@@ -21,9 +21,8 @@ create16dayts(data, dates)
 
 \examples{
 ## set up a 16-day time series
-ndvi <- create16dayts(modisraster[1],dates)
-plot(ndvi)
-
+#ndvi <- create16dayts(modisraster[1],dates)
+#plot(ndvi)
 }
 
 \keyword{ts}

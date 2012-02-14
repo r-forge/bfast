@@ -15,12 +15,14 @@ Near real-time disturbance detection using satellite image time series.
 }
 
 \examples{
+
+## example of spatial and temporal raster plotting functionality
 plot(modisraster,1) # plot the first image layer
 plot(modisraster[1]) # plot for the first pixel the full time series
 
 ## select modis data for one pixel out of the raster brick
 ## and link it with the dates information.
-ndvi <- create16dayts(modisraster[1],dates)
+ndvi <- bfastts(modisraster[1],dates)
 plot(ndvi)
 
 # References
