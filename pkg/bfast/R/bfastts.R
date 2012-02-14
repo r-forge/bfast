@@ -4,7 +4,8 @@
 ## e.g. 10 day or 16 day time series
 bfastts <- function(data, 
 										dates, 
-										type = c("irregular", "16-day")) {		
+										type = c("irregular", "16-day")) {
+	
 	yday365 <- function(x) {
 		x <- as.POSIXlt(x)
 		mdays <- c(31L, 28L, 31L, 30L, 31L, 30L, 31L, 31L, 30L, 31L, 30L, 31L)

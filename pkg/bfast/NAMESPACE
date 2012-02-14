@@ -4,7 +4,7 @@ export(
   "bfast",
   "bfastmonitor",
   "bfastpp",
-  "create16dayts"
+  "bfastts"
 )
 
 S3method("plot", "bfast")
