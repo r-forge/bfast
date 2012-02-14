@@ -156,13 +156,15 @@ summary(mon$model)
 
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
 
-modisraster ## properties of the raster brick
-plot(modisraster,1) ## plot one raster of the 275 NDVI image layers
-plot(create16dayts(modisraster[1],dates)) ## plot one pixel of the raster brick
+#if(require("raster")) {
+  modisraster ## properties of the raster brick
+	plot(modisraster, 1) ## plot one raster of the 275 NDVI image layers
+	#plot(bfastts(modisraster[1], dates, type ="16-day")) ## plot one pixel of the raster brick
 
-## derive median NDVI of a NDVI raster brick
-medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
-plot(medianNDVI)
+	## derive median NDVI of a NDVI raster brick
+	medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
+	plot(medianNDVI)
+#}
 
 # ## helper function to be used with the calc() function
 # ## see ? calc for more info
