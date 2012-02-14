@@ -1,4 +1,4 @@
-bfastmonitor <- function(data, dates = NULL, start,
+bfastmonitor <- function(data, start,
   formula = response ~ trend + harmon,
   order = 3, lag = NULL, slag = NULL,
   history = c("ROC", "BP", "all"),
@@ -8,19 +8,6 @@ bfastmonitor <- function(data, dates = NULL, start,
   ## PREPROCESSING
   ## two levels needed: 1. monitoring, 2. in ROC (if selected)
   level <- rep(level, length.out = 2)
-  
-  ## data needs to be ts
-  yday365 <- function(x) {
-  	x <- as.POSIXlt(x)
-  	mdays <- c(31L, 28L, 31L, 30L, 31L, 30L, 31L, 31L, 30L, 31L, 30L, 31L)
-  	cumsum(c(0L, mdays))[1L + x$mon] + x$mday
-  }
-  
-  if(!is.ts(data) & !is.null(dates) ) {
-  	data <- zoo(data,
-  							1900 + as.POSIXlt(dates)$year + (yday365(dates) - 1)/365,
-  							frequency = 365)	
-  }
   
   if(!is.ts(data)) data <- as.ts(data)
   

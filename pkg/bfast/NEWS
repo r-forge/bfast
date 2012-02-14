@@ -1,6 +1,8 @@
 Changes in Version 1.4-3
 
-  o Example for applying bfastmonitor onto a rasterbrick is added to the bfastmonitor example section
+  o Preparing helper functions for processing of different types of time series data
+  o Preparing structure and plan for raster brick processing (satellite image time series processing)
+
 
 Changes in Version 1.4-1
 
