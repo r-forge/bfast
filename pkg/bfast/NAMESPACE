@@ -3,7 +3,8 @@ import("graphics", "stats", "strucchange", "zoo", "raster")
 export(
   "bfast",
   "bfastmonitor",
-  "bfastpp"
+  "bfastpp",
+  "create16dayts"
 )
 
 S3method("plot", "bfast")

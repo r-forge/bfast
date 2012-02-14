@@ -162,6 +162,40 @@ mon <- bfastmonitor(NDVIb, formula = response ~ harmon,
     start = c(2010, 13), order = 6, plot = TRUE)
 summary(mon$model)
 
+## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
+
+modisraster ## properties of the raster brick
+plot(modisraster,1) ## plot one raster of the 275 NDVI image layers
+plot(create16dayts(modisraster[1],dates)) ## plot one pixel of the raster brick
+
+## derive median NDVI of a NDVI raster brick
+medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
+plot(medianNDVI)
+
+# ## helper function to be used with the calc() function
+# ## see ? calc for more info
+# xbfastmonitor <- function(x,dates) {
+# 	ndvi <- timeser(x,dates)
+# 	ndvi <- window(ndvi,end=c(2011,14)) 
+# 	## delete end of the time to obtain a dataset similar to RSE paper (Verbesselt et al.,2012)
+# 	bfm <- bfastmonitor(data = ndvi,start=c(2010,12),history = c("ROC"))
+# 	return(cbind(bfm$breakpoint,bfm$magnitude))
+# }
+# 
+# ## apply on one pixel for testing
+# ndvi <- timeser(modisraster[1],dates)
+# bfm <- bfastmonitor(data = ndvi,start=c(2010,12),history = c("ROC"))
+# bfm$magnitude
+# plot(bfm)
+# xbfastmonitor(modisraster[1],dates) ## helper function on one pixel
+# 
+# ## apply the bfastmonitor function onto a raster brick
+# timeofbreak <- calc(modisraster, fun=function(x){
+# 	res <- t(apply(x, 1, xbfastmonitor, dates))
+# 	return(res)
+# })
+# plot(timeofbreak) ## time of break and magnitude of change
+
 ## References
 citation("bfast")
 

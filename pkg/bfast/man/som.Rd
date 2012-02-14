@@ -1,5 +1,4 @@
 \name{som}
-\Rdversion{1.4}
 \alias{som}
 \docType{data}
 \title{
