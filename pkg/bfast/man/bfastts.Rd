@@ -46,9 +46,11 @@ Verbesselt J, Zeileis A, Herold M (2011).
 
 \examples{
 
-plot(bfastts(modisraster[1], dates, type =c("16-day"))) 
-## plot one pixel of the raster brick
-
+if(require("raster")) {
+	data <- modisraster[1]
+	ndvi <- bfastts(data, dates, type = c("16-day"))
+	plot(ndvi) 
+}
 }
 
 \keyword{ts}
