@@ -22,7 +22,7 @@ bfastts(data, dates,
 }
 
 \details{
-  \code{bfastts} provides...
+  \code{bfastts} create a regular time series
 }
 
 \value{
@@ -46,8 +46,8 @@ Verbesselt J, Zeileis A, Herold M (2011).
 
 \examples{
 
-#	plot(bfastts(modisraster[1], dates, type =c("16-day"))) 
-#	## plot one pixel of the raster brick
+plot(bfastts(modisraster[1], dates, type =c("16-day"))) 
+## plot one pixel of the raster brick
 
 }
 
