@@ -154,16 +154,23 @@ mon <- bfastmonitor(NDVIb, formula = response ~ harmon,
     start = c(2010, 13), order = 6, plot = TRUE)
 summary(mon$model)
 
+## References
+citation("bfast")
+
+## For more info
+?bfastmonitor
+
+
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
 
 #if(require("raster")) {
-  modisraster ## properties of the raster brick
-	plot(modisraster, 1) ## plot one raster of the 275 NDVI image layers
-	#plot(bfastts(modisraster[1], dates, type ="16-day")) ## plot one pixel of the raster brick
+#  modisraster ## properties of the raster brick
+#	plot(modisraster, 1) ## plot one raster of the 275 NDVI image layers
+#	plot(bfastts(modisraster[1], dates, type ="16-day")) ## plot one pixel of the raster brick
 
-	## derive median NDVI of a NDVI raster brick
-	medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
-	plot(medianNDVI)
+## derive median NDVI of a NDVI raster brick
+#	medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
+#	plot(medianNDVI)
 #}
 
 # ## helper function to be used with the calc() function
@@ -190,11 +197,6 @@ summary(mon$model)
 # })
 # plot(timeofbreak) ## time of break and magnitude of change
 
-## References
-citation("bfast")
-
-## For more info
-?bfastmonitor
 }
 
 \keyword{ts}
