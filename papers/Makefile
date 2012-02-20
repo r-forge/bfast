@@ -1,6 +1,6 @@
-TEX_SOURCES=realtime_gcb
+TEX_SOURCES=realtime
 
-all: $(TEX_SOURCES:=.ps) clean
+all: $(TEX_SOURCES:=.pdf) clean
 
 %.dvi: %.tex		
 	texi2dvi $<
