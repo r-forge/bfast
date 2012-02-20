@@ -169,8 +169,8 @@ ndvi <- bfastts(data, dates, type = c("16-day"))
 plot(ndvi/10000)
 
 ## derive median NDVI of a NDVI raster brick
-# medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
-# plot(medianNDVI)
+medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
+plot(medianNDVI)
 
 # ## helper function to be used with the calc() function
 # ## see ? calc for more info
