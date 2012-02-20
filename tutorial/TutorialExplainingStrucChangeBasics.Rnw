@@ -1,0 +1,218 @@
+\documentclass[11pt,twoside,a4paper]{article}
+
+%% BibTeX settings
+\usepackage[authoryear,round]{natbib}
+%\bibliographystyle{jae}
+\bibpunct{(}{)}{,}{a}{,}{,}
+\newcommand{\doi}[1]{\href{http://dx.doi.org/#1}{\normalfont\texttt{doi:#1}}}
+
+%% markup commands for code/software
+\let\code=\texttt
+\let\pkg=\textbf
+\let\proglang=\textsf
+\newcommand{\file}[1]{`\code{#1}'}
+\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
+
+%% additional packages
+\usepackage[latin1]{inputenc}
+\usepackage{a4wide,graphicx,color,thumbpdf}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{url}
+
+% hyperref setup
+\definecolor{Red}{rgb}{0.5,0,0}
+\definecolor{Blue}{rgb}{0,0,0.5}
+\hypersetup{%
+  pdftitle = {Tutorial Detection breakpoints in a time series},
+  pdfsubject = {},
+  pdfkeywords = {time series},
+  pdfauthor = {Jan Verbesselt},
+  %% change colorlinks to false for pretty printing
+  colorlinks = {true},
+  linkcolor = {Blue},
+  citecolor = {Blue},
+  urlcolor = {Red},
+  hyperindex = {true},
+  linktocpage = {true},
+}
+
+%%usepackage{Sweave} %% is essentially
+\RequirePackage[T1]{fontenc}
+\RequirePackage{ae,fancyvrb}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+\newenvironment{Schunk}{}{}
+\SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
+
+
+\begin{document}
+
+\title{Tutorial: Detecting a breakpoint a time series}
+\author{Jan Verbesselt, Achim Zeileis}
+
+\maketitle
+
+\begin{abstract}
+This tutorial explain the basics of structural change test within time series data.
+Basic principles are illustrated using the \emph{Nile} data set included in the strucChange package.
+\end{abstract}
+
+\section{Introduction}
+
+First load the BFAST package, which also loads the required packages for this small tutorial (i.e. strucchange, zoo).
+
+<<echo = TRUE>>=
+library("strucchange")
+@
+%#setwd('/Users/janvb/Dropbox/scripts/r/Monitoring/BFASTmonitor_ChangeTest_Tutorial')
+We will illustrate basic principles using the following time series of Annual Flow data of the river Nile. For more information also check the papers of Zeileis et al. (2005).
+
+<<fig = FALSE, echo = TRUE>>=
+plot(Nile, ylab="Annual Flow of the river Nile")
+abline(h= mean(Nile),col='blue')
+@
+
+\newpage
+\begin{figure}[t!]
+  \centering
+<<fig=TRUE, echo=FALSE, include=TRUE, width=4, height=4>>=
+plot(Nile, ylab="Annual Flow of the river Nile")
+abline(h= mean(Nile),col='blue')
+@
+%\includegraphics[width=0.4\textwidth]{sweave-xsquare}
+\caption{Annual river flow of the river Nile. The mean river flow (m3/sec) is plotted as a blue horizontal line.}
+\label{fig:Nile}
+\end{figure}
+
+
+
+\section{CUMSUM and MOSUM illustrated}
+
+Here the CUSUM and MOSUM of the residuals of the Nile data using a constant (intercept) as explanatory variable in the model.
+
+<<fig = F, echo = T>>=
+plot(merge(
+    Nile = as.zoo(Nile),
+    zoo(mean(Nile), time(Nile)),
+    CUSUM = cumsum(Nile - mean(Nile)),
+    zoo(0, time(Nile)),
+    MOSUM = rollapply(Nile - mean(Nile), 15, sum),
+    zoo(0, time(Nile))
+  ), screen = c(1, 1, 2, 2, 3, 3), main = "", xlab = "Time",
+  col = c(1, 4, 1, 4, 1, 4)
+)
+@
+
+\newpage
+\begin{figure}[t!]
+  \centering
+<<fig = TRUE, echo = FALSE>>=
+plot(merge(
+    Nile = as.zoo(Nile),
+    zoo(mean(Nile), time(Nile)),
+    CUSUM = cumsum(Nile - mean(Nile)),
+    zoo(0, time(Nile)),
+    MOSUM = rollapply(Nile - mean(Nile), 15, sum),
+    zoo(0, time(Nile))
+  ), screen = c(1, 1, 2, 2, 3, 3), main = "", xlab = "Time",
+  col = c(1, 4, 1, 4, 1, 4)
+)
+@
+\caption{Nile data. MOSUM test. CUSUM test.}
+\label{fig:CUSUMMOSUM}
+\end{figure}
+
+
+Fig.~\ref{fig:CUSUMMOSUM} illustrates how the CUSUM and MOSUM test evolve over time where CUSUM is a cumulative sum of the residuals and MOSUM is a moving sum (using a window of 15 years) of the residuals. The cumulative and moving sum of the residuals should fluctuate around zero (blue line) however significant deviation occurs from 1918 (?) onwards.
+
+
+\newpage
+The recursive CUSUM illustrated.
+
+%\begin{figure}[t!]
+%  \centering
+<<fig = T, echo = T, width=6, height=6>>=
+plot(merge(
+    Nile = as.zoo(Nile),
+    zoo(c(NA, cumsum(head(Nile, -1))/1:99), time(Nile)),
+    CUSUM = cumsum(c(0, recresid(lm(Nile ~ 1)))),
+    zoo(0, time(Nile))
+  ), screen = c(1, 1, 2, 2), main = "", xlab = "Time",
+  col = c(1, 4, 1, 4)
+)
+@
+%\caption{Rec-CUMSUM. The blue line in the first panel simply shows the mean of all observations prior to it, i.e., prediction[t] = mean(Nile[1:(t-1)]). The black line in the second panel shows the cumulated recursive residuals (= standardized one-step-prediction errors). You can see that up to the building of the dam, the residuals are approximately zero and then they start deviating from zero.}
+%\label{fig:Rec-CUSUM}
+%\end{figure}
+
+Rec-CUMSUM. The blue line in the first panel simply shows the mean of all observations prior to it, i.e., prediction[t] = mean(Nile[1:(t-1)]). The black line in the second panel shows the cumulated recursive residuals (= standardized one-step-prediction errors). You can see that up to the building of the dam, the residuals are approximately zero and then they start deviating from zero.
+
+
+
+The following R lines reproduce the OLS-CUSUM, -MOSUM, and -Rec-CUSUM plots which are suitably scaled (see Zeileis et al. 2005)
+
+<<fig = F, echo = T>>=
+ocus.nile <- efp(Nile ~ 1, type = "OLS-CUSUM")
+omus.nile <- efp(Nile ~ 1, type = "OLS-MOSUM")
+rocus.nile <- efp(Nile ~ 1, type = "Rec-CUSUM")
+@
+
+These plots illustrate that a significant structural change is detected by the CUSUM and the MOSUM test. Especially the CUSUM illustrate that around 1910 the empiral fluctuation process based on the CUSUM residuals goes outside the boundaries. The MOSUM based plot less clearly illustrates the potential structural change that occurs (i.e. efp does not go outside the significance boundaries expect around early 1900. There is however a clear drop in the scaled MOSUM residuals visual which indicates a significant change in the data variation of the residuals.
+
+\newpage
+
+<<fig = T, echo = T, width=7, height=7>>=
+opar <- par(mfrow=c(2,2))
+plot(ocus.nile)
+plot(omus.nile)
+plot(rocus.nile)
+par(opar)
+@
+
+\section{Fitting a piecewise linear model}
+
+The following section illustrate how the location of the structural change in the Nile time series is determined.
+
+First, determine the the minimum Residual Sum of Squares RSS to determine the position of the breakpoint:
+
+<<fig = T, echo = T, width=6, height=4>>=
+plot(1870 + 5:95, sapply(5:95, function(i) {
+  before <- 1:i
+  after <- (i+1):100
+  res <- c(Nile[before] - mean(Nile[before]), Nile[after] - mean(Nile[after]))
+  sum(res^2)
+}), type = "b", xlab = "Time", ylab = "RSS")
+@
+
+Second, use the strucchange functionality to determine the \emph{Date} of change.
+
+<<fig = F, echo = T>>=
+bp.nile <- breakpoints(Nile ~ 1)
+nile.fac <- breakfactor(bp.nile, breaks = 1 ) 
+fm1.nile <- lm(Nile ~ nile.fac - 1)
+@
+
+<<fig = T, echo = T, width=6, height=4>>=
+plot(bp.nile)
+@
+
+\newpage
+<<fig = T, echo = T, width=6, height=6>>=
+opar <- par(mfrow=c(2,1), mar=c(2,2,0,2))
+plot(ocus.nile, alt.boundary=F,main="")
+abline(v= 1898, lty=2, col='red')
+plot(Nile, ylab="Annual Flow of the river Nile")
+abline(h= mean(Nile),col='blue')
+abline(v= 1898, lty=2, col='red')
+lines(ts(predict(fm1.nile),start=1871,freq=1), col='darkgreen',lwd=2)
+par(opar)
+@
+
+\section{More information}
+
+More information can be found on the following website \url{http://bfast.r-forge.r-project.org/} and in the BFAST papers mentioned on that website.
+
+\end{document}
