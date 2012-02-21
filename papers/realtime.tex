@@ -340,24 +340,11 @@ While the data and methods used are appropriate for proof-of-concept development
 
 \section{Conclusion}
 
-The paper introduces a multi-purpose near real-time disturbance monitoring approach based on a BFAST-type season-trend model, that is applicable to different
-types of time series (e.g., in-situ or satellite sensors). The BFAST monitoring method analyses time series and automatically identifies and models the
-stable history part of a time series in order to detect disturbances within newly acquired data. The method can be applied to time series to enable a rapid
-response by detecting disturbances in near real-time. BFAST monitoring has the following characteristics that make it appropriate for near real-time global
-scale disturbance detection: It (1)~is fast and requires a minimum amount of processing time (e.g., 0.02~seconds to analyse one pixel of 10~year-long 16-day
-time series on a normal desktop computer), (2)~does not require the definition of thresholds, (3)~can analyse time series with data gaps (e.g., masked clouds
-or sensor defects) and does not require gap filling techniques, and (4~ analyses the full temporal detail of a time series. This is of particular importance
-since robust methods for analysis of satellite image time series are critically needed as longer high temporal and spatially detailed image time series are
-becoming available. For example, with the advent of novel satellite sensors, like the European Space Agency Sentinel satellite constellation,
-time-series-based disturbance detection will become possible at more detailed spatial scales where many human-induced change processes operate. Furthermore,
-the real-time monitoring method is implemented in open-source software environment and is freely available in the \emph{bfast} package for {R} \citep{R}.
-More information and examples illustrating how to apply the method on satellite image time series are available at \url{http://bfast.R-Forge.R-project.org/}.
+The paper introduces a multi-purpose near real-time disturbance monitoring approach based on a BFAST-type season-trend model, that is applicable to different types of time series (e.g., in-situ or satellite sensors). The BFAST monitoring method analyses time series and automatically identifies and models the stable history part of a time series in order to detect disturbances within newly acquired data. The method can be applied to time series to enable a rapid
+response by detecting disturbances in near real-time. BFAST monitoring has the following characteristics that make it appropriate for near real-time global scale disturbance detection: It (1)~is fast and requires a minimum amount of processing time (e.g., 0.02~seconds to analyse one pixel of 10~year-long 16-day time series on a normal desktop computer), (2)~does not require the definition of thresholds, (3)~can analyse time series with data gaps (e.g., masked clouds or sensor defects) and does not require gap filling techniques, and (4)~analyses the full temporal detail of a time series. This is of particular importance since robust methods for analysis of satellite image time series are critically needed as longer high temporal and spatially detailed image time series are becoming available. For example, with the advent of novel satellite sensors, like the European Space Agency Sentinel satellite constellation, time-series-based disturbance detection will become possible at more detailed spatial scales where many human-induced change processes operate. Furthermore, the real-time monitoring method is implemented in open-source software environment and is freely available in the \emph{bfast} package for {R} \citep{R}. More information illustrating how to apply the method on satellite image time series are available at \url{http://bfast.R-Forge.R-project.org/} and the example section of the \emph{bfastmonitor()} function within the {bfast} package.
 
 % which resulted in a total processing time of 30~minutes to analyse the full data set used in this study (i.e., 150000 pixel time series)
-
 %for deforestation monitoring to complement existing systems such as the Brazilian deforestation monitoring system \citep{Shimabukuro:2006vb, Souza:2005gl,Asner:2009wa} or 
-
-
 
 \section{Acknowledgements}
 
