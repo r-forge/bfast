@@ -380,16 +380,11 @@ while varying the amount of data available in the monitoring period ($d$, 16-day
 (For interpretation of the references to color in this figure legend, the reader is referred to the web
 version of this article.)
 
+% check this figure captions.
  \begin{figure}[htp]
 \centering
     \includegraphics[width=0.8\textwidth]{figs/Fig1_Sim_Monitoring_ggplot.eps}
-  \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$).
-    The period from 2004 until mid-2010 (i.e., the time step just before the simulated break), is considered the \emph{history period}
-    and the period after the simulated break is the \emph{monitoring period} (grey background). The monitoring period contains 6~observations
-    ($d = 6$, \textcolor{red} {red} line). The result of the monitoring approach is shown: A stable history period is identified within the
-    history period (i.e., 2007 until mid-2010) and used to model and predict the normal data variation (\textcolor{blue} {blue} dashed line)
-    to enable disturbance detection (Section~\ref{sec:MonStrucChange}).  Here, a disturbance is detected after FIXME observations in the
-    monitoring period (\textcolor{OliveGreen} {green} vertical line).}
+  \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$). The period from 2004 until mid-2010 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period} (grey background). The monitoring period contains 6~observations ($d = 6$, \textcolor{red} {red} line). The result of the monitoring approach is shown: A stable history period is identified within the history period (i.e., 2007 until mid-2010) and used to model and predict the normal data variation (\textcolor{blue} {blue} dashed line) to enable disturbance detection (Section~\ref{sec:MonStrucChange}).  Here, a disturbance is detected after 3 observations in the monitoring period (\textcolor{OliveGreen} {green} vertical line).}
   \label{fig:SimMonitor}
 \end{figure}
 
@@ -438,11 +433,7 @@ version of this article.)
 \centering
     \includegraphics[width=1\textwidth]{figs/Fig6_tsexampleSOM.eps}
   \caption{
- Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c shown in Fig.~\ref{fig:spatial}. The
-period from 2000 until mid-2010, is considered the \emph{history period} and the period from 2010 onwards is the \emph{monitoring period} (grey background,
-\textcolor{red} {red} line). The stable history period within the history period (\textcolor{blue} {blue} dashed line) is used to model and predict the
-normal data variation and enable disturbance detection in the monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected
-(\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:realmon}a and~\ref{fig:realmon}b after FIXME and FIXME observations, respectively.}
+ Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c shown in Fig.~\ref{fig:spatial}. The period from 2000 until mid-2010, is considered the \emph{history period} and the period from 2010 onwards is the \emph{monitoring period} (grey background, \textcolor{red} {red} line). The stable history period within the history period (\textcolor{blue} {blue} dashed line) is used to model and predict the normal data variation and enable disturbance detection in the monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected (\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:realmon}a and~\ref{fig:realmon}b after 14 and 10 observations, respectively.}
   \label{fig:realmon}
 \end{figure}
  
