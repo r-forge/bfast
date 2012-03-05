@@ -381,7 +381,7 @@ version of this article.)
 % check this figure captions.
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=0.8\textwidth]{figs/Fig1_Sim_Monitoring_ggplot.eps}
+%    \includegraphics[width=0.8\textwidth]{figs/Fig1_Sim_Monitoring_ggplot.eps}
   \caption{Simulated 16-day MODIS NDVI time series with $a = 0.4$, $\sigma = 0.05$, containing one simulated abrupt change with $m = -0.3$). The period from 2004 until mid-2010 (i.e., the time step just before the simulated break), is considered the \emph{history period} and the period after the simulated break is the \emph{monitoring period} (grey background). The monitoring period contains 6~observations ($d = 6$, \textcolor{red} {red} line). The result of the monitoring approach is shown: A stable history period is identified within the history period (i.e., 2007 until mid-2010) and used to model and predict the normal data variation (\textcolor{blue} {blue} dashed line) to enable disturbance detection (Section~\ref{sec:MonStrucChange}).  Here, a disturbance is detected after 3 observations in the monitoring period (\textcolor{OliveGreen} {green} vertical line).}
   \label{fig:SimMonitor}
 \end{figure}
@@ -389,15 +389,15 @@ version of this article.)
 % See ClimateData_EA.R script - MOD13C1 folder
  \begin{figure}[htp]
 \centering
-    \includegraphics[width=0.8\textwidth]{figs/Fig2_RainfallAnomaly.eps}
+%    \includegraphics[width=0.8\textwidth]{figs/Fig2_RainfallAnomaly.eps}
   \caption{Monthly rainfall anomalies (mm) for the period 1998--2011 measured by the tropical rainfall measuring satellite mission (TRMM) for an area in South Somalia (2\degree~Lat. and 43\degree~Long.). The time series was derived from the TRMM 3B43 climatology (version 6) data set using the online visualisation and analysis system (TOVAS). Anomalies are computed as the difference between the measured precipitation and the average climatology for the selected region \citep{Acker:2007vk}.}
   \label{fig:RF}
 \end{figure}
 
 \begin{figure} [htp]
 \centering
-\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Fig3a_Rainfall_Somalia.eps} } 
-\subfloat[][] {\label{fig:LST} \includegraphics[height=0.55\textwidth]{figs/Fig3b_LSTMarchApril_Somalia} } 
+%\subfloat[][] {\label{fig:RFA} \includegraphics[height=0.55\textwidth]{figs/Fig3a_Rainfall_Somalia.eps} } 
+%\subfloat[][] {\label{fig:LST} \includegraphics[height=0.55\textwidth]{figs/Fig3b_LSTMarchApril_Somalia} } 
  \caption{Anomaly in (a)~two-monthly rainfall estimates (mm, RFE2) and (b)~land surface temperature (\degree C, LST) for
    Somalia illustrating the below normal rainfall and above normal land surface temperature during the February-March period in 2011.
    The RFE2 data is a merged satellite-gauge rainfall product produced by NOAA's Climate Prediction Centre at a 0.1\degree~spatial resolution.
@@ -410,7 +410,7 @@ version of this article.)
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[height=0.9\textwidth]{figs/Fig4_NrDetections_Time_1000.eps}
+%    \includegraphics[height=0.9\textwidth]{figs/Fig4_NrDetections_Time_1000.eps}
   \caption{Results from the simulation experiment (1000 iterations) illustrating the probability of break detection in the monitoring period while varying
   the amount of noise ($\sigma$), magnitude of the simulated break ($m$), and amount of data  available in the monitoring period ($d$). The units of the x- and y-axis are noise (i.e., $\sigma$ NDVI of the residuals of the fitted season-trend model on the history period) and probability of detecting a break (i.e., proportion of detected breaks in 1000 iterations). See description of the simulation experiment for more details (Section~\ref{sec:Valsim}). }
   \label{fig:SimNr}
@@ -418,10 +418,10 @@ version of this article.)
 
 \begin{figure}[htp]
 \centering
- \subfloat[][] {\label{fig:spatiala} \includegraphics[height=0.55\textwidth]{figs/Fig5a_MedianNDVI_Somalia.eps} } %
- \subfloat[][] {\label{fig:spatialb} \includegraphics[width=0.55\textwidth]{figs/Fig5b_LengthHistoryPeriod_EA.eps} }  \\
- \subfloat[][] {\label{fig:spatialc} \includegraphics[width=0.55\textwidth]{figs/Fig5c_Noise_EA.eps} } %
-\subfloat[][] {\label{fig:spatiald} \includegraphics[width=0.55\textwidth]{figs/Fig5d_MagnAbnormalBreak_201012_EA.eps} }
+% \subfloat[][] {\label{fig:spatiala} \includegraphics[height=0.55\textwidth]{figs/Fig5a_MedianNDVI_Somalia.eps} } %
+% \subfloat[][] {\label{fig:spatialb} \includegraphics[width=0.55\textwidth]{figs/Fig5b_LengthHistoryPeriod_EA.eps} }  \\
+% \subfloat[][] {\label{fig:spatialc} \includegraphics[width=0.55\textwidth]{figs/Fig5c_Noise_EA.eps} } %
+%\subfloat[][] {\label{fig:spatiald} \includegraphics[width=0.55\textwidth]{figs/Fig5d_MagnAbnormalBreak_201012_EA.eps} }
  \caption{Results from the analysis of 16-day MODIS NDVI image time series from February 2000 until July 2011 covering Somalia; (a)~median of all NDVI
  images as a proxy for vegetation cover during the 2000--2011 period, (b)~length of the stable history period expressed in years where a shorter length is an indication of a more recent disturbance, (c)~spatial variation of the noise level (i.e., the standard deviation of the residuals of the stable history model), (d)~the change magnitude of the monitoring period containing a detected break (mid-2010 onwards) where white indicates that no disturbance is detected. The analysis of~(d) was restricted to areas with minimum vegetation cover (i.e., median NDVI  2000--2011$> 0.2$) and length of the history period $> 2$ years. Examples for three locations a, b, and c  are shown in Fig.~\ref{fig:realmon}.}
  \label{fig:spatial}
@@ -429,7 +429,7 @@ version of this article.)
 
 \begin{figure}[htp]
 \centering
-    \includegraphics[width=1\textwidth]{figs/Fig6_tsexampleSOM.eps}
+%    \includegraphics[width=1\textwidth]{figs/Fig6_tsexampleSOM.eps}
   \caption{
  Results of real-time monitoring approach applied to 16-day MODIS NDVI time series for three locations a, b, and c shown in Fig.~\ref{fig:spatial}. The period from 2000 until mid-2010, is considered the \emph{history period} and the period from 2010 onwards is the \emph{monitoring period} (grey background, \textcolor{red} {red} line). The stable history period within the history period (\textcolor{blue} {blue} dashed line) is used to model and predict the normal data variation and enable disturbance detection in the monitoring period (Section~\ref{sec:MonStrucChange}).  A disturbance is detected (\textcolor{OliveGreen} {green} line) in Fig~\ref{fig:realmon}a and~\ref{fig:realmon}b after 14 and 10 observations, respectively.}
   \label{fig:realmon}
