@@ -81,9 +81,9 @@ northern part of the study area. Three abrupt changes are detected in the trend 
 <p> <strong> Applications: </strong> Deforestation, forest health monitoring and phenological change detection within time series of spatio-temporal data sets (satellite images).
 </p>
 
-<p> <strong> News (1): </strong> Near real-time disturbance monitoring is now possible using the BFASTmonitor() function. For more information see 
-<a href="http://eeecon.uibk.ac.at/wopec2/repec/inn/wpaper/2011-18.pdf">Working paper</a> that is in review @ Remote Sensing of Environment (September 2011).
+<p> <strong> News (1): </strong> The near real-time disturbance monitoring paper is 'In Press' with Remote Sensing of Environment (March 2012). Near real-time disturbance monitoring functionality is now possible using the BFASTmonitor() function. More information can be found here; "J. Verbesselt, A. Zeileis, and M. Herold, Near Real-Time Disturbance Detection Using Satellite Image Time Series: Drought Detection in Somalia (In Press), Remote Sensing of Environment, 2012."
 </p>
+
 <p> <strong> News (2) : </strong> Examples illustrating how bfastmonitor() can be applied on satellite image time series (i.e. raster bricks) can be found in the example section of the bfastmonitor() function. All question and comments are welcome. Please see the 
 <a href="http://r-forge.r-project.org/projects/modis/">MODIS package </a> and the great <a href="http://r-forge.r-project.org/projects/raster/">raster package </a> for more information for reading, writing, and processing of raster data.
 </p>
