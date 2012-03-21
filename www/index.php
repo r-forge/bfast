@@ -46,47 +46,29 @@ echo $contents; } ?>
 <!-- end of project description -->
 
 
-BFAST:
-
- 
+BFAST & BFASTmonitor:
 
 <ul> 
 
 <li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series (e.g. Landsat, MODIS) and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
 
-<li> Bfastmonitor provides functionality for monitoring disturbances in time series models (with trend/season/regressor terms) at the end of time series (i.e., in near real-time). Based on a model for stable historical behaviour abnormal changes within newly acquired data can be detected. Different models are available for modeling the stable historical behavior. A season-trend model (with harmonic seasonal pattern) is used as a default in the regresssion modelling.</li>
+<li> BFASTmonitor provides functionality for monitoring disturbances in time series models (with trend/season/regressor terms) at the end of time series (i.e., in near real-time). Based on a model for stable historical behaviour abnormal changes within newly acquired data can be detected. Different models are available for modeling the stable historical behavior. A season-trend model (with harmonic seasonal pattern) is used as a default in the regresssion modelling.</li>
 
 <li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Newnham, G., & Culvenor, D. (2010). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
 <li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
 <li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Zeileis, A., & Herold, M. (In Press). Near real-time disturbance detection using satellite image time series, Remote Sensing of Environment. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2012.02.022">10.1016/j.rse.2012.02.022</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Zeileis+Herold-2012.pdf">DownLoad Paper</a></li> 
 </ul>
 
-<img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="500" height="400" align=MIDDLE
-
-alt="Fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
-
-northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
-
-(red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons." longdesc="Detecting changes in seasonal time series">
-
-
-
+<img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="500" height="400" align=MIDDLE alt="Fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval (red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons." longdesc="Detecting changes in seasonal time series">
 <p> Figure illustrating the fitted seasonal, trend and remainder (i.e. estimated noise) components for a 16-day MODIS NDVI time series (data series) of a pine plantation in the
+northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval (red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons. See paper for more details about the data and analysis. </p>
 
-northern part of the study area. Three abrupt changes are detected in the trend component of the time series. Time (- - -), corresponding conidence interval
-
-(red), direction and magnitude of abrupt change and slope of the gradual change are shown in the estimated trend component. The solid bars on the right hand side of the plot show the same data range, to aid comparisons. See paper for more details about the data and analysis. </p>
-
-
-
+<img src="http://bfast.r-forge.r-project.org/Fig1_BFASTmonitor.png" width="500" height="400" align=MIDDLE alt="Simulated 16-day MODIS NDVI time series. The period from 2004 until mid-2010 (i.e., the time step just before the simulated break), is considered the history period and the period after the simulated break is the monitoring period (grey background). The monitoring period contains 6 observations. The result of the monitoring approach is shown: A stable history period is identified within the history period (i.e., 2007 until mid-2010) and used to model and predict the normal data variation (blue dashed line) to enable disturbance detection.  Here, a disturbance is detected after 3 observations in the monitoring period (green vertical line)." longdesc="Near real-time change monitoring">
 
 <p> <strong> Applications: </strong> Deforestation, forest health monitoring and phenological change detection within time series of spatio-temporal data sets (satellite images).
 </p>
 
-<p> <strong> News (1): </strong> The near real-time disturbance monitoring paper is 'In Press' with Remote Sensing of Environment (March 2012). Near real-time disturbance monitoring functionality is now possible using the BFASTmonitor() function. More information can be found here; "J. Verbesselt, A. Zeileis, and M. Herold, Near Real-Time Disturbance Detection Using Satellite Image Time Series: Drought Detection in Somalia (In Press), Remote Sensing of Environment, 2012."
-</p>
-
-<p> <strong> News (2) : </strong> Examples illustrating how bfastmonitor() can be applied on satellite image time series (i.e. raster bricks) can be found in the example section of the bfastmonitor() function. All question and comments are welcome. Please see the 
+<p> <strong> News (1) : </strong> Examples illustrating how bfastmonitor() can be applied on satellite image time series (i.e. raster bricks) can be found in the example section of the bfastmonitor() function. All question and comments are welcome. Please see the 
 <a href="http://r-forge.r-project.org/projects/modis/">MODIS package </a> and the great <a href="http://r-forge.r-project.org/projects/raster/">raster package </a> for more information for reading, writing, and processing of raster data.
 </p>
 
