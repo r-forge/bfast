@@ -52,11 +52,13 @@ BFAST:
 
 <ul> 
 
-<li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
+<li> BFAST iteratively estimates the time and number of abrupt changes within time series, and characterizes change by its magnitude and direction. BFAST can be used to analyze different types of time series (e.g. Landsat, MODIS) and can be applied to other disciplines dealing with seasonal or non-seasonal time series, such as hydrology, climatology, and econometrics. The algorithm can be extended to label detected changes with information on the parameters of the fitted piecewise linear models.</li> 
+
+<li> Bfastmonitor provides functionality for monitoring disturbances in time series models (with trend/season/regressor terms) at the end of time series (i.e., in near real-time). Based on a model for stable historical behaviour abnormal changes within newly acquired data can be detected. Different models are available for modeling the stable historical behavior. A season-trend model (with harmonic seasonal pattern) is used as a default in the regresssion modelling.</li>
 
 <li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Newnham, G., & Culvenor, D. (2010). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
 <li> <a href="http://www.grs.wur.nl/UK/Staff/Jan+Verbesselt/">Verbesselt, J.</a>, Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
-
+<li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Zeileis, A., & Herold, M. (In Press). Near real-time disturbance detection using satellite image time series, Remote Sensing of Environment. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2012.02.022">10.1016/j.rse.2012.02.022</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Zeileis+Herold-2012.pdf">DownLoad Paper</a></li> 
 </ul>
 
 <img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="500" height="400" align=MIDDLE
