@@ -3,7 +3,7 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
     season <- match.arg(season)
     ti <- time(Yt)
     f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
-    if(class(harvest)!="ts")
+    if(class(Yt)!="ts")
         stop ("Not a time series object")
     ## return value
     output <- list()
