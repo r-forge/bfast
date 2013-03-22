@@ -16,12 +16,8 @@ Near real-time disturbance detection using satellite image time series.
 
 \examples{
 
-## example of spatial and temporal raster plotting functionality
-plot(modisraster,1) # plot the first image layer
-plot(as.vector(modisraster[1]),type='l', ylab = 'NDVI') # plot for the first pixel the full time series
+## see ?bfastmonitor
 
-# References
-citation("bfast")
 }
 \keyword{datasets}
 \keyword{ts}
