@@ -162,15 +162,17 @@ citation("bfast")
 
 
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
+modisstack <- system.file("external/modisraster.grd", package="raster")
+modisstack
 
 require("raster")
 data <- as.vector(modisstack[1])
-ndvi <- bfastts(data, dates, type = c("16-day"))
-plot(ndvi/10000)
+# ndvi <- bfastts(data, dates, type = c("16-day"))
+# plot(ndvi/10000)
 
 ## derive median NDVI of a NDVI raster brick
-medianNDVI <- calc(modisstack, fun=function(x) median(x, na.rm = TRUE))
-plot(medianNDVI)
+# medianNDVI <- calc(modisstack, fun=function(x) median(x, na.rm = TRUE))
+#plot(medianNDVI)
 
 # ## helper function to be used with the calc() function
 # ## see ? calc for more info
