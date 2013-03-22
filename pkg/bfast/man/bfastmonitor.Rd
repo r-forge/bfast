@@ -162,10 +162,9 @@ citation("bfast")
 
 
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
-f <- system.file("external/modisraster.grd", package="bfast")
-modisbrick <- brick(f)
-
 require("raster")
+f <- system.file("extdata/modisraster.grd", package="bfast")
+modisbrick <- brick(f)
 data <- as.vector(modisbrick[1])
 # ndvi <- bfastts(data, dates, type = c("16-day"))
 # plot(ndvi/10000)
