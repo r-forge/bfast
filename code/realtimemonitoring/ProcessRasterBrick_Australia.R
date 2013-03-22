@@ -31,6 +31,7 @@ modis <- brick("data/modis.grd")
 dim(modis)
 prj <- projection(modis)
 
+plot(modis)
 ## read in Layernames
 lnames <- read.csv("data/layernames.csv")
 tail(lnames$x)

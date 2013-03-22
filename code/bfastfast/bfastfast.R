@@ -49,7 +49,7 @@ bfast2  <- function (Yt, h = 0.15, season = c("harmonic", "none"),
             hpc = hpc)
         nobp.Vt <- is.na(breakpoints(bp.Vt)[1])
         if (nobp.Vt) {
-            fm0 <- rlm(Vt ~ ti)
+            fm0 <- lm(Vt ~ ti)
             Vt.bp <- 0
             Tt <- ts(fitted(fm0))
             tsp(Tt) <- tsp(Yt)
