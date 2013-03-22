@@ -164,12 +164,12 @@ citation("bfast")
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
 
 require("raster")
-data <- as.vector(modisraster[1])
+data <- as.vector(modisstack[1])
 ndvi <- bfastts(data, dates, type = c("16-day"))
 plot(ndvi/10000)
 
 ## derive median NDVI of a NDVI raster brick
-medianNDVI <- calc(modisraster, fun=function(x) median(x, na.rm = TRUE))
+medianNDVI <- calc(modisstack, fun=function(x) median(x, na.rm = TRUE))
 plot(medianNDVI)
 
 # ## helper function to be used with the calc() function
@@ -183,14 +183,14 @@ plot(medianNDVI)
 # }
 # 
 # ## apply on one pixel for testing
-# ndvi <- timeser(modisraster[1],dates)
+# ndvi <- timeser(modisstack[1],dates)
 # bfm <- bfastmonitor(data = ndvi,start=c(2010,12),history = c("ROC"))
 # bfm$magnitude
 # plot(bfm)
-# xbfastmonitor(modisraster[1],dates) ## helper function on one pixel
+# xbfastmonitor(modisstack[1],dates) ## helper function on one pixel
 # 
 # ## apply the bfastmonitor function onto a raster brick
-# timeofbreak <- calc(modisraster, fun=function(x){
+# timeofbreak <- calc(modisstack, fun=function(x){
 # 	res <- t(apply(x, 1, xbfastmonitor, dates))
 # 	return(res)
 # })
