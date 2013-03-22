@@ -5,7 +5,7 @@
 A raster brick of 16-day satellite image NDVI time series for a small subset in south eastern Somalia.
 }
 \description{
-A raster brick containing 16-day NDVI satellite images (MOD13C1 product). See for description of the data set itself \url{https://lpdaac.usgs.gov/products/modis_products_table}.
+A raster brick containing 16-day NDVI satellite images (MOD13C1 product).
 }
 
 \source{
