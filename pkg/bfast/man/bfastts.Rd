@@ -7,7 +7,7 @@
 
 \usage{
 bfastts(data, dates, 
-		type = c("irregular", "16-day"))
+		type = c("irregular", "16-day", , "10-day"))
 }
 
 \arguments{
@@ -18,7 +18,8 @@ bfastts(data, dates,
   	with the dates vector to create daily regular time series with a frequency = 365. Extra days
   	in leap years might cause problems. Please be carefull using this option as it is 
   	experimental. Feedback is welcome.}
-  \item{type}{ (\code{"irregular"}) indicates that the data is collected at irregular dates and as such will be converted to a daily time series. (\code{"16-day"})indicates that data is collected a a regular time interval (every 16-days e.g. like the MOD13Q1 data products)}
+  \item{type}{ (\code{"irregular"}) indicates that the data is collected at irregular dates and as such will be converted to a daily time series. (\code{"16-day"})indicates that data is collected at a regular time interval (every 16-days e.g. like the MODIS 16-day data products)}
+    \item{type}{ (\code{"10-day"}) indicates that data is collected at a 10-day time interval of the SPOT VEGETATION (S10) product. Warning: Only use this function for the SPOT VEGETATION S10 time series, as for other 10-day time series a different approach might be required.}
 }
 
 \details{
@@ -31,13 +32,6 @@ bfastts(data, dates,
 }
 
 \references{
-Verbesselt J, Zeileis A, Herold M (2011).
-  Near Real-Time Disturbance Detection in Terrestrial Ecosystems Using Satellite
-  Image Time Series: Drought Detection in Somalia.
-  Working Paper 2011-18. Working Papers in Economics and Statistics,
-  Research Platform Empirical and Experimental Economics, Universitaet Innsbruck.
-  \url{http://EconPapers.RePEc.org/RePEc:inn:wpaper:2011-18}.
-  Submitted to Remote Sensing and Environment.
 }
 
 \author{Achim Zeileis, Jan Verbesselt}
@@ -47,9 +41,10 @@ Verbesselt J, Zeileis A, Herold M (2011).
 \examples{
 
 require("raster")
-# data <- as.vector(modisstack[1])
-# ndvi <- bfastts(data, dates, type = c("16-day"))
-# plot(ndvi/10000) 
+f <- system.file("extdata/modisraster.grd", package="bfast")
+modisbrick <- brick(f)
+ndvi <- bfastts(as.vector(modisbrick[1]), dates, type = c("16-day")) ## data of pixel 1
+plot(ndvi/10000) 
 
 }
 
