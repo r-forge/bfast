@@ -22,7 +22,7 @@ bfast01(data, formula = NULL,
   \item{test}{ character specifying the type of test(s) performed. Can be one or more of BIC, supLM, supF, OLS-MOSUM, ..., or any other test supported by \code{\link[strucchange]{sctest.formula}} }
   \item{level}{numeric. Significance for the \code{\link[strucchange]{sctest.formula}} performed.}
   \item{aggregate}{function that aggregates a logical vector to a single value. This is used for aggregating the individual test decisions from \code{test} to a single one.}
-  \item{trim}{numeric. The mimimal segment size passed to \code{Fstat}'s \code{from} argument.  }
+  \item{trim}{numeric. The mimimal segment size passed to the \code{from} argument of the \code{\link[strucchange]{Fstats}} function. }
   \item{h}{numeric scalar from interval (0,1), functional. Arguments passed on to \code{\link[strucchange]{sctest.formula}}}
   \item{functional}{arguments passed on to \code{\link[strucchange]{sctest.formula}}}
   
@@ -84,5 +84,43 @@ argument which can either be 0 or 1. By default the value chosen based on the
 
 \seealso{\code{\link[bfast]{bfastmonitor}}, \code{\link[strucchange]{breakpoints}}}
 
+\examples{
+require(bfast)
+
+## define a regular time series
+ndvi <- as.ts(zoo(som$NDVI.a, som$Time))
+
+## fit variations
+bf1 <- bfast01(ndvi)
+bf2 <- bfast01(ndvi, test = c("BIC", "OLS-MOSUM", "supLM"), aggregate = any)
+bf3 <- bfast01(ndvi, test = c("OLS-MOSUM", "supLM"), aggregate = any, h = 0.11) 
+
+## inspect test decisions
+bf1$test
+bf1$breaks
+bf2$test
+bf2$breaks
+bf3$test
+bf3$breaks
+
+## look at coefficients
+coef(bf1)
+coef(bf1, breaks = 0)
+coef(bf1, breaks = 1)  ## JV: even when the tests are false, and when breaks = 1, one break is selected.
+
+## zoo series with all components
+plot(as.zoo(ndvi))
+plot(as.zoo(bf1, breaks = 1))
+plot(as.zoo(bf2))
+plot(as.zoo(bf3))
+
+## leveraged by plot method
+plot(bf1, regular = TRUE)
+plot(bf2)
+plot(bf2, plot.type = "multiple",
+     which = c("response", "trend", "season"), screens = c(1, 1, 2))
+plot(bf3)
+
+}
 \keyword{ts}
 
