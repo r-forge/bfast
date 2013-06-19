@@ -13,5 +13,5 @@ S3method("print", "bfast")
 S3method("plot", "bfastmonitor")
 S3method("print", "bfastmonitor")
 S3method("plot", "bfast01")
-#S3method("print", "bfast01")
-
+S3method("coef", "bfast01")
+S3method("as.zoo", "bfast01")
