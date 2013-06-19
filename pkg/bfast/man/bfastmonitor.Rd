@@ -103,13 +103,10 @@ bfastmonitor(data, start,
 }
 
 \references{
-Verbesselt J, Zeileis A, Herold M (2011).
-  Near Real-Time Disturbance Detection in Terrestrial Ecosystems Using Satellite
-  Image Time Series: Drought Detection in Somalia.
-  Working Paper 2011-18. Working Papers in Economics and Statistics,
-  Research Platform Empirical and Experimental Economics, Universitaet Innsbruck.
-  \url{http://EconPapers.RePEc.org/RePEc:inn:wpaper:2011-18}.
-  Submitted to Remote Sensing and Environment.
+Verbesselt J, Zeileis A, Herold M (2012).
+Near real-time disturbance detection using satellite image time series. 
+\emph{Remote Sensing Of Environment}, \bold{123}, 98--108.
+\url{http://dx.doi.org/10.1016/j.rse.2012.02.022}
 }
 
 \author{Achim Zeileis, Jan Verbesselt}

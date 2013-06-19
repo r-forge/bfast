@@ -4,11 +4,14 @@ export(
   "bfast",
   "bfastmonitor",
   "bfastpp",
-  "bfastts"
+  "bfastts",
+  "bfast01"
 )
 
 S3method("plot", "bfast")
 S3method("print", "bfast")
 S3method("plot", "bfastmonitor")
 S3method("print", "bfastmonitor")
+S3method("plot", "bfast01")
+#S3method("print", "bfast01")
 
