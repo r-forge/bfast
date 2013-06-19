@@ -2,9 +2,7 @@
 ## to do solve the issue of 29 Februari
 ## to do and functionality for other types of time series
 ## e.g. 10 day or 16 day time series
-bfastts <- function(data, 
-										dates, 
-										type = c("irregular", "16-day", "10-day")) {
+bfastts <- function(data,dates, type = c("irregular", "16-day", "10-day")) {
 	
 	yday365 <- function(x) {
 		x <- as.POSIXlt(x)
