@@ -75,7 +75,7 @@ breakpoints.bfast01 <- function(obj, breaks = NULL, ...) {
   return(rval)
 }
 
-breakdates.bfast01 <- function(obj, breaks = NULL, ...) {
+breakdates.bfast01 <- function(obj, format.times = NULL, breaks = NULL, ...) {
   if(is.null(breaks)) breaks <- obj$breaks
   if(breaks > 0) obj$data$time[obj$breakpoints] else NA
 }
@@ -92,7 +92,7 @@ deviance.bfast01 <- function(object, breaks = NULL, ...) {
   deviance(object$model[[breaks + 1]])
 }
 
-model.frame.bfast01 <- function(object, breaks = NULL, ...) model.frame(object$model[[1]])
+model.frame.bfast01 <- function(formula, breaks = NULL, ...) model.frame(formula$model[[1]])
 
 model.matrix.bfast01 <- function(object, breaks = NULL, ...) {
   breaks <- .breaks01(object, breaks)
