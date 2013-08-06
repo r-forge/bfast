@@ -29,11 +29,3 @@ S3method("residuals", "bfast01")
 S3method("predict", "bfast01")
 S3method("as.zoo", "bfast01")
 S3method("plot", "bfast01")
-
-
-
-
-
-
-
-
