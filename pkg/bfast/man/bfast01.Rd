@@ -60,6 +60,11 @@ and a plot method which plots such a zoo series along with the confidence
 interval (if the 1-break model is visualized). All methods take a 'breaks'
 argument which can either be 0 or 1. By default the value chosen based on the
 'test' decisions is used.
+
+While, supLM attempts to assess all regression coefficients while tests based on
+OLS residuals only assess changes in the conditional mean. Hence,
+OLS-MOSUM will be less sensitive (or even insensitive) to changes in the
+seasonal pattern for example.
 }
 
 \value{
