@@ -61,10 +61,11 @@ interval (if the 1-break model is visualized). All methods take a 'breaks'
 argument which can either be 0 or 1. By default the value chosen based on the
 'test' decisions is used.
 
-While, supLM attempts to assess all regression coefficients while tests based on
-OLS residuals only assess changes in the conditional mean. Hence,
-OLS-MOSUM will be less sensitive (or even insensitive) to changes in the
-seasonal pattern for example.
+Note that the different tests supported have power for different types of
+alternatives. Some tests (such as supLM/supF or BIC) assess changes in all
+coefficients of the model while residual-based tests (e.g., OLS-CUSUM or
+OLS-MOSUM) assess changes in the conditional mean. See Zeileis (2005) for
+a unifying view.
 }
 
 \value{
@@ -83,6 +84,11 @@ seasonal pattern for example.
   Shifts in global vegetation activity trends. 
   \emph{Remote Sensing}, \bold{5}, 1117--1133.
   \url{http://dx.doi.org/10.3390/rs5031117}
+
+  Zeileis A (2005). A unified approach to structural change tests
+  based on ML scores, F statistics, and OLS residuals.
+  \emph{Econometric Reviews}, \bold{24}, 445--466.
+  \url{http://dx.doi.org/10.1080/07474930500406053}.
 }
 
 \author{Achim Zeileis, Jan Verbesselt}
