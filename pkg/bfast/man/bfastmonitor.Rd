@@ -188,9 +188,10 @@ bfm$magnitude
 plot(bfm)
 xbfastmonitor(modisbrick[1], dates) ## helper function applied on one pixel
 
+\dontrun{
 ## apply the bfastmonitor function onto a raster brick
 timeofbreak <- calc(modisbrick, fun=function(x){
-	res <- t(apply(x, 1, xbfastmonitor, dates))
+  res <- t(apply(x, 1, xbfastmonitor, dates))
 	return(res)
 })
 
@@ -199,6 +200,7 @@ plot(timeofbreak,2) ## magnitude of change
 
 ## create a KMZ file and look at the output
 KML(timeofbreak, "timeofbreak.kmz")
+}
 
 }
 
