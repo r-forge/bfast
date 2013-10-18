@@ -8,8 +8,6 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
     ## return value
     output <- list()
 
-    # Start the iterative procedure and for first iteration St=decompose result
-    St <- stl(Yt, "periodic")$time.series[, "seasonal"]
     Tt <- 0
     
     # seasonal model setup
@@ -20,12 +18,17 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         co2 <- cos(2*pi*tl*w*2);si2 <- sin(2*pi*tl*w*2)
         co3 <- cos(2*pi*tl*w*3);si3 <- sin(2*pi*tl*w*3)
         smod <- Wt ~ co+si+co2+si2+co3+si3
+        
+        # Start the iterative procedure and for first iteration St=decompose result
+        St <- stl(Yt, "periodic")$time.series[, "seasonal"]
+        
     } else if (season=="dummy") {
         D <- seasonaldummy(Yt)
-        D[rowSums(D)==0,] <- -1
-        smod <- Wt ~ -1+D
-    } else if (season=="none") {
-        #print("No seasonal model will be fitted!")
+        D[rowSums(D) == 0,] <- -1
+        smod <- Wt ~ -1 + D
+    } else if (season == "none") {
+        print("No seasonal model will be fitted!")
+        St <- 0
     } else stop("Not a correct seasonal model is selected ('harmonic' or 'dummy') ")
     
     # number/timing of structural breaks in the trend/seasonal component

@@ -1,6 +1,6 @@
 bfast01 <- function(data, formula = NULL,
                     test = "OLS-MOSUM", level = 0.05, aggregate = all,
-                    trim = NULL, h = 0.15, functional = "max",
+                    trim = NULL, bandwidth = 0.15, functional = "max",
                     order = 3, lag = NULL, slag = NULL, na.action = na.omit, stl = "none")
 {
   ## data preprocessing
@@ -42,7 +42,7 @@ bfast01 <- function(data, formula = NULL,
     if(test == "BIC") return(bic[2] < bic[1])
     if(test %in% c("supF", "aveF", "expF")) return(sctest(fs, type = test)$p.value < level)
     if(test == "supLM") return(sctest(gefp(formula, data = data), functional = supLM(trim01))$p.value < level)
-    sctest(formula, data = data, type = test, h = h, functional = functional)$p.value < level
+    sctest(formula, data = data, type = test, h = bandwidth, functional = functional)$p.value < level
   }
   test <- structure(sapply(test, improvement01), names = test)
   
