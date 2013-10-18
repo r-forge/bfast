@@ -9,13 +9,13 @@
 \usage{
 bfast01(data, formula = NULL,
   test = "OLS-MOSUM", level = 0.05, aggregate = all,
-  trim = NULL, h = 0.15, functional = "max",
+  trim = NULL, bandwidth = 0.15, functional = "max",
   order = 3, lag = NULL, slag = NULL, na.action = na.omit, stl = "none")
 }
 
 \arguments{
   \item{data}{A time series of class \code{\link[stats]{ts}}, or another object that
-    can be coerced to such. The time series is processed by \code{\link[bfast]{bfastpp}}
+    can be coerced to such. The time series is processed by \code{\link[bfast]{bfastpp}}. A time series of class \code{\link[stats]{ts}} can be prepared by a convenience function \code{\link[bfast]{bfastts}} in case of daily, 10 or 16-daily time series.
     }
   \item{formula}{formula for the regression model. 
     The default is intelligently guessed      based on the arguments order/lag/slag i.e.  \code{response ~ trend + harmon}, i.e., a linear trend and a harmonic season component. Other specifications are possible using all terms set up by \code{\link[bfast]{bfastpp}}, i.e., \code{season} (seasonal pattern with dummy variables), \code{lag} (autoregressive terms), \code{slag} (seasonal autoregressiv terms), or \code{xreg} (further covariates). See \code{\link[bfast]{bfastpp}} for details.}
@@ -23,7 +23,8 @@ bfast01(data, formula = NULL,
   \item{level}{numeric. Significance for the \code{\link[strucchange]{sctest.formula}} performed.}
   \item{aggregate}{function that aggregates a logical vector to a single value. This is used for aggregating the individual test decisions from \code{test} to a single one.}
   \item{trim}{numeric. The mimimal segment size passed to the \code{from} argument of the \code{\link[strucchange]{Fstats}} function. }
-  \item{h}{numeric scalar from interval (0,1), functional. Arguments passed on to \code{\link[strucchange]{sctest.formula}}}
+  \item{bandwidth}{numeric scalar from interval (0,1), functional. The \code{bandwidth} argument is passed to 
+  the \code{h} argument of the \code{\link[strucchange]{sctest.formula}}. }
   \item{functional}{arguments passed on to \code{\link[strucchange]{sctest.formula}}}
   
   \item{order}{numeric. Order of the harmonic term, defaulting to \code{3}.}
@@ -104,7 +105,7 @@ ndvi <- as.ts(zoo(som$NDVI.a, som$Time))
 ## fit variations
 bf1 <- bfast01(ndvi)
 bf2 <- bfast01(ndvi, test = c("BIC", "OLS-MOSUM", "supLM"), aggregate = any)
-bf3 <- bfast01(ndvi, test = c("OLS-MOSUM", "supLM"), aggregate = any, h = 0.11) 
+bf3 <- bfast01(ndvi, test = c("OLS-MOSUM", "supLM"), aggregate = any, bandwidth = 0.11) 
 
 ## inspect test decisions
 bf1$test
