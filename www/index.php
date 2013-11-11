@@ -69,7 +69,7 @@ BFAST & BFASTmonitor:
 
 <li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Hyndman, R., Newnham, G., & Culvenor, D. (2010). Detecting trend and seasonal changes in satellite image time series. Remote Sensing of Environment, 114, 106-115. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2009.08.014">10.1016/j.rse.2009.08.014</a>. <a href="http://bfast.r-forge.r-project.org/RSE_ChangeDetection_InPress_JanVerbesselt.pdf">DownLoad Paper</a></li>
 <li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Hyndman, R., Zeileis, A., & Culvenor, D. (2010). Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment, 114, 2970-2980. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2010.08.003">10.1016/j.rse.2010.08.003</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Hyndman+Zeileis-2010.pdf">DownLoad Paper</a></li> 
-<li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Zeileis, A., & Herold, M. (In Press). Near real-time disturbance detection using satellite image time series, Remote Sensing of Environment. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2012.02.022">10.1016/j.rse.2012.02.022</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Zeileis+Herold-2012.pdf">DownLoad Paper</a></li> 
+<li> <a href="http://scholar.google.com/citations?user=LkURAcoAAAAJ&hl=en">Verbesselt, J.</a>, Zeileis, A., & Herold, M. (2013). Near real-time disturbance detection using satellite image time series, Remote Sensing of Environment. DOI: <a href="http://dx.doi.org/10.1016/j.rse.2012.02.022">10.1016/j.rse.2012.02.022</a>. <a href="http://bfast.r-forge.r-project.org/Verbesselt+Zeileis+Herold-2012.pdf">DownLoad Paper</a></li>
 </ul>
 
 <img src="http://bfast.r-forge.r-project.org/seasonalbreak_TreeMort.jpg" width="500" height="400" align=MIDDLE alt="">
@@ -87,7 +87,7 @@ Simulated 16-day MODIS NDVI time series. The period from 2004 until mid-2010 (i.
 </p>
 
 <p> Contact: Jan.Verbesselt'@'wur.nl. To install the most recent version directly within R type: <strong> install.packages("bfast", repos="http://R-Forge.R-project.org") </strong> </p>
-
+<p> This open-source project was partly funded by a <strong> Marie-Curie IRG grant </strong>  within the European Community's Seventh Framework Programme to Jan Verbesselt (grant agreement 268423) </p>
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
