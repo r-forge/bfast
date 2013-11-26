@@ -1,12 +1,11 @@
 Package: bfast
-Version: 1.5.2
-Date: 2013-10-18
+Version: 1.5.3
+Date: 2013-11-26
 Title: Breaks For Additive Season and Trend (BFAST)
 Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
-             person(given = "Rob", family = "Hyndman", role = "ctb", email = "Rob.Hyndman@buseco.monash.edu.au"),
-             person(given = "Rogier", family = "De Jong", role = "ctb"))
-Author: Jan Verbesselt [aut, cre], Achim Zeileis [aut], Rob Hyndman [ctb], Rogier De Jong [ctb]
+             person(given = "Rob", family = "Hyndman", role = "ctb", email = "Rob.Hyndman@buseco.monash.edu.au"))
+Author: Jan Verbesselt [aut, cre], Achim Zeileis [aut], Rob Hyndman [ctb]
 Maintainer: Jan Verbesselt <Jan.Verbesselt@wur.nl>
 Description: BFAST integrates the decomposition of time series into trend,
              seasonal, and remainder components with methods for detecting

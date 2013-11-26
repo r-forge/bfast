@@ -84,8 +84,15 @@ Jan Verbesselt
 
 \examples{
 ## Simulated Data
-plot(simts) # stl object containing simulated NDVI time series
+\dontrun{
+rm(list = ls())
+install.packages("bfast", repos="http://R-Forge.R-project.org", type = "source")
+update.packages(checkBuilt=TRUE) 
+# make sure all your package are up to date 
+# and built correctly for your current R version
+} 
 
+plot(simts) # stl object containing simulated NDVI time series
 datats <- ts(rowSums(simts$time.series)) # sum of all the components (season,abrupt,remainder)
 tsp(datats) <- tsp(simts$time.series) # assign correct time series attributes
 plot(datats)
@@ -117,10 +124,17 @@ plot(harvest, ylab="NDVI") # MODIS 16-day cleaned and interpolated NDVI time ser
 #out <- fit$output[[niter]]  # output of results of the final fitted seasonal and trend models and #nr of breakpoints in both.
 
 ## References
-citation("bfast")
+#citation("bfast")
 
 ## For more info
-?bfast
+#?bfast
+
+## running bfast on yearly data
+t <- ts(as.numeric(harvest), frequency = 1, start = 2006)
+fit <- bfast(t, h = 0.23, season = "none", max.iter = 1)
+plot(fit)
+fit
+
 }
 
 \keyword{ts}
