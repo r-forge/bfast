@@ -151,15 +151,14 @@ mon <- bfastmonitor(NDVIb, formula = response ~ harmon,
     start = c(2010, 13), order = 6, plot = TRUE)
 summary(mon$model)
 
-## References
-citation("bfast")
-
 ## For more info
 ?bfastmonitor
 
 
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
+\dontrun{
 require("raster")
+}
 f <- system.file("extdata/modisraster.grd", package="bfast")
 modisbrick <- brick(f)
 data <- as.vector(modisbrick[1])
