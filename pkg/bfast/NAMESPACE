@@ -1,13 +1,11 @@
-import("graphics", "stats", "strucchange", "zoo", "raster")
+import("graphics", "stats", "strucchange", "zoo", "raster", "MASS", "forecast", "sp")
 
 export(
   "bfast",
   "bfastmonitor",
   "bfastpp",
   "bfastts",
-  "bfast01",
-  "removedips",
-  "sos"
+  "bfast01"
 )
 
 S3method("plot", "bfast")
