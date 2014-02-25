@@ -1,4 +1,4 @@
-import("graphics", "stats", "strucchange", "zoo", "raster", "forecast", "sp")
+import("graphics", "stats", "strucchange", "zoo", "raster", "sp")
 
 export(
   "bfast",
