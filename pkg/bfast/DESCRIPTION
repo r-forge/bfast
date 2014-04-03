@@ -1,6 +1,6 @@
 Package: bfast
-Version: 1.5.4
-Date: 2014-02-07
+Version: 1.5.5
+Date: 2014-04-3
 Title: Breaks For Additive Season and Trend (BFAST)
 Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
