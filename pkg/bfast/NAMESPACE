@@ -5,7 +5,8 @@ export(
   "bfastmonitor",
   "bfastpp",
   "bfastts",
-  "bfast01"
+  "bfast01",
+  "bfast01classify"
 )
 
 S3method("plot", "bfast")
