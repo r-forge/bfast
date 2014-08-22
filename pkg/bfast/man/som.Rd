@@ -5,7 +5,8 @@
 Two 16-day NDVI time series from the south of Somalia
 }
 \description{
-\code{som} is a dataframe containing time and two NDVI time series to illlustrate how the monitoring approach works.
+\code{som} is a dataframe containing time and two NDVI time series to
+illlustrate how the monitoring approach works.
 }
 
 \usage{data(som)}

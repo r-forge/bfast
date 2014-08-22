@@ -118,7 +118,7 @@ bf3$breaks
 ## look at coefficients
 coef(bf1)
 coef(bf1, breaks = 0)
-coef(bf1, breaks = 1)  ## JV: even when the tests are false, and when breaks = 1, one break is selected.
+coef(bf1, breaks = 1) 
 
 ## zoo series with all components
 plot(as.zoo(ndvi))

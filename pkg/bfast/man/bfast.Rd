@@ -106,7 +106,8 @@ plot(datats)
 ## See Fig. 8 b in reference
 plot(harvest, ylab="NDVI") # MODIS 16-day cleaned and interpolated NDVI time series 
 
-(rdist <- 10/length(harvest)) # ratio of distance between breaks (time steps) and length of the time series 
+(rdist <- 10/length(harvest)) 
+# ratio of distance between breaks (time steps) and length of the time series 
 #fit <- bfast(harvest,h=rdist, season="harmonic", max.iter=1,breaks=2)
 #plot(fit)
 
@@ -123,18 +124,11 @@ plot(harvest, ylab="NDVI") # MODIS 16-day cleaned and interpolated NDVI time ser
 #niter <- length(fit$output) # nr of iterations
 #out <- fit$output[[niter]]  # output of results of the final fitted seasonal and trend models and #nr of breakpoints in both.
 
-## References
-#citation("bfast")
-
-## For more info
-#?bfast
-
 ## running bfast on yearly data
 t <- ts(as.numeric(harvest), frequency = 1, start = 2006)
 fit <- bfast(t, h = 0.23, season = "none", max.iter = 1)
 plot(fit)
 fit
-
 }
 
 \keyword{ts}
