@@ -49,6 +49,7 @@
 
 
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 
 \title{Tutorial: Detecting a breakpoint a time series}
 \author{Jan Verbesselt, Achim Zeileis}
@@ -56,8 +57,8 @@
 \maketitle
 
 \begin{abstract}
-This tutorial explain the basics of structural change test within time series data.
-Basic principles are illustrated using the \emph{Nile} data set included in the strucChange package.
+This tutorial explain the basics of structural change test using with the BFAST concept.
+Basic principles are illustrated using the \emph{Nile} data set (add reference).
 \end{abstract}
 
 \section{Introduction}
@@ -65,7 +66,7 @@ Basic principles are illustrated using the \emph{Nile} data set included in the 
 First load the BFAST package, which also loads the required packages for this small tutorial (i.e. strucchange, zoo).
 
 <<echo = TRUE>>=
-library("strucchange")
+library("bfast")
 @
 %#setwd('/Users/janvb/Dropbox/scripts/r/Monitoring/BFASTmonitor_ChangeTest_Tutorial')
 We will illustrate basic principles using the following time series of Annual Flow data of the river Nile. For more information also check the papers of Zeileis et al. (2005).
