@@ -7,7 +7,6 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         stop ("Not a time series object")
     ## return value
     output <- list()
-
     Tt <- 0
     
     # seasonal model setup
@@ -37,7 +36,6 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
     Wt.bp <- 0 
     CheckTimeTt <- 1
     CheckTimeSt <- 1
-    
     i <- 0
     while ( (!identical(CheckTimeTt,Vt.bp) | !identical(CheckTimeSt,Wt.bp)) & i < max.iter)
     {
@@ -45,17 +43,17 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         CheckTimeSt <- Wt.bp
         # TREND
         Vt <- Yt-St
-#         p.Vt <- sctest(efp(Vt ~ ti, h=h, type= "OLS-MOSUM"))
-#         if (p.Vt$p.value <=0.05) 
-#         {
+        p.Vt <- sctest(efp(Vt ~ ti, h=h, type= "OLS-MOSUM"))
+        if (p.Vt$p.value <=0.05) 
+        {
           bp.Vt <- breakpoints(Vt ~ ti, h=h,breaks=breaks, hpc = hpc)
           nobp.Vt <- is.na(breakpoints (bp.Vt)[1])
-#         } 
-#         else 
-#         {
-#           nobp.Vt <- TRUE
-#           bp.Vt <- NA       
-#         }
+        } 
+        else 
+        {
+          nobp.Vt <- TRUE
+          bp.Vt <- NA       
+        }
         if (nobp.Vt)
         {
             fm0 <- lm(Vt ~  ti)
@@ -81,17 +79,17 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         } else
         {
             Wt <- Yt-Tt
-    #        p.Wt <- sctest(efp(smod, h=h, type= "OLS-MOSUM"))      # preliminary test 
-    #        if (p.Wt$p.value <=0.05) # OR statement 
-    #        {
+           p.Wt <- sctest(efp(smod, h=h, type= "OLS-MOSUM"))      # preliminary test 
+           if (p.Wt$p.value <=0.05) # OR statement 
+           {
                 bp.Wt <- breakpoints(smod, h=h,breaks=breaks, hpc = hpc) # Breakpoints in the seasonal component
                 nobp.Wt <- is.na(breakpoints (bp.Wt)[1])
-    #        } 
-    #        else 
-    #        {
-    #            nobp.Wt <- TRUE
-    #            bp.Wt <- NA       
-    #        }
+           } 
+           else 
+           {
+               nobp.Wt <- TRUE
+               bp.Wt <- NA       
+           }
             if (nobp.Wt)
             {
                 sm0 <- lm(smod)
