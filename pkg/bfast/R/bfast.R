@@ -1,4 +1,4 @@
-bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = "none")
+bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = "none", alpha = 0.05, type= "OLS-MOSUM")
 {
     season <- match.arg(season)
     ti <- time(Yt)
@@ -43,8 +43,8 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         CheckTimeSt <- Wt.bp
         # TREND
         Vt <- Yt-St
-        p.Vt <- sctest(efp(Vt ~ ti, h=h, type= "OLS-MOSUM"))
-        if (p.Vt$p.value <=0.05) 
+        p.Vt <- sctest(efp(Vt ~ ti, h=h, type=type))
+        if (p.Vt$p.value <= alpha) 
         {
           bp.Vt <- breakpoints(Vt ~ ti, h=h,breaks=breaks, hpc = hpc)
           nobp.Vt <- is.na(breakpoints (bp.Vt)[1])
@@ -79,8 +79,8 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         } else
         {
             Wt <- Yt-Tt
-           p.Wt <- sctest(efp(smod, h=h, type= "OLS-MOSUM"))      # preliminary test 
-           if (p.Wt$p.value <=0.05) # OR statement 
+           p.Wt <- sctest(efp(smod, h=h, type=type))      # preliminary test 
+           if (p.Wt$p.value <= 0.05) # OR statement 
            {
                 bp.Wt <- breakpoints(smod, h=h,breaks=breaks, hpc = hpc) # Breakpoints in the seasonal component
                 nobp.Wt <- is.na(breakpoints (bp.Wt)[1])
