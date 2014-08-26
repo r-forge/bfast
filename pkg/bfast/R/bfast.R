@@ -1,6 +1,7 @@
-bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = "none", alpha = 0.05, type= "OLS-MOSUM")
+bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = NULL, breaks = NULL, hpc = "none", level = 0.05, type= "OLS-MOSUM")
 {
     season <- match.arg(season)
+	level = rep(level, length.out = 2)
     ti <- time(Yt)
     f <- frequency(Yt)      # on cycle every f time points (seasonal cycle)
     if(class(Yt)!="ts")
@@ -44,7 +45,7 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         # TREND
         Vt <- Yt-St
         p.Vt <- sctest(efp(Vt ~ ti, h=h, type=type))
-        if (p.Vt$p.value <= alpha) 
+        if (p.Vt$p.value <= level[1]) 
         {
           bp.Vt <- breakpoints(Vt ~ ti, h=h,breaks=breaks, hpc = hpc)
           nobp.Vt <- is.na(breakpoints (bp.Vt)[1])
@@ -80,7 +81,7 @@ bfast <- function(Yt, h=0.15, season =c("dummy","harmonic","none"), max.iter = N
         {
             Wt <- Yt-Tt
            p.Wt <- sctest(efp(smod, h=h, type=type))      # preliminary test 
-           if (p.Wt$p.value <= 0.05) # OR statement 
+           if (p.Wt$p.value <= level[2]) # OR statement 
            {
                 bp.Wt <- breakpoints(smod, h=h,breaks=breaks, hpc = hpc) # Breakpoints in the seasonal component
                 nobp.Wt <- is.na(breakpoints (bp.Wt)[1])
