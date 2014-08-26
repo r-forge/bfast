@@ -11,7 +11,7 @@ break detection in the decomposed components of the time series.
 
 \usage{
 bfast(Yt, h = 0.15, season = c("dummy", "harmonic", "none"),
-  max.iter = NULL, breaks = NULL, hpc = "none", alpha = 0.05, type= "OLS-MOSUM")
+  max.iter = NULL, breaks = NULL, hpc = "none", level = 0.05, type= "OLS-MOSUM")
 }
 
 \arguments{
@@ -33,8 +33,9 @@ bfast(Yt, h = 0.15, season = c("dummy", "harmonic", "none"),
 }
   \item{hpc}{A character specifying the high performance computing support. Default is "none", can be set to "foreach". Install the "foreach" package for hpc support.
 }
-  \item{alpha}{numeric; threshold value for the \link[strucchange]{sctest.efp}
-  test }
+  \item{level}{numeric; threshold value for the \link[strucchange]{sctest.efp}
+  test; if a length 2 vector is passed, the first value is used for the trend,
+  the second for the seasonality }
   \item{type}{character, indicating the type argument to \link[strucchange]{efp}}
 }
 
