@@ -59,7 +59,7 @@ bfast01classify(object, alpha = 0.05, pct_stable = NULL)
 \seealso{\code{\link[bfast]{bfast01}}}
 
 \examples{
-require(bfast)
+library(zoo)
 ## define a regular time series
 ndvi <- as.ts(zoo(som$NDVI.a, som$Time))
 ## fit variations
