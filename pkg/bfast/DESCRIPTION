@@ -20,9 +20,9 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     BFAST monitor provides functionality to detect disturbance in near real-time based on BFAST-type models.
        BFAST approach is flexible approach that handles missing data without interpolation.
        Furthermore now different models can be used to fit the time series data and detect structural changes (breaks).
-Depends: R (>= 2.15.0), graphics, stats, strucchange, zoo, raster, sp, forecast
+Depends: R (>= 2.15.0), graphics, stats, strucchange, zoo, raster, sp
+Imports: forecast
 Suggests:
-Imports:
 License: GPL (>= 2)
 URL: http://bfast.R-Forge.R-project.org/
 LazyLoad: yes
