@@ -97,8 +97,7 @@ a unifying view.
 \seealso{\code{\link[bfast]{bfastmonitor}}, \code{\link[strucchange]{breakpoints}}}
 
 \examples{
-require(bfast)
-
+library(zoo)
 ## define a regular time series
 ndvi <- as.ts(zoo(som$NDVI.a, som$Time))
 

@@ -118,6 +118,7 @@ Near real-time disturbance detection using satellite image time series.
 ## See Fig. 6 a and b in Verbesselt et al. (2011)
 ## for more information about the data time series and acknowledgements
 
+library(zoo)
 NDVIa <- as.ts(zoo(som$NDVI.a, som$Time))
 plot(NDVIa)
 ## apply the bfast monitor function on the data 
@@ -156,10 +157,8 @@ summary(mon$model)
 
 
 ## TUTORIAL for processing raster bricks (satellite image time series of 16-day NDVI images)
-\dontrun{
-require("raster")
-}
 f <- system.file("extdata/modisraster.grd", package="bfast")
+library("raster")
 modisbrick <- brick(f)
 data <- as.vector(modisbrick[1])
 ndvi <- bfastts(data, dates, type = c("16-day"))

@@ -36,7 +36,7 @@ bfastts(data, dates,
 
 \examples{
 
-require("raster")
+library("raster")
 f <- system.file("extdata/modisraster.grd", package="bfast")
 modisbrick <- brick(f)
 ndvi <- bfastts(as.vector(modisbrick[1]), dates, type = c("16-day")) ## data of pixel 1

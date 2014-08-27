@@ -17,6 +17,7 @@ Needs to be added.
 
 \examples{
 ## first define the data as a regular time series (i.e. ts object)
+library(zoo)
 NDVI <- as.ts(zoo(som$NDVI.b,som$Time))
 plot(NDVI)
 
