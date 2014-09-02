@@ -58,10 +58,10 @@ bfast(Yt, h = 0.15, season = c("dummy", "harmonic", "none"),
     }}
     \item{nobp}{ is a list with the following elements:
     \tabular{ll}{
-        \code{nobp.Vt} \tab logical, TRUE if there are breakpoints detected\cr
-        \code{nobp.Wt} \tab logical, TRUE if there are breakpoints detected
+        \code{nobp.Vt} \tab logical, TRUE if there are no breakpoints detected\cr
+        \code{nobp.Wt} \tab logical, TRUE if there are no breakpoints detected
     }}
-    \item{magnitude}{ magnitude of the biggest change detected in the trend component}
+    \item{Magnitude}{ magnitude of the biggest change detected in the trend component}
     \item{Time}{ timing of the biggest change detected in the trend component}
 }
 
