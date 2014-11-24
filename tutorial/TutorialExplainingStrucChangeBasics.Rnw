@@ -37,19 +37,19 @@
   linktocpage = {true},
 }
 
-%%usepackage{Sweave} %% is essentially
-\RequirePackage[T1]{fontenc}
-\RequirePackage{ae,fancyvrb}
-\DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
-\DefineVerbatimEnvironment{Soutput}{Verbatim}{}
-\DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
-\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
-\newenvironment{Schunk}{}{}
-\SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
-
+\usepackage{Sweave} %% is essentially
+%  \RequirePackage[T1]{fontenc}
+%  \RequirePackage{ae,fancyvrb}
+%  \DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
+%  \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+%  \DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
+%  \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+%  \newenvironment{Schunk}{}{}
+%  \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=TRUE}
+
 
 \title{Tutorial: Detecting a breakpoint a time series}
 \author{Jan Verbesselt, Achim Zeileis}
@@ -67,6 +67,8 @@ First load the BFAST package, which also loads the required packages for this sm
 
 <<echo = TRUE>>=
 library("bfast")
+library("zoo")
+library("strucchange")
 @
 %#setwd('/Users/janvb/Dropbox/scripts/r/Monitoring/BFASTmonitor_ChangeTest_Tutorial')
 We will illustrate basic principles using the following time series of Annual Flow data of the river Nile. For more information also check the papers of Zeileis et al. (2005).
@@ -192,7 +194,7 @@ Second, use the strucchange functionality to determine the \emph{Date} of change
 
 <<fig = F, echo = T>>=
 bp.nile <- breakpoints(Nile ~ 1)
-nile.fac <- breakfactor(bp.nile, breaks = 1 ) 
+nile.fac <- breakfactor(bp.nile, breaks = 1 )
 fm1.nile <- lm(Nile ~ nile.fac - 1)
 @
 
@@ -210,6 +212,47 @@ abline(h= mean(Nile),col='blue')
 abline(v= 1898, lty=2, col='red')
 lines(ts(predict(fm1.nile),start=1871,freq=1), col='darkgreen',lwd=2)
 par(opar)
+@
+
+\section{Advanced: model selection}
+
+Next, critical when detecting breakpoints in a time series is the selection of the right model. The model should accommodate for normal data variation within a time series. The selection of the model should be done based on a time series without any significant breaks (if known).
+
+<<>>=
+
+## set up time series
+ndvi <- as.ts(zoo(cbind(a = som$NDVI.a, b = som$NDVI.b), som$Time))
+ndvi <- window(ndvi, start = c(2003, 1), end = c(2009, 23))
+
+## prepare the time series and related variables needed within the linear
+## regression
+
+d1 <- bfastpp(ndvi, order = 3)
+
+## lm fit
+f1 <- lm(response ~ xreg, data = d1)
+f2 <- lm(response ~ trend + xreg, data = d1)
+f3 <- lm(response ~ trend + xreg + harmon, data = d1)
+
+## check the fit and fit the best model
+anova(f1,f2,f3)
+
+## here RSS of f3 is significantly smaller than f2 although 6 extra variables
+## are used.
+z0 <- lm(response ~ 1, data = d1)
+z1 <- lm(response ~ harmon, data = d1)
+z2 <- lm(response ~ harmon + xreg, data = d1)
+z3 <- lm(response ~ harmon + xreg + trend, data = d1)
+anova(z0, z1, z2, z3)
+
+## This also shows that the trend effect is just significant at the 5\% level.
+## AIC also improves but BIC doesn't:
+
+AIC(z0, z1, z2, z3)
+
+BIC(z0, z1, z2, z3)
+
+
 @
 
 \section{More information}
