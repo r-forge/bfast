@@ -1,6 +1,6 @@
 Package: bfast
-Version: 1.5.8
-Date: 2014-09-2
+Version: 1.5.9
+Date: 2016-06-22
 Title: Breaks For Additive Season and Trend (BFAST)
 Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
@@ -20,7 +20,7 @@ Description: BFAST integrates the decomposition of time series into trend,
 	     BFAST monitor provides functionality to detect disturbance in near real-time based on BFAST-type models.
        BFAST approach is flexible approach that handles missing data without interpolation.
        Furthermore now different models can be used to fit the time series data and detect structural changes (breaks).
-Depends: R (>= 2.15.0) 
+Depends: R (>= 3.0.0)
 Imports: graphics, stats, strucchange, zoo, forecast, sp, raster
 Suggests:
 License: GPL (>= 2)
