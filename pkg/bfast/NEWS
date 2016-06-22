@@ -1,3 +1,7 @@
+Changes in Version 1.5-9
+
+  o minor bug    x_coor <-  out$bp.Wt$datatsp[[1]] with x_coor <- tsp(out$Wt)[1] in seasonal()
+
 Changes in Version 1.5-7
 
   o all required packages are now in imports so you have to load the package e.g. zoo yourself now.
@@ -30,6 +34,6 @@ Changes in Version 1.4-0
     model. Data pre-processing is handled by a new function bfastpp() whose
     results can easily be plugged into strucchange (or other modeling/testing
     functions).
-    
+
   o New data set "som" with NDVI series from Somalia.
 
