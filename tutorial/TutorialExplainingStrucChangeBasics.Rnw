@@ -37,19 +37,18 @@
   linktocpage = {true},
 }
 
-\usepackage{Sweave} %% is essentially
-%  \RequirePackage[T1]{fontenc}
-%  \RequirePackage{ae,fancyvrb}
-%  \DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
-%  \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
-%  \DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
-%  \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
-%  \newenvironment{Schunk}{}{}
-%  \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
+%\usepackage{Sweave} %% is essentially
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage{ae,fancyvrb}
+  \DefineVerbatimEnvironment{Sinput}{Verbatim}{fontshape=sl}
+  \DefineVerbatimEnvironment{Soutput}{Verbatim}{}
+  \DefineVerbatimEnvironment{Scode}{Verbatim}{fontshape=sl}
+  \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+  \newenvironment{Schunk}{}{}
+  \SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
-
+%\SweaveOpts{concordance=TRUE}
 
 \title{Tutorial I : Detecting a breakpoint in a time series}
 \author{Jan Verbesselt, Achim Zeileis}
