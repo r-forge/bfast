@@ -1,13 +1,13 @@
 Package: bfast
 Version: 1.5.9
 Date: 2016-06-22
-Title: Breaks For Additive Season and Trend (BFAST)
+Title: Breaks For Additive Season and Trend
 Authors@R: c(person(given = "Jan", family = "Verbesselt", role = c("aut", "cre"), email = "Jan.Verbesselt@wur.nl"),
              person(given = "Achim", family = "Zeileis", role = "aut", email = "Achim.Zeileis@R-project.org"),
              person(given = "Rob", family = "Hyndman", role = "ctb", email = "Rob.Hyndman@buseco.monash.edu.au"))
 Author: Jan Verbesselt [aut, cre], Achim Zeileis [aut], Rob Hyndman [ctb]
 Maintainer: Jan Verbesselt <Jan.Verbesselt@wur.nl>
-Description: BFAST integrates the decomposition of time series into trend,
+Description: This package integrates the decomposition of time series into trend,
              seasonal, and remainder components with methods for detecting
 	     and characterizing abrupt changes within the trend and seasonal
 	     components. BFAST can be used to analyze different types of
